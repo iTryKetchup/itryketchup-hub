@@ -6,7 +6,7 @@ iTryKetchup Studio Hub is the public website foundation for iTryKetchup Studio. 
 
 ## Current Status
 
-v0.7 Local Testing Passed
+v0.9 Deployment Candidate Prepared
 
 No live URL yet.
 
@@ -66,11 +66,17 @@ itryketchup-hub/
 
 ## Current Next Step
 
-v0.9 Deployment Candidate Preparation.
+Phase 6A GitHub Pages Actions Setup.
 
 ## Local Testing
 
 The local testing report has been created at `docs/Website_LocalTestReport_v0.7.md`.
+
+## Deployment Candidate
+
+The deployment candidate checklist has been created at `docs/Website_DeploymentCandidateChecklist_v0.9.md`.
+
+Live URL: not live yet.
 
 ## Source File Summary
 
