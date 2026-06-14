@@ -13,6 +13,7 @@
 | HTTPS | Default GitHub Pages HTTPS live; custom domain HTTPS not verified |
 | CNAME | Not configured |
 | Live URL | https://itryketchup.github.io/itryketchup-hub/ |
+| Custom domain target | www.itryketchup.com |
 
 Do not include guessed DNS values. Fill in exact DNS, HTTPS, CNAME, and live URL details only after deployment setup has been performed and verified.
 
@@ -86,3 +87,16 @@ Safe current-file privacy remediation was performed before custom domain setup. 
 ## v0.9 Custom Domain Planning
 
 Phase 7A custom domain plan created at `deploy\CustomDomainPlan_v0.9.md`. No custom domain, DNS, CNAME, workflow, deployment, or source changes were made in Phase 7A. Next step: Phase 7B approved custom domain setup.
+
+## v0.9 GitHub Custom Domain Setting
+
+Target custom domain: `www.itryketchup.com`.
+
+GitHub custom domain was not set from this local environment because GitHub CLI is not installed and no authenticated GitHub API token is available. Manual setup required:
+
+1. Open https://github.com/iTryKetchup/itryketchup-hub
+2. Go to Settings > Pages.
+3. In Custom domain, enter `www.itryketchup.com`.
+4. Save.
+
+DNS is still not configured for GitHub Pages. Current public lookup shows `www.itryketchup.com` as a CNAME to `itryketchup.com`, not to the required GitHub Pages target. Next expected DNS record: CNAME `www` -> `iTryKetchup.github.io`. Apex/root DNS for `itryketchup.com` is still pending. HTTPS and custom-domain verification are pending until the GitHub custom domain setting and DNS records are in place.

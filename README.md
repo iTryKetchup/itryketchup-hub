@@ -80,6 +80,12 @@ Default Pages URL: https://itryketchup.github.io/itryketchup-hub/
 
 Custom domain: not live yet.
 
+Custom domain target: `www.itryketchup.com`
+
+DNS: pending.
+
+Default GitHub Pages URL remains the fallback until DNS works.
+
 Custom domain plan: `deploy/CustomDomainPlan_v0.9.md`
 
 ## Source File Summary
