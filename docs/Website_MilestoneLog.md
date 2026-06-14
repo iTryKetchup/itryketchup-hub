@@ -11,6 +11,7 @@ This log records major iTryKetchup Studio Hub website milestones and backup chec
 | v0.7 Data Wiring Audit | 2026-06-14 | `65d1760` | Complete | Data/config wiring audited; image assignment resolution and fallback behavior tightened. |
 | v0.7 Mobile Layout Check | 2026-06-14 | `65d1760` | Complete | Mobile layout checked at 390px, 430px, and 768px; no source changes required after the data wiring audit. |
 | v0.7 Local Testing Passed | 2026-06-14 | `f10c3ca` | Complete | Local testing report created and pushed. Tagged as `SITE-v0.7-local-testing-passed`. |
+| v0.9 Deployment Candidate Prepared | 2026-06-14 | `3e96677` | Complete | Deployment checklist complete and GitHub Pages Actions strategy selected. Tagged as `SITE-v0.9-deployment-candidate-prepared`. Dev Log will be created separately in the dedicated Dev Log conversation. |
 
 ## Backup Rule
 
@@ -24,4 +25,4 @@ Every major milestone should have:
 
 ## Current Checkpoint
 
-`SITE-v0.7-local-testing-passed` marks the v0.7 Local Testing Passed milestone commit. This milestone log was added immediately after that tag as a documentation checkpoint before v0.9 deployment candidate preparation.
+`SITE-v0.9-deployment-candidate-prepared` marks the v0.9 Deployment Candidate Prepared milestone commit. The next approved project step is Phase 6A GitHub Pages Actions Setup.
