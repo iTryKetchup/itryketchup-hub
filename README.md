@@ -19,8 +19,9 @@ No live URL yet.
 | Public identity | iTryKetchup Studio |
 | Target domain | itryketchup.com |
 | Target deployment | GitHub Pages |
-| GitHub repository status | Blocked: public GitHub repository creation is not available from this environment |
-| GitHub Pages | Target, not deployed yet |
+| GitHub repository status | Created and pushed |
+| Remote URL | https://github.com/iTryKetchup/itryketchup-hub.git |
+| GitHub Pages | Target, not configured yet |
 | YouTube | Coming Soon |
 | Analytics | Disabled / not included in v1.0 |
 
@@ -52,14 +53,10 @@ itryketchup-hub/
 
 Phase 3 Page Build.
 
-## GitHub Repository Setup Blocker
+## GitHub Repository Setup
 
-The local repository is initialized on `main`, but the public GitHub repository could not be created from this environment because GitHub CLI is not installed and the available GitHub integration does not expose repository creation.
+The public GitHub repository has been created and `main` has been pushed to `origin/main`.
 
-Manual action needed:
+Repository: https://github.com/iTryKetchup/itryketchup-hub
 
-```text
-Create a public GitHub repository named itryketchup-hub.
-Add it as the local origin remote.
-Push main to origin.
-```
+GitHub Pages is the target host, but it has not been configured yet. The live URL is not live yet.

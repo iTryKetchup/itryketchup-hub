@@ -5,9 +5,9 @@
 | Deployment target | GitHub Pages |
 | Domain | itryketchup.com |
 | Repository | itryketchup-hub |
-| Repo visibility | Public required for planned GitHub Pages workflow |
-| Repository setup | Blocked: public GitHub repository creation is not available from this environment |
-| Remote URL | Pending |
+| Repo visibility | Public |
+| Repository setup | Created and pushed |
+| Remote URL | https://github.com/iTryKetchup/itryketchup-hub.git |
 | GitHub Pages | Not configured yet |
 | DNS | Not configured yet |
 | HTTPS | Not verified yet |
@@ -16,14 +16,10 @@
 
 Do not include guessed DNS values. Fill in exact DNS, HTTPS, CNAME, and live URL details only after deployment setup has been performed and verified.
 
-## Repository Creation Blocker
+## Repository Setup
 
-The local repository is initialized on `main`, but the public GitHub repository could not be created from this environment because GitHub CLI is not installed and the available GitHub integration does not expose repository creation.
+The public GitHub repository has been created and `main` has been pushed to `origin/main`.
 
-Manual action needed:
+Repository: https://github.com/iTryKetchup/itryketchup-hub
 
-```text
-Create a public GitHub repository named itryketchup-hub.
-Add it as the local origin remote.
-Push main to origin.
-```
+GitHub Pages is not configured yet. DNS is not configured yet. HTTPS is not verified yet. CNAME is pending.
