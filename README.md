@@ -6,9 +6,11 @@ iTryKetchup Studio Hub is the public website foundation for iTryKetchup Studio. 
 
 ## Current Status
 
-Default GitHub Pages deployment verified
+Custom domain and HTTPS verified
 
-Default GitHub Pages URL is live at https://itryketchup.github.io/itryketchup-hub/.
+Live site: https://www.itryketchup.com/
+
+Default GitHub Pages fallback/reference URL: https://itryketchup.github.io/itryketchup-hub/
 
 ## Project Details
 
@@ -21,7 +23,7 @@ Default GitHub Pages URL is live at https://itryketchup.github.io/itryketchup-hu
 | Target deployment | GitHub Pages |
 | GitHub repository status | Created and pushed |
 | Remote URL | https://github.com/iTryKetchup/itryketchup-hub.git |
-| GitHub Pages | Default deployment verified |
+| GitHub Pages | Custom domain and HTTPS verified |
 | YouTube | Coming Soon |
 | Analytics | Disabled / not included in v1.0 |
 
@@ -66,7 +68,7 @@ itryketchup-hub/
 
 ## Current Next Step
 
-Phase 7B approved custom domain setup.
+v1.0 launch readiness audit and milestone backup.
 
 ## Local Testing
 
@@ -76,15 +78,15 @@ The local testing report has been created at `docs/Website_LocalTestReport_v0.7.
 
 The deployment candidate checklist has been created at `docs/Website_DeploymentCandidateChecklist_v0.9.md`.
 
-Default Pages URL: https://itryketchup.github.io/itryketchup-hub/
+Live site: https://www.itryketchup.com/
 
-Custom domain: not live yet.
+Default Pages fallback/reference URL: https://itryketchup.github.io/itryketchup-hub/
+
+Custom domain: verified.
 
 Custom domain target: `www.itryketchup.com`
 
-DNS: pending.
-
-Default GitHub Pages URL remains the fallback until DNS works.
+DNS: verified.
 
 Custom domain plan: `deploy/CustomDomainPlan_v0.9.md`
 
@@ -110,4 +112,4 @@ The public GitHub repository has been created and `main` has been pushed to `ori
 
 Repository: https://github.com/iTryKetchup/itryketchup-hub
 
-GitHub Pages is the target host. The Actions workflow at `.github/workflows/pages.yml` publishes `src/`, and the default GitHub Pages deployment has been verified at https://itryketchup.github.io/itryketchup-hub/. Custom domain and DNS are not configured yet.
+GitHub Pages is the target host. The Actions workflow at `.github/workflows/pages.yml` publishes `src/`, and the custom domain deployment has been verified at https://www.itryketchup.com/. The default GitHub Pages URL remains available as a fallback/reference at https://itryketchup.github.io/itryketchup-hub/.

@@ -8,11 +8,11 @@
 | Repo visibility | Public |
 | Repository setup | Created and pushed |
 | Remote URL | https://github.com/iTryKetchup/itryketchup-hub.git |
-| GitHub Pages | Default GitHub Pages deployment verified |
-| DNS | Not configured yet |
-| HTTPS | Default GitHub Pages HTTPS live; custom domain HTTPS not verified |
-| CNAME | Not configured |
-| Live URL | https://itryketchup.github.io/itryketchup-hub/ |
+| GitHub Pages | Custom domain and HTTPS verified |
+| DNS | Configured and verified for GitHub Pages |
+| HTTPS | Enforce HTTPS enabled and verified |
+| CNAME | No repository CNAME file; DNS CNAME configured externally |
+| Live URL | https://www.itryketchup.com/ |
 | Custom domain target | www.itryketchup.com |
 
 Do not include guessed DNS values. Fill in exact DNS, HTTPS, CNAME, and live URL details only after deployment setup has been performed and verified.
@@ -23,7 +23,7 @@ The public GitHub repository has been created and `main` has been pushed to `ori
 
 Repository: https://github.com/iTryKetchup/itryketchup-hub
 
-GitHub Pages is deployed from the Actions workflow. DNS is not configured yet. Custom domain HTTPS is not verified yet. CNAME is not configured.
+GitHub Pages is deployed from the Actions workflow. Custom domain DNS and HTTPS are verified for `www.itryketchup.com`. No repository CNAME file is used for the Actions workflow.
 
 ## v0.9 Deployment Candidate Preparation
 
@@ -99,4 +99,26 @@ GitHub custom domain was not set from this local environment because GitHub CLI 
 3. In Custom domain, enter `www.itryketchup.com`.
 4. Save.
 
-DNS is still not configured for GitHub Pages. Current public lookup shows `www.itryketchup.com` as a CNAME to `itryketchup.com`, not to the required GitHub Pages target. Next expected DNS record: CNAME `www` -> `iTryKetchup.github.io`. Apex/root DNS for `itryketchup.com` is still pending. HTTPS and custom-domain verification are pending until the GitHub custom domain setting and DNS records are in place.
+DNS is now configured for GitHub Pages. Public lookup shows `www.itryketchup.com` as a CNAME to `itryketchup.github.io`, and apex/root A records resolve to GitHub Pages IPs. HTTPS and custom-domain verification are complete.
+
+## v0.9 Custom Domain and HTTPS Verification
+
+| Field | Status |
+|---|---|
+| Custom domain configured | `www.itryketchup.com` |
+| DNS check | Successful |
+| Enforce HTTPS | Enabled |
+| Final live URL | https://www.itryketchup.com/ |
+| Default GitHub Pages URL | https://itryketchup.github.io/itryketchup-hub/ |
+| Default URL role | Fallback / reference |
+| Apex/root behavior | `itryketchup.com` redirects to `https://www.itryketchup.com/` |
+| HTTP behavior | `http://www.itryketchup.com/` and `http://itryketchup.com/` redirect to HTTPS |
+| Pages verified | Home, About, Projects, Dev Logs, Contact, 404 |
+| CSS / JS / assets | Loaded from custom domain |
+| Internal navigation | Passed |
+| Footer GitHub link | Passed |
+| Email link | `mailto:itryketchup@gmail.com` confirmed |
+| YouTube | Coming Soon; no YouTube URL configured |
+| Active analytics | None found |
+
+Custom domain and HTTPS verification completed on June 14, 2026. No DNS, GitHub Pages setting, workflow, CNAME file, source, or design changes were made during this verification task.

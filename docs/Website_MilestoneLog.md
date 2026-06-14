@@ -13,6 +13,7 @@ This log records major iTryKetchup Studio Hub website milestones and backup chec
 | v0.7 Local Testing Passed | 2026-06-14 | `f10c3ca` | Complete | Local testing report created and pushed. Tagged as `SITE-v0.7-local-testing-passed`. |
 | v0.9 Deployment Candidate Prepared | 2026-06-14 | `3e96677` | Complete | Deployment checklist complete and GitHub Pages Actions strategy selected. Tagged as `SITE-v0.9-deployment-candidate-prepared`. Dev Log will be created separately in the dedicated Dev Log conversation. |
 | v0.9 Privacy Remediation | 2026-06-14 | Phase 6D commit | Complete | Safe current-file privacy remediation performed before custom domain setup. No git history rewrite performed. |
+| v0.9 Custom Domain and HTTPS Verified | 2026-06-14 | Phase 7C commit | Complete | `www.itryketchup.com` verified with HTTPS enforced. Apex/root domain redirects to the primary `www` domain. Dev Log will be handled separately. |
 
 ## Backup Rule
 
@@ -26,4 +27,4 @@ Every major milestone should have:
 
 ## Current Checkpoint
 
-`SITE-v0.9-deployment-candidate-prepared` marks the v0.9 Deployment Candidate Prepared milestone commit. The current approved project lane is default Pages verification and safe privacy remediation before custom domain setup.
+`SITE-v0.9-deployment-candidate-prepared` marks the v0.9 Deployment Candidate Prepared milestone commit. The current approved project lane is v1.0 launch readiness audit and milestone backup after custom domain and HTTPS verification.
