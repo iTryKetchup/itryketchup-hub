@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">iTryKetchup Studio social preview placeholder</title>
+  <desc id="desc">Social preview image for iTryKetchup Studio Hub.</desc>
+  <rect width="1200" height="630" fill="#fff8ed"/>
+  <path d="M0 0h1200v110H0z" fill="#f4eadb"/>
+  <circle cx="74" cy="55" r="18" fill="#d83421"/>
+  <circle cx="126" cy="55" r="18" fill="#d8a32e"/>
+  <circle cx="178" cy="55" r="18" fill="#4f8f52"/>
+  <rect x="90" y="170" width="1020" height="330" rx="8" fill="#fffcf4" stroke="#dfd2c1" stroke-width="10"/>
+  <text x="150" y="300" font-family="Comic Sans MS, Trebuchet MS, Arial, sans-serif" font-size="76" fill="#24201d">iTryKetchup Studio</text>
+  <text x="150" y="382" font-family="Trebuchet MS, Arial, sans-serif" font-size="36" fill="#625a52">Projects, dev logs, and creative experiments.</text>
+  <rect x="150" y="420" width="220" height="56" rx="8" fill="#d83421"/>
+  <text x="260" y="458" text-anchor="middle" font-family="Trebuchet MS, Arial, sans-serif" font-size="26" font-weight="700" fill="#ffffff">Studio Hub</text>
+  <path d="M870 230h104l18 42v142c0 38-31 68-70 68s-70-30-70-68V272z" fill="#d83421" stroke="#a82417" stroke-width="8"/>
+  <path d="M884 196h76l14 34H870z" fill="#f47b20" stroke="#a82417" stroke-width="8"/>
+  <circle cx="900" cy="260" r="10" fill="#24201d"/>
+  <circle cx="944" cy="260" r="10" fill="#24201d"/>
+  <path d="M900 346c18 18 43 18 62 0" fill="none" stroke="#fff8ed" stroke-width="8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iTryKetchup Studio Hub</title>
+  <meta name="description" content="The public hub for iTryKetchup Studio projects, dev logs, contact information, and future creative work.">
+  <meta property="og:title" content="iTryKetchup Studio Hub">
+  <meta property="og:description" content="Projects, dev logs, and creative experiments from iTryKetchup Studio.">
+  <meta property="og:image" content="https://itryketchup.com/assets/social/social-preview-placeholder.svg">
+  <meta property="og:url" content="https://itryketchup.com/">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand-link" href="index.html">
+        <strong>iTryKetchup Studio</strong>
+        <span>Build it. Ship it. Log it.</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation" data-site-nav>
+        <a href="index.html" data-nav-link="home">Home</a>
+        <a href="about.html" data-nav-link="about">About</a>
+        <a href="projects.html" data-nav-link="projects">Projects</a>
+        <a href="devlogs.html" data-nav-link="devlogs">Dev Logs</a>
+        <a href="contact.html" data-nav-link="contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="browser-panel" aria-labelledby="home-title">
+      <div class="browser-panel__bar" aria-hidden="true">
+        <span class="browser-panel__dot"></span>
+        <span class="browser-panel__dot"></span>
+        <span class="browser-panel__dot"></span>
+        <span class="browser-panel__label">studio-hub.local</span>
+      </div>
+      <div class="browser-panel__body hero-grid">
+        <div>
+          <p class="eyebrow">Tiny studio, real projects</p>
+          <h1 id="home-title">iTryKetchup Studio</h1>
+          <p class="lede">A tiny studio hub for projects, dev logs, experiments, and the work-in-progress road to playable things.</p>
+          <p>iTryKetchup Studio is building a clean public home for creative projects, dev logs, software experiments, and future games. The goal is simple: keep the work visible, organized, and shippable without pretending everything is finished before it is.</p>
+          <div class="button-row" aria-label="Home actions">
+            <a class="button" href="projects.html">View Projects</a>
+            <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
+            <a class="button-secondary" href="contact.html">Contact</a>
+            <a class="button-secondary" href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
+            <span class="button-disabled" aria-disabled="true">YouTube Coming Soon</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="assets/mascots/mascot-placeholder.svg" alt="Friendly iTryKetchup Studio mascot placeholder holding a tiny browser window.">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="focus-title">
+      <h2 id="focus-title">Current Focus</h2>
+      <p class="lede">The current focus is the iTryKetchup Studio Hub itself: a static website foundation for project cards, dev logs, contact information, GitHub presence, and future updates. Function first, polish second, no mystery blank pages.</p>
+    </section>
+
+    <section class="section" aria-labelledby="project-preview-title">
+      <div class="split-grid">
+        <div>
+          <h2 id="project-preview-title">Project Preview</h2>
+          <p class="lede">Active work, planned ideas, and future experiments are represented with clear status labels.</p>
+        </div>
+        <div class="button-row">
+          <a class="button-secondary" href="projects.html">Browse All Projects</a>
+        </div>
+      </div>
+      <div class="grid" data-project-list="preview"></div>
+    </section>
+
+    <section class="section" aria-labelledby="devlog-preview-title">
+      <div class="split-grid">
+        <div>
+          <h2 id="devlog-preview-title">Latest Dev Log</h2>
+          <p class="lede">Dev logs track what changed, what shipped, what got parked, and what the next session should know.</p>
+        </div>
+        <div class="button-row">
+          <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
+        </div>
+      </div>
+      <div class="grid-two" data-devlog-list="preview"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        <strong>iTryKetchup Studio</strong>
+        <p class="small">Static hub foundation. YouTube Coming Soon. Analytics disabled for v1.0.</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
+        <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
+        <span class="small">YouTube Coming Soon</span>
+      </div>
+    </div>
+  </footer>
+  <script src="js/site-settings.js" defer></script>
+  <script src="js/projects-data.js" defer></script>
+  <script src="js/devlogs-data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

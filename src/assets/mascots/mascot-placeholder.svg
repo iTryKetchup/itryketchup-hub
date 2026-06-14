@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="title desc">
+  <title id="title">iTryKetchup Studio mascot placeholder</title>
+  <desc id="desc">A friendly ketchup bottle mascot holding a small browser window.</desc>
+  <rect width="640" height="640" fill="#f1fbf6"/>
+  <rect x="72" y="96" width="496" height="420" rx="8" fill="#fffcf4" stroke="#dfd2c1" stroke-width="8"/>
+  <rect x="72" y="96" width="496" height="52" rx="8" fill="#f4eadb"/>
+  <circle cx="108" cy="122" r="10" fill="#d83421"/>
+  <circle cx="138" cy="122" r="10" fill="#d8a32e"/>
+  <circle cx="168" cy="122" r="10" fill="#4f8f52"/>
+  <path d="M266 204h108l18 46v192c0 38-31 70-70 70s-70-32-70-70V250z" fill="#d83421" stroke="#a82417" stroke-width="8"/>
+  <path d="M282 168h76l16 36H266z" fill="#f47b20" stroke="#a82417" stroke-width="8"/>
+  <rect x="286" y="270" width="68" height="76" rx="8" fill="#fff8ed"/>
+  <circle cx="298" cy="238" r="10" fill="#24201d"/>
+  <circle cx="342" cy="238" r="10" fill="#24201d"/>
+  <path d="M298 382c18 18 43 18 62 0" fill="none" stroke="#fff8ed" stroke-width="9" stroke-linecap="round"/>
+  <rect x="376" y="326" width="132" height="92" rx="8" fill="#edf4f9" stroke="#356b94" stroke-width="8"/>
+  <path d="M396 354h92M396 382h58" stroke="#356b94" stroke-width="8" stroke-linecap="round"/>
+  <path d="M254 342c-44 0-70-16-92-50" stroke="#a82417" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M386 342c44 0 70-16 92-50" stroke="#a82417" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <text x="320" y="570" text-anchor="middle" font-family="Trebuchet MS, Arial, sans-serif" font-size="28" fill="#625a52">Placeholder mascot</text>
+</svg>

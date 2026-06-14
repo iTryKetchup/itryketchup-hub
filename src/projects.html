@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects - iTryKetchup Studio Hub</title>
+  <meta name="description" content="Browse active, planned, coming soon, and fan project cards from iTryKetchup Studio.">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="projects">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand-link" href="index.html">
+        <strong>iTryKetchup Studio</strong>
+        <span>Build it. Ship it. Log it.</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation" data-site-nav>
+        <a href="index.html" data-nav-link="home">Home</a>
+        <a href="about.html" data-nav-link="about">About</a>
+        <a href="projects.html" data-nav-link="projects">Projects</a>
+        <a href="devlogs.html" data-nav-link="devlogs">Dev Logs</a>
+        <a href="contact.html" data-nav-link="contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="browser-panel" aria-labelledby="projects-title">
+      <div class="browser-panel__bar" aria-hidden="true">
+        <span class="browser-panel__dot"></span>
+        <span class="browser-panel__dot"></span>
+        <span class="browser-panel__dot"></span>
+        <span class="browser-panel__label">projects.html</span>
+      </div>
+      <div class="browser-panel__body">
+        <p class="eyebrow">Project cards only for v1.0</p>
+        <h1 id="projects-title">Projects</h1>
+        <p class="lede">These are the current iTryKetchup Studio projects and planned ideas. Some are active, some are early concepts, and fan projects are labeled clearly. v1.0 uses project cards only, not full project detail pages.</p>
+        <div class="status-row" aria-label="Supported project states">
+          <span class="status-badge status-active">Active</span>
+          <span class="status-badge status-planned">Planned</span>
+          <span class="status-badge status-coming-soon">Coming Soon</span>
+          <span class="status-badge status-archive">Archive</span>
+          <span class="status-badge status-fan-project">Fan Project</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="project-grid-title">
+      <h2 id="project-grid-title">Current project list</h2>
+      <div class="grid" data-project-list="all"></div>
+      <p class="notice">Fan project - not original IP, not affiliated with or endorsed by the original rights holders. Fan projects are labeled separately from original iTryKetchup Studio work.</p>
+      <div class="button-row">
+        <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
+        <a class="button-secondary" href="contact.html">Contact</a>
+        <a class="button-secondary" href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        <strong>iTryKetchup Studio</strong>
+        <p class="small">Static hub foundation. YouTube Coming Soon. Analytics disabled for v1.0.</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
+        <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
+        <span class="small">YouTube Coming Soon</span>
+      </div>
+    </div>
+  </footer>
+  <script src="js/site-settings.js" defer></script>
+  <script src="js/projects-data.js" defer></script>
+  <script src="js/devlogs-data.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

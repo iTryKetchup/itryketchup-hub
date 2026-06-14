@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Project placeholder</title>
+  <desc id="desc">A browser-frame project placeholder with simple project cards.</desc>
+  <rect width="960" height="600" fill="#fff8ed"/>
+  <rect x="72" y="72" width="816" height="456" rx="8" fill="#fffcf4" stroke="#dfd2c1" stroke-width="10"/>
+  <rect x="72" y="72" width="816" height="64" rx="8" fill="#f4eadb"/>
+  <circle cx="112" cy="104" r="12" fill="#d83421"/>
+  <circle cx="150" cy="104" r="12" fill="#d8a32e"/>
+  <circle cx="188" cy="104" r="12" fill="#4f8f52"/>
+  <rect x="138" y="196" width="260" height="230" rx="8" fill="#f1fbf6" stroke="#9cc5ad" stroke-width="8"/>
+  <rect x="440" y="196" width="260" height="230" rx="8" fill="#edf4f9" stroke="#a8c4d7" stroke-width="8"/>
+  <path d="M176 252h184M176 302h136M176 356h164" stroke="#4f8f52" stroke-width="14" stroke-linecap="round"/>
+  <path d="M478 252h184M478 302h136M478 356h164" stroke="#356b94" stroke-width="14" stroke-linecap="round"/>
+  <rect x="638" y="374" width="140" height="52" rx="26" fill="#ffe0d6" stroke="#d83421" stroke-width="6"/>
+  <text x="480" y="500" text-anchor="middle" font-family="Trebuchet MS, Arial, sans-serif" font-size="32" fill="#625a52">Project placeholder</text>
+</svg>
