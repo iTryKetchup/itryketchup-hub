@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #ECEAE6; }
+</style>
+</helmet>
+
+<div style="--accent: {{ accent }}; min-height: 100vh; background: #ECEAE6; font-family: 'Patrick Hand', cursive; color: #1f1f1f; padding: 40px 36px 80px;">
+
+  <!-- HEADER -->
+  <div style="max-width: 1180px; margin: 0 auto 8px;">
+    <div style="font: 13px ui-monospace, monospace; letter-spacing: .14em; color: #8a857d; text-transform: uppercase;">iTryKetchup Studio &nbsp;·&nbsp; v0.1 &nbsp;·&nbsp; mascot skins applied (placeholder art)</div>
+    <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 52px; line-height: 1; margin: 6px 0 4px;">Layout with mascot skins</div>
+    <div style="font-size: 19px; color: #5a554d; max-width: 860px;">Structure unchanged from the approved wireframes &mdash; images just fill the slots. Every mascot is pulled from a <strong>skin registry</strong> by id (below), so swapping a costume is a one-line data change. Copy stays as grey blocks; this is about image placement, not final visuals.</div>
+  </div>
+
+  <!-- SKIN REGISTRY (the config, shown as source of truth) -->
+  <div style="max-width: 1180px; margin: 22px auto 0; background: #1f1f1f; border-radius: 14px; padding: 20px 22px; box-shadow: 6px 6px 0 rgba(0,0,0,.14);">
+    <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px;">
+      <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 26px; color: #fff;">Mascot skin registry</span>
+      <span style="font: 11px ui-monospace, monospace; color: #8f8a82;">mascots.config &middot; id → costume → role &middot; replaceable</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;">
+      <sc-for list="{{ registry }}" as="skin" hint-placeholder-count="6">
+        <div style="background: #2a2a2a; border: 1px solid #3a3a3a; border-radius: 10px; overflow: hidden;">
+          <div style="height: 90px; background: #111; overflow: hidden;">
+            <img src="{{ skin.src }}" alt="{{ skin.name }}" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 26%; display: block;" />
+          </div>
+          <div style="padding: 9px 10px;">
+            <div style="font: 10px ui-monospace, monospace; color: var(--accent, #E5462B); margin-bottom: 3px;">{{ skin.id }}</div>
+            <div style="font-size: 14px; color: #f0eee9; line-height: 1.15; margin-bottom: 5px;">{{ skin.name }}</div>
+            <div style="font: 10px ui-monospace, monospace; color: #8f8a82; line-height: 1.3;">{{ skin.role }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ===================== 1. HOME ===================== -->
+  <div style="max-width: 1180px; margin: 48px auto 0;">
+    <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #1f1f1f; padding-bottom: 6px; margin-bottom: 22px;">
+      <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 34px;">1 &middot; Home / Hub</span>
+      <span style="font: 13px ui-monospace, monospace; color: #8a857d;">hero = <b>samurai</b> · featured banner = <b>bossFight</b> · about = <b>gamer</b></span>
+    </div>
+
+    <div data-screen-label="Home — mascots applied (desktop)" style="background: #fff; border: 2px solid #1f1f1f; border-radius: 14px; box-shadow: 6px 6px 0 rgba(0,0,0,.12); overflow: hidden;">
+      <div style="display: flex; align-items: center; gap: 7px; padding: 9px 12px; border-bottom: 1.5px solid #e4e1db; background: #faf9f7;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div>
+        <div style="flex: 1; max-width: 320px; height: 20px; border-radius: 10px; background: #f0eee9; margin-left: 8px; display: flex; align-items: center; padding: 0 10px; font: 10px ui-monospace, monospace; color: #b0aca4;">itryketchup.studio</div>
+      </div>
+      <div style="padding: 22px 30px 30px;">
+        <!-- nav -->
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1.5px solid #eceae6; margin-bottom: 26px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 34px; height: 34px; border-radius: 50%; overflow: hidden; border: 2px solid var(--accent, #E5462B);"><img src="{{ heroMascot.src }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;" /></div>
+            <span style="font-size: 20px;">iTryKetchup</span>
+          </div>
+          <div style="display: flex; gap: 24px; font-size: 16px; align-items: center; white-space: nowrap;">
+            <span style="color: var(--accent, #E5462B);">Home</span><span style="color: #6a655d;">Projects</span><span style="color: #6a655d;">Dev Logs</span><span style="color: #6a655d;">Videos</span>
+            <span style="padding: 6px 16px; border-radius: 22px; border: 1.5px solid #1f1f1f; font-size: 15px;">Contact</span>
+          </div>
+        </div>
+
+        <!-- HERO: poster + pitch -->
+        <div style="display: flex; gap: 30px; align-items: stretch; margin-bottom: 40px;">
+          <div style="flex: 0 0 360px; border-radius: 18px; overflow: hidden; border: 1.5px solid #e4e1db; position: relative; min-height: 440px;">
+            <img src="{{ heroMascot.src }}" alt="{{ heroMascot.name }}" style="width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: 50% 30%;" />
+            <div style="position: absolute; left: 12px; bottom: 12px; padding: 4px 10px; border-radius: 20px; background: rgba(0,0,0,.55); color: #fff; font: 10px ui-monospace, monospace;">skin: {{ heroMascot.name }}</div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+            <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 60px; line-height: .95; margin-bottom: 8px;">iTryKetchup Studio</div>
+            <div style="width: 85%; height: 12px; background: #d9d6d1; border-radius: 6px; margin-bottom: 7px;"></div>
+            <div style="width: 70%; height: 12px; background: #d9d6d1; border-radius: 6px; margin-bottom: 24px;"></div>
+            <div style="display: flex; gap: 12px; margin-bottom: 30px;">
+              <div style="padding: 11px 26px; border-radius: 24px; background: var(--accent, #E5462B); color: #fff; font-size: 17px;">View projects</div>
+              <div style="padding: 11px 26px; border-radius: 24px; border: 1.5px solid #1f1f1f; font-size: 17px;">Watch videos</div>
+            </div>
+            <!-- latest mini -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;">
+              <div style="border: 1.5px solid #e4e1db; border-radius: 12px; overflow: hidden;"><div style="height: 70px; overflow: hidden; background: #111;"><img src="{{ soldierSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%;" /></div><div style="padding: 9px;"><div style="font: 9px ui-monospace, monospace; color: var(--accent, #E5462B); margin-bottom: 4px;">NEW PROJECT</div><div style="width: 80%; height: 7px; background: #d9d6d1; border-radius: 4px;"></div></div></div>
+              <div style="border: 1.5px solid #e4e1db; border-radius: 12px; padding: 9px;"><div style="font: 9px ui-monospace, monospace; color: var(--accent, #E5462B); margin-bottom: 6px;">DEV LOG</div><div style="font: 9px ui-monospace, monospace; color: #b0aca4; margin-bottom: 6px;">Jun 10</div><div style="width: 100%; height: 6px; background: #d9d6d1; border-radius: 3px; margin-bottom: 3px;"></div><div style="width: 70%; height: 6px; background: #d9d6d1; border-radius: 3px;"></div></div>
+              <div style="border: 1.5px solid #e4e1db; border-radius: 12px; overflow: hidden;"><div style="position: relative; height: 70px; overflow: hidden; background: #111;"><img src="{{ bossSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%;" /><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;"><div style="width: 0; height: 0; border-left: 13px solid #fff; border-top: 8px solid transparent; border-bottom: 8px solid transparent; filter: drop-shadow(0 1px 2px rgba(0,0,0,.5));"></div></div></div><div style="padding: 9px;"><div style="font: 9px ui-monospace, monospace; color: var(--accent, #E5462B); margin-bottom: 4px;">VIDEO</div><div style="width: 75%; height: 7px; background: #d9d6d1; border-radius: 4px;"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FEATURED BANNER (bossFight) -->
+        <div style="margin-bottom: 40px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px;">
+            <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 26px;">Featured</span>
+            <span style="font: 12px ui-monospace, monospace; color: var(--accent, #E5462B);">all projects ▸</span>
+          </div>
+          <div style="position: relative; height: 260px; border-radius: 16px; overflow: hidden; border: 1.5px solid #e4e1db;">
+            <img src="{{ bossSrc }}" alt="Featured" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%;" />
+            <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.74) 0%, rgba(0,0,0,.34) 45%, rgba(0,0,0,0) 75%);"></div>
+            <div style="position: absolute; left: 30px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; max-width: 52%;">
+              <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px;"><span style="padding: 3px 11px; border-radius: 12px; background: var(--accent, #E5462B); color: #fff; font: 10px ui-monospace, monospace;">FEATURED GAME</span></div>
+              <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 40px; color: #fff; line-height: 1; margin-bottom: 12px;">Boss Rush: Condiment Chaos</div>
+              <div style="width: 80%; height: 9px; background: rgba(255,255,255,.5); border-radius: 5px; margin-bottom: 6px;"></div>
+              <div style="width: 60%; height: 9px; background: rgba(255,255,255,.5); border-radius: 5px; margin-bottom: 18px;"></div>
+              <div style="display: flex; gap: 10px;"><div style="padding: 9px 22px; border-radius: 24px; background: var(--accent, #E5462B); color: #fff; font-size: 15px;">Play ▸</div><div style="padding: 9px 20px; border-radius: 24px; border: 1.5px solid #fff; color: #fff; font-size: 15px;">Trailer</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABOUT band (gamer) -->
+        <div style="display: flex; gap: 24px; align-items: center; padding: 22px; border-radius: 16px; background: #faf9f7; border: 1.5px solid #e4e1db;">
+          <div style="flex: 0 0 150px; height: 150px; border-radius: 14px; overflow: hidden; border: 1.5px solid #e4e1db;"><img src="{{ aboutMascot.src }}" alt="{{ aboutMascot.name }}" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;" /></div>
+          <div style="flex: 1;">
+            <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 28px; margin-bottom: 10px;">About the studio</div>
+            <div style="width: 100%; height: 9px; background: #d9d6d1; border-radius: 4px; margin-bottom: 6px;"></div>
+            <div style="width: 95%; height: 9px; background: #d9d6d1; border-radius: 4px; margin-bottom: 6px;"></div>
+            <div style="width: 60%; height: 9px; background: #d9d6d1; border-radius: 4px;"></div>
+          </div>
+          <div style="font: 12px ui-monospace, monospace; color: var(--accent, #E5462B); align-self: flex-end;">more ▸</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 2. PROJECTS ===================== -->
+  <div style="max-width: 1180px; margin: 56px auto 0;">
+    <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #1f1f1f; padding-bottom: 6px; margin-bottom: 22px;">
+      <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 34px;">2 &middot; Projects</span>
+      <span style="font: 13px ui-monospace, monospace; color: #8a857d;">card covers pull skins · cards without art keep striped placeholder</span>
+    </div>
+
+    <div data-screen-label="Projects — mascots applied (desktop)" style="background: #fff; border: 2px solid #1f1f1f; border-radius: 14px; box-shadow: 6px 6px 0 rgba(0,0,0,.12); overflow: hidden;">
+      <div style="display: flex; align-items: center; gap: 7px; padding: 9px 12px; border-bottom: 1.5px solid #e4e1db; background: #faf9f7;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div>
+        <div style="flex: 1; max-width: 320px; height: 20px; border-radius: 10px; background: #f0eee9; margin-left: 8px; display: flex; align-items: center; padding: 0 10px; font: 10px ui-monospace, monospace; color: #b0aca4;">itryketchup.studio/projects</div>
+      </div>
+      <div style="padding: 22px 30px 30px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1.5px solid #eceae6; margin-bottom: 22px;">
+          <div style="display: flex; align-items: center; gap: 10px;"><div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; border: 2px solid var(--accent, #E5462B);"><img src="{{ heroMascot.src }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;" /></div><span style="font-size: 18px;">iTryKetchup</span></div>
+          <div style="display: flex; gap: 20px; font-size: 15px; align-items: center; white-space: nowrap;"><span style="color: #6a655d;">Home</span><span style="color: var(--accent, #E5462B);">Projects</span><span style="color: #6a655d;">Dev Logs</span><span style="color: #6a655d;">Videos</span><span style="padding: 6px 14px; border-radius: 22px; border: 1.5px solid #1f1f1f;">Contact</span></div>
+        </div>
+
+        <div style="margin-bottom: 18px;">
+          <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 40px; line-height: 1;">Projects</div>
+          <div style="width: 280px; height: 9px; background: #d9d6d1; border-radius: 4px; margin-top: 10px;"></div>
+        </div>
+
+        <!-- filter bar -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 18px; border-bottom: 1.5px solid #e4e1db; margin-bottom: 22px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <div style="padding: 7px 18px; border-radius: 22px; background: var(--accent, #E5462B); color: #fff; font-size: 15px;">All</div>
+            <div style="padding: 7px 18px; border-radius: 22px; border: 1.5px solid #cfcbc4; font-size: 15px; color: #6a655d;">Games</div>
+            <div style="padding: 7px 18px; border-radius: 22px; border: 1.5px solid #cfcbc4; font-size: 15px; color: #6a655d;">Tools</div>
+            <div style="padding: 7px 18px; border-radius: 22px; border: 1.5px solid #cfcbc4; font-size: 15px; color: #6a655d;">Experiments</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #9a9a9a;"><span>sort</span><div style="width: 96px; height: 30px; border-radius: 8px; border: 1.5px solid #cfcbc4; display: flex; align-items: center; padding: 0 10px; font: 10px ui-monospace, monospace;">newest ▾</div></div>
+        </div>
+
+        <!-- card grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px;">
+          <sc-for list="{{ projectCards }}" as="card" hint-placeholder-count="8">
+            <div style="border: 1.5px solid #e4e1db; border-radius: 12px; overflow: hidden;">
+              <div style="position: relative; height: 110px; background: repeating-linear-gradient(45deg,#eee,#eee 6px,#f7f7f7 6px,#f7f7f7 12px); border-bottom: 1.5px solid #e4e1db; overflow: hidden;">
+                <sc-if value="{{ card.cover }}" hint-placeholder-val="{{ true }}">
+                  <img src="{{ card.cover }}" alt="{{ card.title }}" style="width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: 50% 30%;" />
+                </sc-if>
+                <div style="position: absolute; top: 8px; left: 8px; padding: 3px 9px; border-radius: 11px; background: {{ card.badgeBg }}; color: #fff; font: 9px ui-monospace, monospace; z-index: 2;">{{ card.badge }}</div>
+                <div style="position: absolute; top: 10px; right: 10px; width: 10px; height: 10px; border-radius: 50%; background: {{ card.statusColor }}; box-shadow: 0 0 0 2px rgba(255,255,255,.7); z-index: 2;"></div>
+              </div>
+              <div style="padding: 12px;">
+                <div style="font-size: 16px; line-height: 1.1; margin-bottom: 8px;">{{ card.title }}</div>
+                <div style="width: 100%; height: 7px; background: #d9d6d1; border-radius: 4px; margin-bottom: 4px;"></div>
+                <div style="width: 75%; height: 7px; background: #d9d6d1; border-radius: 4px;"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 24px;"><div style="padding: 9px 26px; border-radius: 24px; border: 1.5px solid #1f1f1f; font-size: 15px;">Load more</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 3. DEV LOGS ===================== -->
+  <div style="max-width: 1180px; margin: 56px auto 0;">
+    <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #1f1f1f; padding-bottom: 6px; margin-bottom: 22px;">
+      <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 34px;">3 &middot; Dev Logs</span>
+      <span style="font: 13px ui-monospace, monospace; color: #8a857d;">header skin = <b>scholar</b></span>
+    </div>
+
+    <div data-screen-label="Dev Logs — mascots applied (desktop)" style="background: #fff; border: 2px solid #1f1f1f; border-radius: 14px; box-shadow: 6px 6px 0 rgba(0,0,0,.12); overflow: hidden;">
+      <div style="display: flex; align-items: center; gap: 7px; padding: 9px 12px; border-bottom: 1.5px solid #e4e1db; background: #faf9f7;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div>
+        <div style="flex: 1; max-width: 320px; height: 20px; border-radius: 10px; background: #f0eee9; margin-left: 8px; display: flex; align-items: center; padding: 0 10px; font: 10px ui-monospace, monospace; color: #b0aca4;">itryketchup.studio/devlogs</div>
+      </div>
+      <div style="padding: 22px 30px 30px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1.5px solid #eceae6; margin-bottom: 22px;">
+          <div style="display: flex; align-items: center; gap: 10px;"><div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; border: 2px solid var(--accent, #E5462B);"><img src="{{ heroMascot.src }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;" /></div><span style="font-size: 18px;">iTryKetchup</span></div>
+          <div style="display: flex; gap: 20px; font-size: 15px; align-items: center; white-space: nowrap;"><span style="color: #6a655d;">Home</span><span style="color: #6a655d;">Projects</span><span style="color: var(--accent, #E5462B);">Dev Logs</span><span style="color: #6a655d;">Videos</span><span style="padding: 6px 14px; border-radius: 22px; border: 1.5px solid #1f1f1f;">Contact</span></div>
+        </div>
+
+        <!-- header band with scholar -->
+        <div style="display: flex; gap: 20px; align-items: center; padding: 18px 20px; border-radius: 14px; background: #faf9f7; border: 1.5px solid #e4e1db; margin-bottom: 26px;">
+          <div style="flex: 0 0 84px; height: 84px; border-radius: 12px; overflow: hidden; border: 1.5px solid #e4e1db;"><img src="{{ devlogsMascot.src }}" alt="{{ devlogsMascot.name }}" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;" /></div>
+          <div style="flex: 1;">
+            <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 38px; line-height: 1;">Dev Logs</div>
+            <div style="width: 60%; height: 9px; background: #d9d6d1; border-radius: 4px; margin-top: 10px;"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 30px;">
+          <div style="flex: 1; min-width: 0;">
+            <div style="position: relative; padding-left: 26px;">
+              <div style="position: absolute; left: 5px; top: 4px; bottom: 4px; width: 2px; background: #e4e1db;"></div>
+              <sc-for list="{{ logEntries }}" as="log" hint-placeholder-count="3">
+                <div style="position: relative; margin-bottom: 22px;">
+                  <div style="position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--accent, #E5462B);"></div>
+                  <div style="border: 1.5px solid #e4e1db; border-radius: 12px; padding: 16px; display: flex; gap: 16px;">
+                    <div style="flex: 0 0 130px; height: 90px; border-radius: 8px; overflow: hidden; background: repeating-linear-gradient(45deg,#eee,#eee 5px,#f7f7f7 5px,#f7f7f7 10px); border: 1.5px solid #e4e1db;">
+                      <sc-if value="{{ log.cover }}" hint-placeholder-val="{{ true }}"><img src="{{ log.cover }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;" /></sc-if>
+                    </div>
+                    <div style="flex: 1;">
+                      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <span style="font: 10px ui-monospace, monospace; color: #b0aca4;">{{ log.date }}</span>
+                        <span style="padding: 2px 9px; border-radius: 11px; background: #f0eee9; border: 1px solid #e4e1db; font: 9px ui-monospace, monospace; color: #6a655d;">▷ {{ log.project }}</span>
+                      </div>
+                      <div style="font-size: 17px; margin-bottom: 9px;">{{ log.title }}</div>
+                      <div style="width: 100%; height: 7px; background: #d9d6d1; border-radius: 4px; margin-bottom: 4px;"></div>
+                      <div style="width: 88%; height: 7px; background: #d9d6d1; border-radius: 4px;"></div>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="flex: 0 0 200px;">
+            <div style="border: 1.5px solid #e4e1db; border-radius: 12px; padding: 16px;">
+              <div style="font: 10px ui-monospace, monospace; color: #8a857d; margin-bottom: 12px;">FILTER BY PROJECT</div>
+              <div style="display: flex; flex-direction: column; gap: 11px;">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--accent, #E5462B);"><div style="width: 11px; height: 11px; border-radius: 3px; background: var(--accent, #E5462B);"></div>All logs</div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #6a655d;"><div style="width: 11px; height: 11px; border-radius: 3px; border: 1.5px solid #cfcbc4;"></div>Kitchen Wars</div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #6a655d;"><div style="width: 11px; height: 11px; border-radius: 3px; border: 1.5px solid #cfcbc4;"></div>Project Nightfall</div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #6a655d;"><div style="width: 11px; height: 11px; border-radius: 3px; border: 1.5px solid #cfcbc4;"></div>Boss Rush</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 4. PROJECT DETAIL ===================== -->
+  <div style="max-width: 1180px; margin: 56px auto 0;">
+    <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #1f1f1f; padding-bottom: 6px; margin-bottom: 22px;">
+      <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 34px;">4 &middot; Project Detail</span>
+      <span style="font: 13px ui-monospace, monospace; color: #8a857d;">example: Project Nightfall · hero + per-project skin = <b>spaceMarine</b></span>
+    </div>
+
+    <div data-screen-label="Project Detail — mascots applied (desktop)" style="background: #fff; border: 2px solid #1f1f1f; border-radius: 14px; box-shadow: 6px 6px 0 rgba(0,0,0,.12); overflow: hidden;">
+      <div style="display: flex; align-items: center; gap: 7px; padding: 9px 12px; border-bottom: 1.5px solid #e4e1db; background: #faf9f7;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div><div style="width: 10px; height: 10px; border-radius: 50%; background: #d6d3cc;"></div>
+        <div style="flex: 1; max-width: 320px; height: 20px; border-radius: 10px; background: #f0eee9; margin-left: 8px; display: flex; align-items: center; padding: 0 10px; font: 10px ui-monospace, monospace; color: #b0aca4;">itryketchup.studio/projects/project-nightfall</div>
+      </div>
+      <div style="padding: 22px 30px 30px;">
+        <div style="font: 11px ui-monospace, monospace; color: #b0aca4; margin-bottom: 18px;">Home / Projects / <span style="color: #6a655d;">Project Nightfall</span></div>
+
+        <!-- hero split -->
+        <div style="display: flex; gap: 24px; margin-bottom: 30px;">
+          <div style="flex: 1.4; position: relative; height: 300px; border-radius: 14px; overflow: hidden; border: 1.5px solid #e4e1db;">
+            <img src="{{ detailHero.src }}" alt="{{ detailHero.name }}" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;" />
+            <div style="position: absolute; bottom: 12px; left: 12px; padding: 4px 10px; border-radius: 20px; background: rgba(0,0,0,.55); color: #fff; font: 10px ui-monospace, monospace;">hero image / trailer slot</div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+              <div style="padding: 3px 11px; border-radius: 12px; background: #1f1f1f; color: #fff; font: 10px ui-monospace, monospace;">GAME</div>
+              <div style="display: flex; align-items: center; gap: 6px; font: 11px ui-monospace, monospace; color: #6a655d;"><div style="width: 9px; height: 9px; border-radius: 50%; background: #c9a23a;"></div>wip</div>
+            </div>
+            <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 42px; line-height: 1; margin-bottom: 14px;">Project Nightfall</div>
+            <div style="width: 100%; height: 8px; background: #d9d6d1; border-radius: 4px; margin-bottom: 5px;"></div>
+            <div style="width: 95%; height: 8px; background: #d9d6d1; border-radius: 4px; margin-bottom: 5px;"></div>
+            <div style="width: 80%; height: 8px; background: #d9d6d1; border-radius: 4px; margin-bottom: 18px;"></div>
+            <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+              <div style="padding: 9px 22px; border-radius: 24px; background: var(--accent, #E5462B); color: #fff; font-size: 15px;">Wishlist ▸</div>
+              <div style="padding: 9px 18px; border-radius: 24px; border: 1.5px solid #1f1f1f; font-size: 15px;">Devlog</div>
+            </div>
+            <!-- per-project mascot -->
+            <div style="margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: #faf9f7; border: 1.5px solid #e4e1db;">
+              <div style="flex: 0 0 52px; height: 52px; border-radius: 10px; overflow: hidden; border: 1.5px solid #e4e1db;"><img src="{{ detailMascot.src }}" alt="{{ detailMascot.name }}" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;" /></div>
+              <div style="font-size: 14px; color: #6a655d;">project skin: <b>{{ detailMascot.name }}</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- body + sidebar -->
+        <div style="display: flex; gap: 30px; margin-bottom: 30px;">
+          <div style="flex: 1.4;">
+            <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 24px; margin-bottom: 12px;">About this project</div>
+            <div style="width: 100%; height: 8px; background: #d9d6d1; border-radius: 4px; margin-bottom: 6px;"></div>
+            <div style="width: 98%; height: 8px; background: #d9d6d1; border-radius: 4px; margin-bottom: 6px;"></div>
+            <div style="width: 75%; height: 8px; background: #d9d6d1; border-radius: 4px; margin-bottom: 18px;"></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+              <div style="height: 84px; border-radius: 8px; overflow: hidden; border: 1.5px solid #e4e1db;"><img src="{{ marineSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 35%;" /></div>
+              <div style="height: 84px; border-radius: 8px; overflow: hidden; border: 1.5px solid #e4e1db;"><img src="{{ marineSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 70% 40%;" /></div>
+              <div style="height: 84px; border-radius: 8px; background: repeating-linear-gradient(45deg,#eee,#eee 5px,#f7f7f7 5px,#f7f7f7 10px); border: 1.5px dashed #c4c4c4;"></div>
+            </div>
+          </div>
+          <div style="flex: 1;">
+            <div style="border: 1.5px solid #e4e1db; border-radius: 12px; padding: 16px;">
+              <div style="font: 10px ui-monospace, monospace; color: #8a857d; margin-bottom: 14px;">DETAILS</div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font: 11px ui-monospace, monospace; color: #9a9a9a;">type</span><span style="font-size: 13px;">Game</span></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font: 11px ui-monospace, monospace; color: #9a9a9a;">status</span><span style="font-size: 13px;">In development</span></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font: 11px ui-monospace, monospace; color: #9a9a9a;">started</span><span style="font-size: 13px;">2026</span></div>
+              </div>
+              <div style="height: 1px; background: #e4e1db; margin: 16px 0;"></div>
+              <div style="font: 10px ui-monospace, monospace; color: #8a857d; margin-bottom: 12px;">TECH / TOOLS</div>
+              <div style="display: flex; gap: 7px; flex-wrap: wrap;">
+                <div style="padding: 4px 12px; border-radius: 8px; border: 1.5px solid #cfcbc4; font: 10px ui-monospace, monospace; color: #6a655d;">Unreal</div>
+                <div style="padding: 4px 12px; border-radius: 8px; border: 1.5px solid #cfcbc4; font: 10px ui-monospace, monospace; color: #6a655d;">C++</div>
+                <div style="padding: 4px 12px; border-radius: 8px; border: 1.5px solid #cfcbc4; font: 10px ui-monospace, monospace; color: #6a655d;">Blender</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- embedded dev logs -->
+        <div style="border-top: 1.5px solid #eceae6; padding-top: 24px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+            <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 26px;">Dev logs for this project</span>
+            <span style="font: 11px ui-monospace, monospace; color: var(--accent, #E5462B);">all logs ▸</span>
+          </div>
+          <div style="position: relative; padding-left: 26px;">
+            <div style="position: absolute; left: 5px; top: 4px; bottom: 4px; width: 2px; background: #e4e1db;"></div>
+            <div style="position: relative; margin-bottom: 16px;">
+              <div style="position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--accent, #E5462B);"></div>
+              <div style="border: 1.5px solid #e4e1db; border-radius: 12px; padding: 14px;"><div style="font: 10px ui-monospace, monospace; color: #b0aca4; margin-bottom: 8px;">Jun 06, 2026</div><div style="font-size: 15px; margin-bottom: 8px;">Greybox lighting pass</div><div style="width: 90%; height: 7px; background: #d9d6d1; border-radius: 4px;"></div></div>
+            </div>
+            <div style="position: relative;">
+              <div style="position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid #cfcbc4;"></div>
+              <div style="border: 1.5px solid #e4e1db; border-radius: 12px; padding: 14px;"><div style="font: 10px ui-monospace, monospace; color: #b0aca4; margin-bottom: 8px;">May 22, 2026</div><div style="font-size: 15px; margin-bottom: 8px;">Enemy AI prototype</div><div style="width: 80%; height: 7px; background: #d9d6d1; border-radius: 4px;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 5. MOBILE ===================== -->
+  <div style="max-width: 1180px; margin: 56px auto 0;">
+    <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #1f1f1f; padding-bottom: 6px; margin-bottom: 22px;">
+      <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 34px;">5 &middot; Mobile</span>
+      <span style="font: 13px ui-monospace, monospace; color: #8a857d;">same skins, stacked</span>
+    </div>
+
+    <div style="display: flex; gap: 28px; align-items: flex-start; overflow-x: auto; padding-bottom: 12px;">
+
+      <!-- MOBILE HOME -->
+      <div data-screen-label="Mobile — Home" style="flex: 0 0 280px; width: 280px;">
+        <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 22px; margin-bottom: 10px;">Home</div>
+        <div style="background: #fff; border: 2px solid #1f1f1f; border-radius: 30px; padding: 10px; box-shadow: 5px 5px 0 rgba(0,0,0,.12);">
+          <div style="background: #fff; border: 1.5px solid #eceae6; border-radius: 22px; overflow: hidden;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1.5px solid #eceae6;">
+              <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; border: 1.5px solid var(--accent, #E5462B);"><img src="{{ heroMascot.src }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%;" /></div><span style="font-size: 14px;">iTryKetchup</span></div>
+              <div style="display: flex; flex-direction: column; gap: 3px;"><div style="width: 18px; height: 2px; background: #1f1f1f;"></div><div style="width: 18px; height: 2px; background: #1f1f1f;"></div><div style="width: 18px; height: 2px; background: #1f1f1f;"></div></div>
+            </div>
+            <!-- hero image -->
+            <div style="padding: 14px;">
+              <div style="position: relative; height: 280px; border-radius: 14px; overflow: hidden; margin-bottom: 14px;">
+                <img src="{{ heroMascot.src }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%;" />
+                <div style="position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.6), rgba(0,0,0,0) 50%);"></div>
+                <div style="position: absolute; left: 14px; right: 14px; bottom: 12px;"><div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 24px; color: #fff; line-height: 1;">iTryKetchup Studio</div></div>
+              </div>
+              <div style="width: 100%; padding: 10px 0; border-radius: 22px; background: var(--accent, #E5462B); color: #fff; font-size: 14px; text-align: center; margin-bottom: 8px;">View projects</div>
+              <div style="width: 100%; padding: 10px 0; border-radius: 22px; border: 1.5px solid #1f1f1f; font-size: 14px; text-align: center; margin-bottom: 16px;">Watch videos</div>
+              <!-- featured banner -->
+              <div style="position: relative; height: 130px; border-radius: 12px; overflow: hidden;">
+                <img src="{{ bossSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%;" />
+                <div style="position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.7), rgba(0,0,0,0) 60%);"></div>
+                <div style="position: absolute; left: 12px; bottom: 10px; font-family: 'Caveat', cursive; font-weight: 700; font-size: 18px; color: #fff;">Boss Rush</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE PROJECTS -->
+      <div data-screen-label="Mobile — Projects" style="flex: 0 0 280px; width: 280px;">
+        <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 22px; margin-bottom: 10px;">Projects</div>
+        <div style="background: #fff; border: 2px solid #1f1f1f; border-radius: 30px; padding: 10px; box-shadow: 5px 5px 0 rgba(0,0,0,.12);">
+          <div style="background: #fff; border: 1.5px solid #eceae6; border-radius: 22px; overflow: hidden;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1.5px solid #eceae6;">
+              <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 20px;">Projects</span>
+              <div style="display: flex; flex-direction: column; gap: 3px;"><div style="width: 18px; height: 2px; background: #1f1f1f;"></div><div style="width: 18px; height: 2px; background: #1f1f1f;"></div><div style="width: 18px; height: 2px; background: #1f1f1f;"></div></div>
+            </div>
+            <div style="padding: 12px 0 12px 14px; border-bottom: 1.5px solid #eceae6;">
+              <div style="display: flex; gap: 8px; overflow: hidden;">
+                <div style="flex: 0 0 auto; padding: 5px 14px; border-radius: 18px; background: var(--accent, #E5462B); color: #fff; font-size: 12px;">All</div>
+                <div style="flex: 0 0 auto; padding: 5px 14px; border-radius: 18px; border: 1.5px solid #cfcbc4; font-size: 12px; color: #6a655d;">Games</div>
+                <div style="flex: 0 0 auto; padding: 5px 14px; border-radius: 18px; border: 1.5px solid #cfcbc4; font-size: 12px; color: #6a655d;">Tools</div>
+              </div>
+            </div>
+            <div style="padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+              <div style="border: 1.5px solid #e4e1db; border-radius: 12px; overflow: hidden;"><div style="position: relative; height: 120px; overflow: hidden;"><img src="{{ soldierSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%;" /><div style="position: absolute; top: 8px; left: 8px; padding: 2px 8px; border-radius: 10px; background: #1f1f1f; color: #fff; font: 8px ui-monospace, monospace;">GAME</div></div><div style="padding: 10px;"><div style="font-size: 15px; margin-bottom: 6px;">Kitchen Wars</div><div style="width: 90%; height: 6px; background: #d9d6d1; border-radius: 3px;"></div></div></div>
+              <div style="border: 1.5px solid #e4e1db; border-radius: 12px; overflow: hidden;"><div style="position: relative; height: 120px; overflow: hidden;"><img src="{{ marineSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;" /><div style="position: absolute; top: 8px; left: 8px; padding: 2px 8px; border-radius: 10px; background: #1f1f1f; color: #fff; font: 8px ui-monospace, monospace;">GAME</div></div><div style="padding: 10px;"><div style="font-size: 15px; margin-bottom: 6px;">Project Nightfall</div><div style="width: 80%; height: 6px; background: #d9d6d1; border-radius: 3px;"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE DETAIL -->
+      <div data-screen-label="Mobile — Project Detail" style="flex: 0 0 280px; width: 280px;">
+        <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 22px; margin-bottom: 10px;">Project Detail</div>
+        <div style="background: #fff; border: 2px solid #1f1f1f; border-radius: 30px; padding: 10px; box-shadow: 5px 5px 0 rgba(0,0,0,.12);">
+          <div style="background: #fff; border: 1.5px solid #eceae6; border-radius: 22px; overflow: hidden;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1.5px solid #eceae6;">
+              <span style="font: 10px ui-monospace, monospace; color: #b0aca4;">◂ Projects</span>
+              <div style="display: flex; flex-direction: column; gap: 3px;"><div style="width: 16px; height: 2px; background: #1f1f1f;"></div><div style="width: 16px; height: 2px; background: #1f1f1f;"></div><div style="width: 16px; height: 2px; background: #1f1f1f;"></div></div>
+            </div>
+            <div style="padding: 14px;">
+              <div style="height: 150px; border-radius: 12px; overflow: hidden; margin-bottom: 14px;"><img src="{{ marineSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;" /></div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><div style="padding: 2px 9px; border-radius: 10px; background: #1f1f1f; color: #fff; font: 8px ui-monospace, monospace;">GAME</div><div style="display: flex; align-items: center; gap: 5px; font: 9px ui-monospace, monospace; color: #6a655d;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #c9a23a;"></div>wip</div></div>
+              <div style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 24px; margin-bottom: 12px;">Project Nightfall</div>
+              <div style="width: 100%; padding: 9px 0; border-radius: 22px; background: var(--accent, #E5462B); color: #fff; font-size: 13px; text-align: center; margin-bottom: 16px;">Wishlist ▸</div>
+              <div style="width: 100%; height: 7px; background: #d9d6d1; border-radius: 4px; margin-bottom: 5px;"></div>
+              <div style="width: 85%; height: 7px; background: #d9d6d1; border-radius: 4px; margin-bottom: 16px;"></div>
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: #faf9f7; border: 1.5px solid #e4e1db;"><div style="flex: 0 0 40px; height: 40px; border-radius: 8px; overflow: hidden;"><img src="{{ marineSrc }}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;" /></div><div style="font: 10px ui-monospace, monospace; color: #6a655d;">project skin</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER NOTE -->
+  <div style="max-width: 1180px; margin: 40px auto 0; padding: 16px 18px; border: 2px dashed #c9c5be; border-radius: 10px; font-size: 16px; color: #6a655d;">
+    <span style="font-family: 'Caveat', cursive; font-weight: 700; font-size: 22px; color: #1f1f1f;">Replaceable by design:</span>
+    &nbsp; all six skins live in one registry at the top &mdash; change a <code style="font-family: ui-monospace, monospace; font-size: 14px; background: #fff; padding: 1px 5px; border-radius: 4px; border: 1px solid #e0ddd7;">src</code> there and it updates everywhere that id is used. Final art drops in the same way.
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1260, &quot;height&quot;: 1500 },
+  &quot;accent&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#E5462B&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;#E5462B&quot;, &quot;#E0A53B&quot;, &quot;#2A6FDB&quot;, &quot;#1f1f1f&quot;] }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#E5462B';
+
+    // ---- MASCOT SKIN REGISTRY (single source of truth) ----
+    const MASCOTS = {
+      samurai:      { id: 'samurai',      name: 'Samurai Ketchup',      src: 'assets/mascots/samurai.png',       role: 'Signature · Home hero' },
+      gamer:        { id: 'gamer',        name: 'Gamer Ketchup',        src: 'assets/mascots/gamer.png',         role: 'About the Studio' },
+      scholar:      { id: 'scholar',      name: 'Scholar Ketchup',      src: 'assets/mascots/scholar.webp',      role: 'Dev Logs header' },
+      spaceSoldier: { id: 'spaceSoldier', name: 'Space Soldier',        src: 'assets/mascots/space-soldier.png', role: 'Kitchen Wars · friendly game' },
+      spaceMarine:  { id: 'spaceMarine',  name: 'Space Marine',         src: 'assets/mascots/space-marine.png',  role: 'Project Nightfall · dream' },
+      bossFight:    { id: 'bossFight',    name: 'Boss Fight',           src: 'assets/mascots/boss-fight.png',    role: 'Featured banner · video' }
+    };
+
+    return {
+      accent,
+      registry: Object.values(MASCOTS),
+
+      // page-level skin assignments (referenced by id, never hardcoded paths)
+      heroMascot:    MASCOTS.samurai,
+      aboutMascot:   MASCOTS.gamer,
+      devlogsMascot: MASCOTS.scholar,
+      detailHero:    MASCOTS.spaceMarine,
+      detailMascot:  MASCOTS.spaceMarine,
+
+      // convenience srcs for repeated slots
+      soldierSrc: MASCOTS.spaceSoldier.src,
+      marineSrc:  MASCOTS.spaceMarine.src,
+      bossSrc:    MASCOTS.bossFight.src,
+
+      projectCards: [
+        { title: 'Kitchen Wars',     badge: 'GAME', badgeBg: '#1f1f1f', statusColor: accent,     cover: MASCOTS.spaceSoldier.src },
+        { title: 'Project Nightfall',badge: 'GAME', badgeBg: '#1f1f1f', statusColor: '#c9a23a',  cover: MASCOTS.spaceMarine.src },
+        { title: 'Boss Rush',        badge: 'GAME', badgeBg: '#1f1f1f', statusColor: accent,     cover: MASCOTS.bossFight.src },
+        { title: 'Sprite Packer',    badge: 'TOOL', badgeBg: '#6a655d', statusColor: accent,     cover: null },
+        { title: 'Shader Lab',       badge: 'EXPT', badgeBg: '#a8852f', statusColor: '#c9c5be',  cover: null },
+        { title: 'Dialog Engine',    badge: 'TOOL', badgeBg: '#6a655d', statusColor: '#c9a23a',  cover: null },
+        { title: 'Pixel Diner',      badge: 'GAME', badgeBg: '#1f1f1f', statusColor: '#c9a23a',  cover: null },
+        { title: 'Physics Toy',      badge: 'EXPT', badgeBg: '#a8852f', statusColor: accent,     cover: null }
+      ],
+
+      logEntries: [
+        { date: 'Jun 10, 2026', project: 'Kitchen Wars',     title: 'Co-op mode is in', cover: MASCOTS.spaceSoldier.src },
+        { date: 'Jun 06, 2026', project: 'Project Nightfall',title: 'Greybox lighting pass', cover: MASCOTS.spaceMarine.src },
+        { date: 'Jun 02, 2026', project: 'Boss Rush',        title: 'New boss: The Cleaver', cover: MASCOTS.bossFight.src }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
