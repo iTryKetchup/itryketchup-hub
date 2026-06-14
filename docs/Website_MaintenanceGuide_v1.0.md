@@ -108,6 +108,10 @@ Fan project disclaimer:
 
 ## How to Update Images Safely
 
+- Use `src/js/mascots-data.js` as the mascot/image registry for page and card image assignments.
+- Each registry entry should include an ID, name, `src`, alt text, and role.
+- Pages and cards should reference registry IDs where practical, such as `samurai`, `gamer`, `scholar`, `spaceSoldier`, `projectPlaceholder`, or `socialPreview`.
+- To swap future real art in, update the registry entry `src` and alt text instead of rewriting page layout.
 - Keep public image assets inside `src/assets/`.
 - Use `src/assets/images/` for general project/dev log images.
 - Use `src/assets/icons/` for favicon and icons.

@@ -69,9 +69,10 @@ Phase 4 Maintenance Wiring / Phase 5 Local Testing.
 - `src/404.html` - Friendly recovery page.
 - `src/css/styles.css` - Shared responsive layout, browser-frame styling, cards, badges, buttons, and focus states.
 - `src/js/site-settings.js` - Studio settings, contact, GitHub, YouTube Coming Soon state, domain target, and feature flags.
+- `src/js/mascots-data.js` - Mascot and image registry for page, card, fallback, and social preview image IDs.
 - `src/js/projects-data.js` - Project card data.
 - `src/js/devlogs-data.js` - Dev log card data.
-- `src/js/main.js` - Card rendering, hidden visibility filtering, mobile nav, current nav state, and disabled-link handling.
+- `src/js/main.js` - Registry image resolution, card rendering, hidden visibility filtering, mobile nav, current nav state, and disabled-link handling.
 - `src/assets/` - Safe placeholder SVG assets for mascot, project images, social preview, and favicon.
 
 ## GitHub Repository Setup

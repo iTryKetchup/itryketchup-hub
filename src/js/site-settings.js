@@ -10,6 +10,15 @@ window.SiteSettings = {
     state: "coming-soon",
     url: ""
   },
+  imageAssignments: {
+    defaultMascotId: "default",
+    homeHeroMascotId: "samurai",
+    aboutMascotId: "gamer",
+    devLogsMascotId: "scholar",
+    notFoundMascotId: "confused",
+    projectFallbackImageId: "projectPlaceholder",
+    socialPreviewImageId: "socialPreview"
+  },
   domainTarget: "itryketchup.com",
   featureFlags: {
     analytics: false,

@@ -11,6 +11,26 @@
 
   const publicItems = (items) => (items || []).filter((item) => item.visibility !== "hidden");
 
+  function getRegistryImage(id) {
+    const settings = window.SiteSettings || {};
+    const assignments = settings.imageAssignments || {};
+    const fallbackId = assignments.defaultMascotId || "default";
+    const registry = window.MascotsData || {};
+    return registry[id] || registry[fallbackId] || {
+      src: "assets/mascots/mascot-placeholder.svg",
+      alt: "iTryKetchup Studio mascot placeholder."
+    };
+  }
+
+  function applyRegistryImages() {
+    document.querySelectorAll("[data-image-id]").forEach((image) => {
+      const asset = getRegistryImage(image.getAttribute("data-image-id"));
+      image.src = asset.src;
+      image.alt = asset.alt;
+      image.dataset.imageRole = asset.role || "";
+    });
+  }
+
   function createStatusBadge(status) {
     const badge = document.createElement("span");
     badge.className = `status-badge status-${status}`;
@@ -24,8 +44,10 @@
 
     const image = document.createElement("img");
     image.className = "card-image";
-    image.src = project.image;
-    image.alt = project.alt;
+    const asset = getRegistryImage(project.imageId);
+    image.src = project.image || asset.src;
+    image.alt = project.alt || asset.alt;
+    image.dataset.imageId = project.imageId || "";
     article.appendChild(image);
 
     const meta = document.createElement("div");
@@ -69,6 +91,16 @@
   function renderDevLogCard(log) {
     const article = document.createElement("article");
     article.className = "card devlog-card";
+
+    if (log.imageId) {
+      const asset = getRegistryImage(log.imageId);
+      const image = document.createElement("img");
+      image.className = "card-image";
+      image.src = log.image || asset.src;
+      image.alt = log.alt || asset.alt;
+      image.dataset.imageId = log.imageId;
+      article.appendChild(image);
+    }
 
     const eyebrow = document.createElement("p");
     eyebrow.className = "eyebrow";
@@ -158,6 +190,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    applyRegistryImages();
     renderProjects();
     renderDevLogs();
     wireMobileNav();
