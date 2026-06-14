@@ -78,3 +78,7 @@ The first workflow run failed during `actions/configure-pages` because GitHub Pa
 | HTTPS / custom domain verification | Not verified for custom domain |
 
 Default GitHub Pages deployment was verified on June 14, 2026. Do not configure custom domain, DNS, or CNAME until the dedicated custom-domain phase.
+
+## v0.9 Privacy Remediation
+
+Safe current-file privacy remediation was performed before custom domain setup. No git history rewrite was performed. Custom domain is still not configured, DNS is still not configured, and no CNAME has been added.

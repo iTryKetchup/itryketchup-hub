@@ -32,7 +32,7 @@ This is a static HTML/CSS/JavaScript site. Open `src/index.html` in a browser to
 For local server testing:
 
 ```powershell
-cd C:\Projects\Websites\itryketchup-hub\src
+cd src
 python -m http.server 8080
 ```
 

@@ -249,4 +249,4 @@ The SOW has been created as `docs/SOW_SITE_v1.0.md`. The next practical step aft
 
 *iTryKetchup Studio - Build it. Ship it. Log it.*  
 *Filename: ProjectCharter_SITE_v1.0.md*  
-*Store: C:\Projects\Websites\itryketchup-hub\docs\*
+*Store: docs\*

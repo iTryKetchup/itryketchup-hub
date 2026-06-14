@@ -12,7 +12,7 @@
 ## Local Test Method
 
 ```powershell
-cd C:\Projects\Websites\itryketchup-hub\src
+cd src
 python -m http.server 8080
 ```
 

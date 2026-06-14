@@ -229,7 +229,7 @@ This project succeeds if:
 The project must use this structure:
 
 ```text
-C:\Projects\Websites\itryketchup-hub
+Project repository root
 |-- docs
 |   |-- ProjectCharter_SITE_v1.0.md
 |   |-- SOW_SITE_v1.0.md
@@ -387,7 +387,7 @@ Every active project maintains a `ParkingLot.md` in its project root.
 | Field | Detail |
 |---|---|
 | **Filename** | `ParkingLot.md` - one per project, lives in project root |
-| **Project Location** | `C:\Projects\Websites\itryketchup-hub\ParkingLot.md` |
+| **Project Location** | `ParkingLot.md` |
 | **Format** | Date added \| Idea \| Category \| Notes |
 | **Categories** | Mechanic / Character / Story / Website / Social / Tech / Other |
 | **Review cycle** | Review at ship - promote to next SOW or discard |
@@ -439,11 +439,11 @@ Starter entries for this project Parking Lot:
 - [ ] Shipped
 - [ ] On Hold
 
-**Approved by:** Nicholas  
+**Approved by:** Project owner
 **Date:** 2026-06-13
 
 ---
 
 *iTryKetchup Studio - Build it. Ship it. Log it.*  
 *Filename: SOW_SITE_v1.0.md*  
-*Store: C:\Projects\Websites\itryketchup-hub\docs\*
+*Store: docs\*

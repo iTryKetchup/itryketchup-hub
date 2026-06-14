@@ -9,7 +9,7 @@ This is a planning document. It does not create or edit website source files.
 ## File Structure Overview
 
 ```text
-C:\Projects\Websites\itryketchup-hub
+Project repository root
 |-- docs
 |   |-- ProjectCharter_SITE_v1.0.md
 |   |-- SOW_SITE_v1.0.md
