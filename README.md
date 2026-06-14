@@ -6,9 +6,9 @@ iTryKetchup Studio Hub is the public website foundation for iTryKetchup Studio. 
 
 ## Current Status
 
-v0.9 GitHub Pages Actions setup
+Default GitHub Pages deployment verified
 
-Default GitHub Pages URL is not live yet.
+Default GitHub Pages URL is live at https://itryketchup.github.io/itryketchup-hub/.
 
 ## Project Details
 
@@ -21,7 +21,7 @@ Default GitHub Pages URL is not live yet.
 | Target deployment | GitHub Pages |
 | GitHub repository status | Created and pushed |
 | Remote URL | https://github.com/iTryKetchup/itryketchup-hub.git |
-| GitHub Pages | Actions workflow created; source setting not enabled yet |
+| GitHub Pages | Default deployment verified |
 | YouTube | Coming Soon |
 | Analytics | Disabled / not included in v1.0 |
 
@@ -66,7 +66,7 @@ itryketchup-hub/
 
 ## Current Next Step
 
-Verify default GitHub Pages deployment after repository Pages source is set to GitHub Actions.
+Public repo privacy scan before custom domain.
 
 ## Local Testing
 
@@ -76,7 +76,7 @@ The local testing report has been created at `docs/Website_LocalTestReport_v0.7.
 
 The deployment candidate checklist has been created at `docs/Website_DeploymentCandidateChecklist_v0.9.md`.
 
-Default Pages URL: not live yet.
+Default Pages URL: https://itryketchup.github.io/itryketchup-hub/
 
 Custom domain: not live yet.
 
@@ -102,4 +102,4 @@ The public GitHub repository has been created and `main` has been pushed to `ori
 
 Repository: https://github.com/iTryKetchup/itryketchup-hub
 
-GitHub Pages is the target host. The Actions workflow has been created at `.github/workflows/pages.yml` and publishes `src/`, but the repository Pages source still needs to be set to GitHub Actions before the default Pages URL can go live.
+GitHub Pages is the target host. The Actions workflow at `.github/workflows/pages.yml` publishes `src/`, and the default GitHub Pages deployment has been verified at https://itryketchup.github.io/itryketchup-hub/. Custom domain and DNS are not configured yet.

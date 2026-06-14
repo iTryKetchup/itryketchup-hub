@@ -8,11 +8,11 @@
 | Repo visibility | Public |
 | Repository setup | Created and pushed |
 | Remote URL | https://github.com/iTryKetchup/itryketchup-hub.git |
-| GitHub Pages | GitHub Actions workflow created; repository Pages source not enabled yet |
+| GitHub Pages | Default GitHub Pages deployment verified |
 | DNS | Not configured yet |
-| HTTPS | Not verified yet |
+| HTTPS | Default GitHub Pages HTTPS live; custom domain HTTPS not verified |
 | CNAME | Not configured |
-| Live URL | Not live yet |
+| Live URL | https://itryketchup.github.io/itryketchup-hub/ |
 
 Do not include guessed DNS values. Fill in exact DNS, HTTPS, CNAME, and live URL details only after deployment setup has been performed and verified.
 
@@ -22,7 +22,7 @@ The public GitHub repository has been created and `main` has been pushed to `ori
 
 Repository: https://github.com/iTryKetchup/itryketchup-hub
 
-GitHub Pages has a workflow file, but the repository Pages source still needs to be set to GitHub Actions. DNS is not configured yet. HTTPS is not verified yet. CNAME is not configured.
+GitHub Pages is deployed from the Actions workflow. DNS is not configured yet. Custom domain HTTPS is not verified yet. CNAME is not configured.
 
 ## v0.9 Deployment Candidate Preparation
 
@@ -55,4 +55,26 @@ The recommended deployment path is to publish only the `src\` folder through a G
 
 The workflow deploys the static site from `src\` only using GitHub Pages Actions. It does not publish `docs\`, `design\`, `archive\`, `temp\`, or repository planning files.
 
-The first workflow run failed during `actions/configure-pages` because GitHub Pages is not yet enabled/configured for this repository. Required manual step: in the GitHub repository, open Settings > Pages, set Build and deployment Source to GitHub Actions, then rerun the Deploy GitHub Pages workflow.
+The first workflow run failed during `actions/configure-pages` because GitHub Pages was not yet enabled/configured for this repository. The repository Pages source was then set to GitHub Actions and the workflow rerun successfully.
+
+## v0.9 Default GitHub Pages Deployment Verification
+
+| Field | Status |
+|---|---|
+| Pages source | GitHub Actions |
+| Latest workflow run | Success |
+| Workflow run | https://github.com/iTryKetchup/itryketchup-hub/actions/runs/27507506182 |
+| Default Pages URL | https://itryketchup.github.io/itryketchup-hub/ |
+| Default Pages verification | Passed |
+| Pages tested | Home, About, Projects, Dev Logs, Contact, 404 |
+| CSS / JS / assets | Loaded from default Pages URL |
+| Link checks | Passed |
+| Email link | `mailto:itryketchup@gmail.com` confirmed |
+| Public repo link | https://github.com/iTryKetchup/itryketchup-hub |
+| YouTube | Coming Soon; no YouTube URL configured |
+| Pages API check | Public API check returned 404, but workflow and default URL verified |
+| Custom domain | Not configured |
+| DNS | Not configured |
+| HTTPS / custom domain verification | Not verified for custom domain |
+
+Default GitHub Pages deployment was verified on June 14, 2026. Do not configure custom domain, DNS, or CNAME until the dedicated custom-domain phase.
