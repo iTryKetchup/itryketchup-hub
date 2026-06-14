@@ -66,7 +66,7 @@ itryketchup-hub/
 
 ## Current Next Step
 
-Public repo privacy scan before custom domain.
+Phase 7B approved custom domain setup.
 
 ## Local Testing
 
@@ -79,6 +79,8 @@ The deployment candidate checklist has been created at `docs/Website_DeploymentC
 Default Pages URL: https://itryketchup.github.io/itryketchup-hub/
 
 Custom domain: not live yet.
+
+Custom domain plan: `deploy/CustomDomainPlan_v0.9.md`
 
 ## Source File Summary
 

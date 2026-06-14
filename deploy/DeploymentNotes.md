@@ -82,3 +82,7 @@ Default GitHub Pages deployment was verified on June 14, 2026. Do not configure 
 ## v0.9 Privacy Remediation
 
 Safe current-file privacy remediation was performed before custom domain setup. No git history rewrite was performed. Custom domain is still not configured, DNS is still not configured, and no CNAME has been added.
+
+## v0.9 Custom Domain Planning
+
+Phase 7A custom domain plan created at `deploy\CustomDomainPlan_v0.9.md`. No custom domain, DNS, CNAME, workflow, deployment, or source changes were made in Phase 7A. Next step: Phase 7B approved custom domain setup.
