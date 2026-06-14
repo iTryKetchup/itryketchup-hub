@@ -11,10 +11,10 @@
 
   const publicItems = (items) => (items || []).filter((item) => item.visibility !== "hidden");
 
-  function getRegistryImage(id) {
+  function getRegistryImage(id, fallbackIdOverride) {
     const settings = window.SiteSettings || {};
     const assignments = settings.imageAssignments || {};
-    const fallbackId = assignments.defaultMascotId || "default";
+    const fallbackId = fallbackIdOverride || assignments.defaultMascotId || "default";
     const registry = window.MascotsData || {};
     return registry[id] || registry[fallbackId] || {
       src: "assets/mascots/mascot-placeholder.svg",
@@ -23,10 +23,14 @@
   }
 
   function applyRegistryImages() {
+    const assignments = (window.SiteSettings || {}).imageAssignments || {};
     document.querySelectorAll("[data-image-id]").forEach((image) => {
-      const asset = getRegistryImage(image.getAttribute("data-image-id"));
+      const assignmentKey = image.getAttribute("data-image-assignment");
+      const imageId = assignments[assignmentKey] || image.getAttribute("data-image-id");
+      const asset = getRegistryImage(imageId);
       image.src = asset.src;
       image.alt = asset.alt;
+      image.dataset.imageId = imageId;
       image.dataset.imageRole = asset.role || "";
     });
   }
@@ -44,7 +48,8 @@
 
     const image = document.createElement("img");
     image.className = "card-image";
-    const asset = getRegistryImage(project.imageId);
+    const projectFallbackId = ((window.SiteSettings || {}).imageAssignments || {}).projectFallbackImageId;
+    const asset = getRegistryImage(project.imageId, projectFallbackId);
     image.src = project.image || asset.src;
     image.alt = project.alt || asset.alt;
     image.dataset.imageId = project.imageId || "";
@@ -93,7 +98,8 @@
     article.className = "card devlog-card";
 
     if (log.imageId) {
-      const asset = getRegistryImage(log.imageId);
+      const logFallbackId = ((window.SiteSettings || {}).imageAssignments || {}).projectFallbackImageId;
+      const asset = getRegistryImage(log.imageId, logFallbackId);
       const image = document.createElement("img");
       image.className = "card-image";
       image.src = log.image || asset.src;
