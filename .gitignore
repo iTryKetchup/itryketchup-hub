@@ -1,0 +1,36 @@
+# OS / editor files
+
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+
+temp/*
+!temp/.gitkeep
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Logs
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency and build artifacts if introduced later
+
+node_modules/
+dist/
+build/
+out/
+.cache/
+.parcel-cache/
+coverage/
