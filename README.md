@@ -6,7 +6,7 @@ iTryKetchup Studio Hub is the public website foundation for iTryKetchup Studio. 
 
 ## Current Status
 
-v0.5 Local Site Working
+v0.7 Local Testing Passed
 
 No live URL yet.
 
@@ -29,7 +29,16 @@ No live URL yet.
 
 This is a static HTML/CSS/JavaScript site. Open `src/index.html` in a browser to review the local site, then navigate through the shared header links.
 
-No local server, backend, database, CMS, analytics, or build step is required for v0.5.
+For local server testing:
+
+```powershell
+cd C:\Projects\Websites\itryketchup-hub\src
+python -m http.server 8080
+```
+
+Then open <http://localhost:8080/>.
+
+No backend, database, CMS, analytics, or build step is required for v0.7. A local static server is recommended for final local testing.
 
 ## Local Folder Structure
 
@@ -57,7 +66,11 @@ itryketchup-hub/
 
 ## Current Next Step
 
-Phase 4 Maintenance Wiring / Phase 5 Local Testing.
+v0.9 Deployment Candidate Preparation.
+
+## Local Testing
+
+The local testing report has been created at `docs/Website_LocalTestReport_v0.7.md`.
 
 ## Source File Summary
 
