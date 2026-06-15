@@ -6,7 +6,7 @@ iTryKetchup Studio Hub is the public website foundation for iTryKetchup Studio. 
 
 ## Current Status
 
-Custom domain and HTTPS verified
+v1.0 Launch Readiness Audit Completed
 
 Live site: https://www.itryketchup.com/
 
@@ -68,7 +68,7 @@ itryketchup-hub/
 
 ## Current Next Step
 
-v1.0 launch readiness audit and milestone backup.
+v1.0 launch declaration and milestone backup. The next step depends on the launch readiness audit decision.
 
 ## Local Testing
 
@@ -77,6 +77,8 @@ The local testing report has been created at `docs/Website_LocalTestReport_v0.7.
 ## Deployment Candidate
 
 The deployment candidate checklist has been created at `docs/Website_DeploymentCandidateChecklist_v0.9.md`.
+
+The v1.0 launch readiness audit has been created at `docs/Website_LaunchReadinessAudit_v1.0.md`.
 
 Live site: https://www.itryketchup.com/
 
