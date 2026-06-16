@@ -12,7 +12,7 @@ window.SiteSettings = {
   },
   imageAssignments: {
     defaultMascotId: "default",
-    homeHeroMascotId: "samurai",
+    homeHeroMascotId: "itryHero",
     aboutMascotId: "gamer",
     devLogsMascotId: "scholar",
     notFoundMascotId: "confused",

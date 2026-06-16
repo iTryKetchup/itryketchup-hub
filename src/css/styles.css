@@ -215,10 +215,23 @@ button:focus-visible {
   padding: 18px;
 }
 
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+}
+
 .hero-visual img,
 .image-frame img {
   width: 100%;
   border-radius: 6px;
+}
+
+.hero-visual img {
+  width: min(100%, 340px);
+  max-height: 460px;
+  object-fit: contain;
 }
 
 .eyebrow {
@@ -533,5 +546,14 @@ p {
   .button-secondary,
   .button-disabled {
     width: 100%;
+  }
+
+  .hero-visual {
+    padding: 14px;
+  }
+
+  .hero-visual img {
+    width: min(100%, 220px);
+    max-height: 330px;
   }
 }

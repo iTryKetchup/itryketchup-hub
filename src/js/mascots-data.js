@@ -13,6 +13,13 @@ window.MascotsData = {
     alt: "iTryKetchup Studio mascot placeholder.",
     role: "General placeholder mascot"
   },
+  itryHero: {
+    id: "itryHero",
+    name: "iTry Ketchup Homepage Hero",
+    src: "assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2.webp",
+    alt: "iTry Ketchup mascot, the friendly ketchup-bottle-inspired face of iTryKetchup Studio",
+    role: "Home hero mascot"
+  },
   samurai: {
     id: "samurai",
     name: "Samurai Ketchup",
