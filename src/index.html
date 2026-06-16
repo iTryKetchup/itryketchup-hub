@@ -31,62 +31,270 @@
   </header>
 
   <main class="page-shell">
-    <section class="browser-panel" aria-labelledby="home-title">
+    <section class="browser-panel home-hero" aria-labelledby="home-title">
       <div class="browser-panel__bar" aria-hidden="true">
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">studio-hub.local</span>
+        <span class="browser-panel__label">itryketchup-studio.blend / layout</span>
       </div>
       <div class="browser-panel__body hero-grid">
-        <div>
-          <p class="eyebrow">Tiny studio, real projects</p>
-          <h1 id="home-title">iTryKetchup Studio</h1>
-          <p class="lede">A tiny studio hub for projects, dev logs, experiments, and the work-in-progress road to playable things.</p>
-          <p>iTryKetchup Studio is building a clean public home for creative projects, dev logs, software experiments, and future games. The goal is simple: keep the work visible, organized, and shippable without pretending everything is finished before it is.</p>
+        <div class="hero-copy">
+          <p class="eyebrow hero-meta">tiny studio, real projects</p>
+          <h1 id="home-title"><span>iTryKetchup</span><span>Studio</span></h1>
+          <p class="hero-subheadline">We do... things?</p>
+          <p class="hero-punchline">coming to your fridge soon!</p>
+          <p class="hero-support">A small creative studio hub for <span class="accent-word">projects</span>, dev logs, experiments, and work-in-progress systems as they get built in public.</p>
           <div class="button-row" aria-label="Home actions">
             <a class="button" href="projects.html">View Projects</a>
             <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
             <a class="button-secondary" href="contact.html">Contact</a>
             <a class="button-secondary" href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-            <span class="button-disabled" aria-disabled="true">YouTube Coming Soon</span>
           </div>
         </div>
         <div class="hero-visual">
-          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2.webp" alt="iTry Ketchup mascot, the friendly ketchup-bottle-inspired face of iTryKetchup Studio" data-image-id="itryHero" data-image-assignment="homeHeroMascotId">
+          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="iTry Ketchup mascot, the friendly ketchup-bottle-inspired face of iTryKetchup Studio">
         </div>
+        <div class="hero-axis-gizmo" aria-hidden="true">
+          <span class="hero-axis-gizmo__core"></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
+        </div>
+        <div class="hero-workspace-widget" aria-hidden="true">
+          <div class="hero-workspace-widget__header">
+            <span>Transform</span>
+            <span>Object</span>
+          </div>
+          <div class="hero-workspace-widget__rows">
+            <span>Loc X</span>
+            <span>0.00</span>
+            <span>Loc Y</span>
+            <span>1.20</span>
+            <span>Loc Z</span>
+            <span>0.00</span>
+            <span>Rot Z</span>
+            <span>0 deg</span>
+            <span>Scale</span>
+            <span>1.00</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro-section" aria-labelledby="who-title">
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">who is itry</span>
+        </div>
+        <h2 id="who-title">A Small Studio In a Big Bottle</h2>
+      </div>
+      <div class="split-grid split-grid--top">
+        <p class="lede">We don't do mystery meat roadmaps. The cap is off, the workshop is open, and everything is being built live. The work can be playful, but the goal is to make it easy to see exactly what exists today and what's coming next.</p>
+        <img class="ketchup-splotch" src="assets/brand/ketchup-splotch.webp" alt="" aria-hidden="true">
       </div>
     </section>
 
     <section class="section" aria-labelledby="focus-title">
-      <h2 id="focus-title">Current Focus</h2>
-      <p class="lede">The current focus is the iTryKetchup Studio Hub itself: a static website foundation for project cards, dev logs, contact information, GitHub presence, and future updates. Function first, polish second, no mystery blank pages.</p>
-    </section>
-
-    <section class="section" aria-labelledby="project-preview-title">
-      <div class="split-grid">
-        <div>
-          <h2 id="project-preview-title">Project Preview</h2>
-          <p class="lede">Active work, planned ideas, and future experiments are represented with clear status labels.</p>
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">current focus</span>
         </div>
-        <div class="button-row">
-          <a class="button-secondary" href="projects.html">Browse All Projects</a>
+        <h2 id="focus-title">Polish the Hub, Keep the Scope Honest</h2>
+      </div>
+      <div class="terminal-panel" aria-label="PowerShell current focus output">
+        <div class="terminal-panel__bar" aria-hidden="true">
+          <span class="terminal-panel__dot"></span>
+          <span class="terminal-panel__dot"></span>
+          <span class="terminal-panel__dot"></span>
+          <span class="terminal-panel__title">PowerShell</span>
+          <span class="terminal-panel__path">C:\itryketchup-studio</span>
+        </div>
+        <div class="terminal-panel__body">
+          <p><span class="terminal-prompt">PS C:\itryketchup-studio&gt;</span> ./focus.ps1 --now</p>
+          <p><span class="terminal-tag terminal-tag--running">[RUNNING]</span> Task 1: Polish the Hub<br><span class="terminal-indent">├── STATUS: Function first, then polish.</span><br><span class="terminal-indent">└── NOTE: Public pages must explain what exists today.</span></p>
+          <p><span class="terminal-tag terminal-tag--success">[SUCCESS]</span> Task 2: Replaced generic text with raw condiment facts.</p>
+          <p><span class="terminal-tag terminal-tag--queued">[QUEUED]</span> Task 3: Add mascot polish without mascot overload.</p>
+          <p><span class="terminal-tag terminal-tag--blocked">[BLOCKED]</span> Task 4: Full mascot animation is still locked in the asset pipeline.</p>
+          <p><span class="terminal-tag terminal-tag--warning">[WARNING]</span> No mystery blank pages, fake launches, or dramatic corporate fog machines allowed in this directory.</p>
+          <p>Memory Allocated: 90% Code, 10% Pure Chaos, 0% Corporate Fog.</p>
+          <p><span class="terminal-prompt">PS C:\itryketchup-studio&gt;</span> <span class="terminal-cursor">_</span></p>
         </div>
       </div>
-      <div class="grid" data-project-list="preview"></div>
+    </section>
+
+    <section class="section studio-roadmap-section" aria-labelledby="studio-roadmap-title">
+      <div class="section-divider">
+        <span class="section-divider__label">studio roadmap</span>
+      </div>
+      <div class="split-grid split-grid--header">
+        <div>
+          <h2 id="studio-roadmap-title">Building Toward Bigger Things, One Useful System at a Time</h2>
+          <p class="lede">The studio roadmap keeps the next steps visible: current builds, repeatable media workflows, and future cinematic or playable experiments.</p>
+        </div>
+        <div class="button-row">
+          <a class="button-secondary" href="projects.html">Browse Projects</a>
+        </div>
+      </div>
+      <div class="roadmap-list" aria-label="Studio roadmap">
+        <article class="roadmap-item">
+          <div class="roadmap-copy">
+            <p class="roadmap-kicker">01 / Now</p>
+            <h3>Current Builds</h3>
+            <p>Website polish, creator systems, mascot cleanup, and small web experiments are the current runway. Not glamorous every minute, but <span class="accent-word">shippable</span> beats imaginary.</p>
+          </div>
+          <div class="roadmap-node" aria-hidden="true"></div>
+          <div class="roadmap-visual" role="img" aria-label="Abstract studio console for current website and creator system builds">
+            <span class="roadmap-visual__label">Build Console</span>
+            <span class="roadmap-visual__line"></span>
+            <span class="roadmap-visual__chip">Website</span>
+            <span class="roadmap-visual__chip">Systems</span>
+            <span class="roadmap-visual__chip">Mascot Polish</span>
+          </div>
+        </article>
+
+        <article class="roadmap-item roadmap-item--flipped">
+          <div class="roadmap-copy">
+            <p class="roadmap-kicker">02 / Pipeline</p>
+            <h3>Story + Video Pipeline</h3>
+            <p>TTS stories, image workflows, CapCut/Audacity production, and repeatable publishing systems come next. The goal is a workflow that can survive both ambition and Tuesday.</p>
+          </div>
+          <div class="roadmap-node" aria-hidden="true"></div>
+          <div class="roadmap-visual" role="img" aria-label="Abstract production timeline for story and video workflow">
+            <span class="roadmap-visual__label">Production Path</span>
+            <span class="roadmap-visual__line"></span>
+            <span class="roadmap-visual__chip">TTS</span>
+            <span class="roadmap-visual__chip">Images</span>
+            <span class="roadmap-visual__chip">Publishing</span>
+          </div>
+        </article>
+
+        <article class="roadmap-item">
+          <div class="roadmap-copy">
+            <p class="roadmap-kicker">03 / Later</p>
+            <h3>Future Game / Cinematic Projects</h3>
+            <p>Kitchen Wars, The Door, vampire cinematic planning, Unreal/Blender skill-building, and future playable experiments stay on the horizon while the foundation gets <span class="accent-word">real</span>.</p>
+          </div>
+          <div class="roadmap-node" aria-hidden="true"></div>
+          <div class="roadmap-visual" role="img" aria-label="Abstract future project display for games, cinematics, and playable experiments">
+            <span class="roadmap-visual__label">Future Stage</span>
+            <span class="roadmap-visual__line"></span>
+            <span class="roadmap-visual__chip">Kitchen Wars</span>
+            <span class="roadmap-visual__chip">Cinematics</span>
+            <span class="roadmap-visual__chip">Playable Tests</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="testimonials-title">
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">testimonials</span>
+        </div>
+        <h2 id="testimonials-title">Early Studio Notes</h2>
+        <p class="lede">Unfiltered condiment type talk from industry professionals.</p>
+      </div>
+      <div class="testimonial-grid">
+        <figure class="testimonial">
+          <div class="star-rating" aria-label="Five stars plus one extra sketch star">
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+            <span class="star-rating__bonus" aria-hidden="true">☆</span>
+          </div>
+          <blockquote class="speech-bubble">iTry didn’t just raise the bar. He launched it into the stratosphere. Frankly, five stars felt dishonest, so I added a sixth.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
+          <figcaption class="testimonial-person">
+            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for De-Jon Mustard">Image here</span>
+            <span class="testimonial-name">De-Jon Mustard</span>
+          </figcaption>
+        </figure>
+        <figure class="testimonial">
+          <div class="star-rating" aria-label="Four stars">
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+          </div>
+          <blockquote class="speech-bubble">Clear structure. Better hierarchy. The work is still in progress, but now it reads like it knows where it is going.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
+          <figcaption class="testimonial-person">
+            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Mister Mayo">Image here</span>
+            <span class="testimonial-name">Mister Mayo</span>
+          </figcaption>
+        </figure>
+        <figure class="testimonial">
+          <div class="star-rating" aria-label="Three stars">
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+            <span aria-hidden="true">★</span>
+          </div>
+          <blockquote class="speech-bubble">Looks good. Reads clean. I’m happy.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
+          <figcaption class="testimonial-person">
+            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Jenairic Relish">Image here</span>
+            <span class="testimonial-name">Jenairic Relish</span>
+          </figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="section" aria-labelledby="devlog-preview-title">
-      <div class="split-grid">
+      <div class="section-divider">
+        <span class="section-divider__label">latest dev log</span>
+      </div>
+      <div class="split-grid split-grid--header">
         <div>
-          <h2 id="devlog-preview-title">Latest Dev Log</h2>
-          <p class="lede">Dev logs track what changed, what shipped, what got parked, and what the next session should know.</p>
+          <h2 id="devlog-preview-title">Latest Patch Notes</h2>
+          <p class="lede">Recent site changes, balance tweaks, shipped work, and known bugs from the iTryKetchup Studio pipeline.</p>
         </div>
         <div class="button-row">
           <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
         </div>
       </div>
-      <div class="grid-two" data-devlog-list="preview"></div>
+      <article class="patch-notes-card" aria-label="Latest patch notes preview">
+        <div class="patch-notes-card__header">
+          <p class="patch-notes-card__meta">Site Update / Public Preview</p>
+          <h3>🛠️ Patch 1.0.3: Hub World Optimization</h3>
+        </div>
+        <ul class="patch-notes-list">
+          <li>
+            <span class="patch-tag patch-tag--buffed">[BUFFED]</span>
+            <span>Website contrast. White text on dark charcoal is now easier on the eyes.</span>
+          </li>
+          <li>
+            <span class="patch-tag patch-tag--nerfed">[NERFED]</span>
+            <span>Generic placeholder text. Replaced with raw condiment facts.</span>
+          </li>
+          <li>
+            <span class="patch-tag patch-tag--deleted">[DELETED]</span>
+            <span>The small uppercase “TESTIMONIALS” tag because visual clutter is the enemy.</span>
+          </li>
+          <li>
+            <span class="patch-tag patch-tag--bug">[KNOWN BUG]</span>
+            <span>iTry mascot is currently a drawing; full animation is still locked in the pipeline.</span>
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section about-studio-section" aria-labelledby="about-studio-title">
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">about studio</span>
+        </div>
+        <h2 id="about-studio-title">A Note From the Workshop</h2>
+      </div>
+      <div class="split-grid split-grid--top">
+        <figure class="closing-note">
+          <blockquote>Thanks for stopping by the workshop. Building things in public takes time, and I appreciate you checking out the journey. Stay tuned.</blockquote>
+          <figcaption>— iTry Ketchup</figcaption>
+        </figure>
+        <div class="button-row">
+          <a class="button" href="about.html">About the Studio</a>
+          <a class="button-secondary" href="contact.html">Get in Touch</a>
+        </div>
+      </div>
     </section>
   </main>
 
