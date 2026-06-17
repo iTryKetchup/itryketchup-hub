@@ -27,35 +27,120 @@
   </header>
 
   <main class="page-shell">
-    <section class="browser-panel contact-card" aria-labelledby="contact-title">
+    <section class="browser-panel contact-hero" aria-labelledby="contact-title">
       <div class="browser-panel__bar" aria-hidden="true">
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">contact.html</span>
+        <span class="browser-panel__label">itryketchup-studio.blend / contact-console</span>
       </div>
-      <div class="browser-panel__body">
-        <p class="eyebrow">Contact</p>
-        <h1 id="contact-title">Reach iTryKetchup Studio</h1>
-        <p class="lede">Want to reach iTryKetchup Studio about projects, collaboration, feedback, or the website itself? Email is the cleanest path for v1.0.</p>
-        <div class="button-row">
-          <a class="button" href="mailto:itryketchup@gmail.com">Email iTryKetchup Studio</a>
-          <a class="button-secondary" href="projects.html">Back to Projects</a>
-          <a class="button-secondary" href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
+      <div class="browser-panel__body hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow hero-meta">contact the studio</p>
+          <h1 id="contact-title">Contact</h1>
+          <p class="hero-subheadline">Questions, project notes, bug reports, curious signals, and general condiment correspondence all route through here.</p>
+          <p class="hero-support">The studio is small, the pipeline is real, and messages go to an actual human. Project questions, website feedback, dev log notes, and general contact are all welcome. No fake corporate support center vibe.</p>
+          <div class="button-row" aria-label="Contact actions">
+            <a class="button buff-link" href="mailto:itryketchup@gmail.com" data-buff="+10 Signal Sent | +5 Human Inbox">Email the Studio</a>
+            <a class="button-secondary buff-link" href="projects.html" data-buff="+10 Project Index | +5 Build Context">View Projects</a>
+            <a class="button-secondary buff-link" href="devlogs.html" data-buff="+10 Patch Notes | +5 Process Visibility">Read Dev Logs</a>
+          </div>
+        </div>
+        <div class="hero-visual contact-hero__visual">
+          <div class="contact-viewport-label" aria-hidden="true">Object Mode / Contact Channels</div>
+          <div class="contact-hero__floor" aria-hidden="true"></div>
+          <div class="contact-signal-stack" aria-hidden="true">
+            <span>Email Channel</span>
+            <span>Site Feedback</span>
+            <span>Project Notes</span>
+          </div>
+          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="iTry Ketchup mascot standing inside the Contact workspace viewport">
+          <div class="contact-object-tag" aria-hidden="true">
+            <span>Selected</span>
+            <strong>ITRY_MASCOT_001</strong>
+          </div>
+        </div>
+        <div class="hero-axis-gizmo" aria-hidden="true">
+          <span class="hero-axis-gizmo__core"></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
+        </div>
+        <div class="hero-workspace-widget" aria-hidden="true">
+          <div class="hero-workspace-widget__header">
+            <span>Signal Router</span>
+            <span>v1.0</span>
+          </div>
+          <div class="hero-workspace-widget__rows">
+            <span>Status</span>
+            <span>Open</span>
+            <span>Signals</span>
+            <span>Monitored</span>
+            <span>Replies</span>
+            <span>Human</span>
+            <span>Chaos</span>
+            <span>Contained</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="contact-details-title">
-      <h2 id="contact-details-title">Contact details</h2>
-      <div class="grid-two">
-        <article class="card">
+    <section class="section contact-details-section" aria-labelledby="contact-details-title">
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">signal channels</span>
+        </div>
+        <h2 id="contact-details-title">Contact Channels</h2>
+        <p class="lede">Useful first, dramatic second. Email is the current working route for studio questions, site feedback, project notes, and anything that should not be lost in a comment thread.</p>
+      </div>
+      <div class="contact-status-strip" aria-label="Contact signal status">
+        <span class="contact-chip">INBOX MONITORED</span>
+        <span class="contact-chip">STATIC PAGE</span>
+        <span class="contact-chip">HUMAN REPLIES</span>
+        <span class="contact-chip">NO FORM BACKEND</span>
+      </div>
+      <div class="contact-card-grid">
+        <article class="contact-info-card contact-info-card--primary">
+          <p class="contact-card-kicker">primary channel</p>
           <h3>Email</h3>
-          <p><a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a></p>
-          <p>Replies are not instant, but messages will be reviewed when possible. A reasonable expectation is within 7 days when the studio queue is behaving itself.</p>
+          <p class="contact-email"><a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a></p>
+          <p>Best for project questions, website feedback, dev log or studio questions, and general contact. A short subject line and a few useful details help the signal survive the inbox weather.</p>
+          <a class="text-action" href="mailto:itryketchup@gmail.com">Open Email Client</a>
         </article>
-        <article class="card">
-          <h3>Public links</h3>
+        <article class="contact-info-card">
+          <p class="contact-card-kicker">response notes</p>
+          <h3>Human-Scale Replies</h3>
+          <p>Replies are not instant, but messages will be reviewed when possible. A reasonable expectation is within 7 days when the studio queue is behaving itself.</p>
+          <dl class="contact-mini-list">
+            <div>
+              <dt>Best for</dt>
+              <dd>Projects, site feedback, studio inquiries</dd>
+            </div>
+            <div>
+              <dt>Not a fit</dt>
+              <dd>Fake support tickets or enterprise fog machine rituals</dd>
+            </div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="section contact-status-section" aria-labelledby="status-title">
+      <div class="section-divider">
+        <span class="section-divider__label">signal status</span>
+      </div>
+      <div class="split-grid split-grid--top">
+        <article class="contact-status-panel" aria-labelledby="status-title">
+          <p class="contact-card-kicker">contact status</p>
+          <h2 id="status-title">Inbox Monitored</h2>
+          <div class="contact-meter" aria-label="Inbox monitoring level 70 percent">
+            <span></span>
+          </div>
+          <p>Response time: human-scale. The current Contact page is intentionally static, which means the email link is real and the imaginary form backend is politely not pretending to exist.</p>
+        </article>
+        <article class="contact-info-card">
+          <p class="contact-card-kicker">public links</p>
+          <h3>Source and Future Media</h3>
           <p><a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub repository</a></p>
           <p>YouTube is Coming Soon for v1.0. The hub may point to a future channel once the public handle and content plan are ready.</p>
         </article>
@@ -67,12 +152,14 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. YouTube Coming Soon. Analytics disabled for v1.0.</p>
+        <p class="small">Static hub foundation. Analytics disabled for v1.0.</p>
+        <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
+// Status: Pending</code></pre>
       </div>
       <div class="footer-links">
         <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-        <span class="small">YouTube Coming Soon</span>
+        <span class="small footer-status-token">// external-media: pending</span>
       </div>
     </div>
   </footer>

@@ -27,52 +27,168 @@
   </header>
 
   <main class="page-shell">
-    <section class="browser-panel" aria-labelledby="about-title">
+    <section class="browser-panel about-hero" aria-labelledby="about-title">
       <div class="browser-panel__bar" aria-hidden="true">
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">about.html</span>
+        <span class="browser-panel__label">itryketchup-studio.blend / about-workspace</span>
       </div>
-      <div class="browser-panel__body split-grid">
-        <div>
-          <p class="eyebrow">About the studio</p>
-          <h1 id="about-title">What iTryKetchup Studio is</h1>
-          <p class="lede">iTryKetchup Studio is a public-facing creative studio identity for small games, web projects, dev logs, and practical software experiments.</p>
-          <div class="button-row">
-            <a class="button" href="projects.html">View Projects</a>
-            <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
-            <a class="button-secondary" href="contact.html">Contact</a>
+      <div class="browser-panel__body hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow hero-meta">about the studio</p>
+          <h1 id="about-title"><span>What</span><span>iTryKetchup</span><span>Studio is</span></h1>
+          <p class="hero-subheadline">A public workshop for small builds with visible fingerprints.</p>
+          <p class="hero-support">iTryKetchup Studio is the creative hub for <span class="accent-word">small games</span>, web projects, dev logs, practical software experiments, and the work-in-progress systems that might grow into playable or cinematic things later.</p>
+          <div class="button-row" aria-label="About actions">
+            <a class="button buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Project Context">View Projects</a>
+            <a class="button-secondary buff-link" href="devlogs.html" data-buff="+10 Patch Notes | +5 Process Visibility">Read Dev Logs</a>
+            <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Studio Contact">Contact</a>
           </div>
         </div>
-        <div class="image-frame">
-          <img src="assets/mascots/mascot-placeholder.svg" alt="iTryKetchup Studio mascot placeholder beside organized project notes." data-image-id="gamer" data-image-assignment="aboutMascotId">
+        <div class="hero-visual about-hero__visual">
+          <div class="about-viewport-label" aria-hidden="true">Object Mode / Studio Identity</div>
+          <div class="about-hero__floor" aria-hidden="true"></div>
+          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="iTry Ketchup mascot standing inside a dark studio workspace viewport">
+          <div class="about-object-tag" aria-hidden="true">
+            <span>Selected</span>
+            <strong>ITRY_MASCOT_001</strong>
+          </div>
+        </div>
+        <div class="hero-axis-gizmo" aria-hidden="true">
+          <span class="hero-axis-gizmo__core"></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
+        </div>
+        <div class="hero-workspace-widget" aria-hidden="true">
+          <div class="hero-workspace-widget__header">
+            <span>Object</span>
+            <span>Studio</span>
+          </div>
+          <div class="hero-workspace-widget__rows">
+            <span>Projects</span>
+            <span>Live</span>
+            <span>Dev Logs</span>
+            <span>Public</span>
+            <span>Scope</span>
+            <span>Honest</span>
+            <span>Chaos</span>
+            <span>Contained</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="builds-title">
-      <h2 id="builds-title">What the studio builds</h2>
-      <p>The studio collects projects that are playful enough to have personality and organized enough to ship. Some ideas are games, some are tools, some are fan projects, and some are early planning notes waiting for their turn.</p>
+    <section class="section about-intro-section" aria-labelledby="builds-title">
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">studio identity</span>
+        </div>
+        <h2 id="builds-title">A Small Studio With the Workshop Lights On</h2>
+      </div>
+      <div class="split-grid split-grid--top">
+        <p class="lede">This is not a giant corporate portfolio with mysterious fog and eleven fake departments. It is a practical public home for real projects, experiments, notes, and the occasional lightly strange idea that survives first contact with implementation.</p>
+        <div class="about-signal-panel" aria-label="Studio scope readout">
+          <p class="about-panel-kicker">scope readout</p>
+          <dl class="about-signal-list">
+            <div>
+              <dt>Public hub</dt>
+              <dd>Projects, dev logs, contact, and future work</dd>
+            </div>
+            <div>
+              <dt>Build style</dt>
+              <dd>Function first, personality close behind</dd>
+            </div>
+            <div>
+              <dt>Current state</dt>
+              <dd>Foundation polish, honest labels, visible progress</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
     </section>
 
     <section class="section" aria-labelledby="why-title">
-      <h2 id="why-title">Why this site exists</h2>
-      <p>This hub gives the studio one clear public home instead of scattered links, unfinished placeholders, or project notes spread across different places. It makes progress easier to find, easier to share, and easier to maintain.</p>
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">why it exists</span>
+        </div>
+        <h2 id="why-title">One Home for the Things Being Built</h2>
+        <p class="lede">The hub keeps the studio from turning into scattered links, forgotten notes, and half-labeled prototypes. If something exists, it should be findable. If something is planned, it should say so clearly.</p>
+      </div>
+      <div class="about-card-grid">
+        <article class="about-card">
+          <p class="about-card__index">01</p>
+          <h3>Projects</h3>
+          <p>Small games, web builds, fan projects, and practical experiments get a place to be described without pretending they are finished before they are.</p>
+        </article>
+        <article class="about-card">
+          <p class="about-card__index">02</p>
+          <h3>Dev Logs</h3>
+          <p>Progress notes, patch notes, scope decisions, and weird little lessons stay visible instead of disappearing into a folder named final-final-maybe.</p>
+        </article>
+        <article class="about-card">
+          <p class="about-card__index">03</p>
+          <h3>Experiments</h3>
+          <p>Tools, layout systems, Blender and Unreal practice, media pipeline tests, and future cinematic ambitions can grow at a sane pace.</p>
+        </article>
+      </div>
     </section>
 
     <section class="section" aria-labelledby="direction-title">
-      <h2 id="direction-title">Current direction</h2>
-      <p>Right now, the site is preparing the foundation for future updates. Finished work will be shown honestly. Planned work will be marked clearly. Anything not ready yet gets a proper Coming Soon or Parking Lot spot instead of a broken promise.</p>
+      <div class="section-divider">
+        <span class="section-divider__label">current direction</span>
+      </div>
+      <div class="terminal-panel about-terminal" aria-label="About page current direction output">
+        <div class="terminal-panel__bar" aria-hidden="true">
+          <span class="terminal-panel__dot"></span>
+          <span class="terminal-panel__dot"></span>
+          <span class="terminal-panel__dot"></span>
+          <span class="terminal-panel__title">PowerShell</span>
+          <span class="terminal-panel__path">C:\itryketchup-studio\about</span>
+        </div>
+        <div class="terminal-panel__body">
+          <p><span class="terminal-prompt">PS C:\itryketchup-studio\about&gt;</span> ./explain-studio.ps1 --public</p>
+          <p><span class="terminal-tag terminal-tag--running">[ACTIVE]</span> Build a clear public hub for projects, logs, and experiments.</p>
+          <p><span class="terminal-tag terminal-tag--success">[VISIBLE]</span> Show finished work honestly and label planned work clearly.</p>
+          <p><span class="terminal-tag terminal-tag--queued">[NEXT]</span> Keep improving the pipeline for future playable and cinematic ideas.</p>
+          <p><span class="terminal-tag terminal-tag--warning">[RULE]</span> No broken promises disguised as launch strategy.</p>
+        </div>
+      </div>
     </section>
 
     <section class="section" aria-labelledby="philosophy-title">
-      <h2 id="philosophy-title">Build philosophy</h2>
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">build philosophy</span>
+        </div>
+        <h2 id="philosophy-title">How the Workshop Stays Useful</h2>
+      </div>
       <ul class="callout-list">
         <li><strong>Function first.</strong><br>Simple, working pages beat a giant system that never launches.</li>
         <li><strong>Clear states.</strong><br>Active, planned, coming soon, archive, disabled, and fan project labels keep expectations honest.</li>
         <li><strong>Maintenance matters.</strong><br>Shared data files make project cards and dev logs easier to update later.</li>
       </ul>
+    </section>
+
+    <section class="section about-closing-section" aria-labelledby="public-title">
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">building in public</span>
+        </div>
+        <h2 id="public-title">Small Steps, Real Progress, No Fake Shine</h2>
+      </div>
+      <div class="split-grid split-grid--top">
+        <figure class="closing-note">
+          <blockquote>The goal is to let the work be visible while it is still becoming something. Some pieces will be polished, some will be rough, and the useful part is telling the truth about which is which.</blockquote>
+          <figcaption>- iTry Ketchup</figcaption>
+        </figure>
+        <div class="button-row">
+          <a class="button buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Curiosity">Browse Projects</a>
+          <a class="button-secondary buff-link" href="devlogs.html" data-buff="+10 Wisdom | +5 Patch Notes">Latest Dev Logs</a>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -80,12 +196,14 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. YouTube Coming Soon. Analytics disabled for v1.0.</p>
+        <p class="small">Static hub foundation. Analytics disabled for v1.0.</p>
+        <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
+// Status: Pending</code></pre>
       </div>
       <div class="footer-links">
         <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-        <span class="small">YouTube Coming Soon</span>
+        <span class="small footer-status-token">// external-media: pending</span>
       </div>
     </div>
   </footer>

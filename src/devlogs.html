@@ -27,33 +27,80 @@
   </header>
 
   <main class="page-shell">
-    <section class="browser-panel" aria-labelledby="devlogs-title">
+    <section class="browser-panel devlogs-hero" aria-labelledby="devlogs-title">
       <div class="browser-panel__bar" aria-hidden="true">
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">devlogs.html</span>
+        <span class="browser-panel__label">itryketchup-studio.blend / dev-log-console</span>
       </div>
-      <div class="browser-panel__body split-grid">
-        <div>
-          <p class="eyebrow">Static dev log list</p>
+      <div class="browser-panel__body hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow hero-meta">dev log archive</p>
           <h1 id="devlogs-title">Dev Logs</h1>
-          <p class="lede">Dev logs track what changed, what shipped, what got parked, and what the next session should know. They keep the work from disappearing into memory fog and make progress easier to resume.</p>
-          <div class="button-row">
-            <a class="button" href="projects.html">View Projects</a>
-            <a class="button-secondary" href="contact.html">Contact</a>
+          <p class="hero-subheadline">Patch notes from the workshop: what changed, what shipped, what broke, what got fixed, and what is still loading.</p>
+          <p class="hero-support">This is the public session archive for iTryKetchup Studio: small builds, practical experiments, site work, and the honest notes that keep future-me from saying, "wait, why did I do that?"</p>
+          <div class="button-row" aria-label="Dev log actions">
+            <a class="button buff-link" href="#entries-title" data-buff="+10 Patch Visibility | +5 Session Context">View Latest Log</a>
+            <a class="button-secondary buff-link" href="projects.html" data-buff="+10 Project Index | +5 Build Context">View Projects</a>
+            <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Studio Contact">Contact</a>
           </div>
         </div>
-        <div class="image-frame">
-          <img src="assets/mascots/mascot-placeholder.svg" alt="Dev Logs placeholder for a future Scholar Ketchup mascot skin." data-image-id="scholar" data-image-assignment="devLogsMascotId">
+        <div class="hero-visual devlogs-hero__visual">
+          <div class="devlogs-viewport-label" aria-hidden="true">Object Mode / Session Archive</div>
+          <div class="devlogs-hero__floor" aria-hidden="true"></div>
+          <div class="devlogs-log-stack" aria-hidden="true">
+            <span>Session 002</span>
+            <span>Session 001</span>
+            <span>Next: Loading</span>
+          </div>
+          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="iTry Ketchup mascot standing inside the Dev Logs workspace viewport">
+          <div class="devlogs-object-tag" aria-hidden="true">
+            <span>Selected</span>
+            <strong>DEVLOG_MASCOT_001</strong>
+          </div>
+        </div>
+        <div class="hero-axis-gizmo" aria-hidden="true">
+          <span class="hero-axis-gizmo__core"></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
+          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
+        </div>
+        <div class="hero-workspace-widget" aria-hidden="true">
+          <div class="hero-workspace-widget__header">
+            <span>Log Index</span>
+            <span>v1.0</span>
+          </div>
+          <div class="hero-workspace-widget__rows">
+            <span>Status</span>
+            <span>Public</span>
+            <span>Logs</span>
+            <span>Active</span>
+            <span>Scope</span>
+            <span>Honest</span>
+            <span>Chaos</span>
+            <span>Contained</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="entries-title">
-      <h2 id="entries-title">Current entries</h2>
+    <section class="section devlogs-list-section" aria-labelledby="entries-title">
+      <div class="section-header">
+        <div class="section-divider">
+          <span class="section-divider__label">patch history</span>
+        </div>
+        <h2 id="entries-title">Session Archive</h2>
+        <p class="lede">A static build history for the hub and the small studio systems around it. Each card keeps the important context close: project code, session date, scope, and what changed.</p>
+      </div>
+      <div class="devlogs-status-strip" aria-label="Dev log archive readout">
+        <span class="devlog-chip">LOG INDEX</span>
+        <span class="devlog-chip">SITE x2</span>
+        <span class="devlog-chip">PUBLIC</span>
+        <span class="devlog-chip">STATIC PREVIEW</span>
+      </div>
       <div class="grid-two" data-devlog-list="all"></div>
-      <p class="notice">Future public logs are Coming Soon. v1.0 keeps this as a static list, not a full blog engine.</p>
+      <p class="notice">Future public log formatting is still loading. v1.0 keeps this archive as a static list, not a full blog engine wearing a trench coat.</p>
     </section>
   </main>
 
@@ -61,12 +108,14 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. YouTube Coming Soon. Analytics disabled for v1.0.</p>
+        <p class="small">Static hub foundation. Analytics disabled for v1.0.</p>
+        <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
+// Status: Pending</code></pre>
       </div>
       <div class="footer-links">
         <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-        <span class="small">YouTube Coming Soon</span>
+        <span class="small footer-status-token">// external-media: pending</span>
       </div>
     </div>
   </footer>
