@@ -58,5 +58,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["website", "public-pages", "polish"]
+  },
+  {
+    "session": "015",
+    "date": "2026-06-17",
+    "area": "SITE",
+    "title": "Public Dev Logs Archive",
+    "version": "Website v1.5",
+    "summary": "Built and deployed the public Dev Logs archive with markdown loading, clean routes, direct links, selected states, and public log cleanup.",
+    "filename": "20260617_SITE_Session015_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["website", "devlogs", "archive", "markdown", "deployment"]
   }
 ]
