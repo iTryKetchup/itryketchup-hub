@@ -195,6 +195,65 @@
     });
   }
 
+  function wireTerminalEasterEgg() {
+    const form = document.querySelector("[data-terminal-form]");
+    const input = document.querySelector("[data-terminal-input]");
+    const output = document.querySelector("[data-terminal-output]");
+    if (!form || !input || !output) return;
+
+    const responses = {
+      help: "Available commands: help, dir, ketchup, status, clear",
+      dir: "home/\nabout/\nprojects/\ndev-logs/\ncontact/\nassets/\nclassified-condiments/",
+      status: "Website: operational\nScope creep: contained\nMascot animation: pending\nCorporate fog: 0%",
+      ketchup: "    __\n   /  \\\n  | IT |\n  | RY |\n  |____|\n   \\__/  secret sauce detected"
+    };
+
+    function appendOutput(command, response) {
+      const entry = document.createElement("div");
+      entry.className = "terminal-output__entry";
+
+      const commandLine = document.createElement("div");
+      commandLine.className = "terminal-output__command";
+      commandLine.textContent = `PS C:\\itryketchup-studio> ${command}`;
+
+      const responseBlock = document.createElement("pre");
+      responseBlock.className = "terminal-output__response";
+      responseBlock.textContent = response;
+
+      entry.append(commandLine, responseBlock);
+      output.appendChild(entry);
+      output.scrollTop = output.scrollHeight;
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const rawCommand = input.value.trim();
+      if (!rawCommand) return;
+
+      const command = rawCommand.toLowerCase();
+      input.value = "";
+
+      if (command === "clear") {
+        output.replaceChildren();
+        return;
+      }
+
+      const response = responses[command] || `Command not recognized: ${rawCommand}\nTry 'help' before the condiment firewall notices.`;
+      appendOutput(rawCommand, response);
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter") return;
+      event.preventDefault();
+      if (typeof form.requestSubmit === "function") {
+        form.requestSubmit();
+      } else {
+        form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     applyRegistryImages();
     renderProjects();
@@ -203,5 +262,6 @@
     markCurrentPage();
     fillYear();
     preventDisabledLinks();
+    wireTerminalEasterEgg();
   });
 })();

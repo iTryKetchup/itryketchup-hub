@@ -21,11 +21,11 @@
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation" data-site-nav>
-        <a href="index.html" data-nav-link="home">Home</a>
-        <a href="about.html" data-nav-link="about">About</a>
-        <a href="projects.html" data-nav-link="projects">Projects</a>
-        <a href="devlogs.html" data-nav-link="devlogs">Dev Logs</a>
-        <a href="contact.html" data-nav-link="contact">Contact</a>
+        <a href="index.html" data-nav-link="home">/home</a>
+        <a href="about.html" data-nav-link="about">/about</a>
+        <a href="projects.html" data-nav-link="projects">/projects</a>
+        <a href="devlogs.html" data-nav-link="devlogs">/dev-logs</a>
+        <a href="contact.html" data-nav-link="contact">/contact</a>
       </nav>
     </div>
   </header>
@@ -46,10 +46,10 @@
           <p class="hero-punchline">coming to your fridge soon!</p>
           <p class="hero-support">A small creative studio hub for <span class="accent-word">projects</span>, dev logs, experiments, and work-in-progress systems as they get built in public.</p>
           <div class="button-row" aria-label="Home actions">
-            <a class="button" href="projects.html">View Projects</a>
-            <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
-            <a class="button-secondary" href="contact.html">Contact</a>
-            <a class="button-secondary" href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
+            <a class="button buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Curiosity">View Projects</a>
+            <a class="button-secondary buff-link" href="devlogs.html" data-buff="+10 Wisdom | +5 Condiment Spite">Read Dev Logs</a>
+            <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Networking">Contact</a>
+            <a class="button-secondary buff-link" href="https://github.com/iTryKetchup/itryketchup-hub" data-buff="+12 Source Visibility | +3 Repo Lore">GitHub</a>
           </div>
         </div>
         <div class="hero-visual">
@@ -119,6 +119,16 @@
           <p><span class="terminal-tag terminal-tag--warning">[WARNING]</span> No mystery blank pages, fake launches, or dramatic corporate fog machines allowed in this directory.</p>
           <p>Memory Allocated: 90% Code, 10% Pure Chaos, 0% Corporate Fog.</p>
           <p><span class="terminal-prompt">PS C:\itryketchup-studio&gt;</span> <span class="terminal-cursor">_</span></p>
+          <div class="terminal-easter-egg" data-terminal-widget>
+            <p class="terminal-hint">type <kbd>help</kbd></p>
+            <div class="terminal-output" aria-live="polite" data-terminal-output></div>
+            <form class="terminal-command" data-terminal-form>
+              <label class="sr-only" for="terminal-command-input">PowerShell command</label>
+              <span class="terminal-prompt" aria-hidden="true">PS C:\itryketchup-studio&gt;</span>
+              <input id="terminal-command-input" class="terminal-command__input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" data-terminal-input>
+              <button class="terminal-command__submit" type="submit">Run</button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -133,56 +143,107 @@
           <p class="lede">The studio roadmap keeps the next steps visible: current builds, repeatable media workflows, and future cinematic or playable experiments.</p>
         </div>
         <div class="button-row">
-          <a class="button-secondary" href="projects.html">Browse Projects</a>
+          <a class="button-secondary buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Curiosity">Browse Projects</a>
         </div>
       </div>
       <div class="roadmap-list" aria-label="Studio roadmap">
         <article class="roadmap-item">
+          <div class="roadmap-node" aria-hidden="true"></div>
           <div class="roadmap-copy">
             <p class="roadmap-kicker">01 / Now</p>
-            <h3>Current Builds</h3>
-            <p>Website polish, creator systems, mascot cleanup, and small web experiments are the current runway. Not glamorous every minute, but <span class="accent-word">shippable</span> beats imaginary.</p>
+            <h3>Current Website Polish</h3>
+            <p>The hub is getting the practical pass first: homepage readability, layout polish, asset discipline, and enough structure that every public page feels intentional.</p>
+            <ul class="roadmap-points" aria-label="Current roadmap focus">
+              <li>Home page v1.2.1 polish</li>
+              <li>Black / white / red Studio identity</li>
+              <li>Scope kept shippable</li>
+            </ul>
           </div>
-          <div class="roadmap-node" aria-hidden="true"></div>
-          <div class="roadmap-visual" role="img" aria-label="Abstract studio console for current website and creator system builds">
-            <span class="roadmap-visual__label">Build Console</span>
-            <span class="roadmap-visual__line"></span>
-            <span class="roadmap-visual__chip">Website</span>
-            <span class="roadmap-visual__chip">Systems</span>
-            <span class="roadmap-visual__chip">Mascot Polish</span>
-          </div>
+          <aside class="roadmap-hud roadmap-hud--status" aria-label="Build status">
+            <p class="roadmap-hud__title">Build Status</p>
+            <div class="roadmap-meter" style="--meter: 80%">
+              <span class="roadmap-meter__label">Website Polish</span>
+              <span class="roadmap-meter__bar" aria-hidden="true"></span>
+              <span class="roadmap-meter__value">80% Operational</span>
+            </div>
+            <div class="roadmap-meter" style="--meter: 60%">
+              <span class="roadmap-meter__label">Public Pages</span>
+              <span class="roadmap-meter__bar" aria-hidden="true"></span>
+              <span class="roadmap-meter__value">60% In Progress</span>
+            </div>
+            <div class="roadmap-meter" style="--meter: 30%">
+              <span class="roadmap-meter__label">Story / Video Pipeline</span>
+              <span class="roadmap-meter__bar" aria-hidden="true"></span>
+              <span class="roadmap-meter__value">30% In Alpha</span>
+            </div>
+            <div class="roadmap-meter" style="--meter: 10%">
+              <span class="roadmap-meter__label">Game / Cinematic Tools</span>
+              <span class="roadmap-meter__bar" aria-hidden="true"></span>
+              <span class="roadmap-meter__value">10% Locked</span>
+            </div>
+          </aside>
         </article>
 
         <article class="roadmap-item roadmap-item--flipped">
-          <div class="roadmap-copy">
-            <p class="roadmap-kicker">02 / Pipeline</p>
-            <h3>Story + Video Pipeline</h3>
-            <p>TTS stories, image workflows, CapCut/Audacity production, and repeatable publishing systems come next. The goal is a workflow that can survive both ambition and Tuesday.</p>
-          </div>
           <div class="roadmap-node" aria-hidden="true"></div>
-          <div class="roadmap-visual" role="img" aria-label="Abstract production timeline for story and video workflow">
-            <span class="roadmap-visual__label">Production Path</span>
-            <span class="roadmap-visual__line"></span>
-            <span class="roadmap-visual__chip">TTS</span>
-            <span class="roadmap-visual__chip">Images</span>
-            <span class="roadmap-visual__chip">Publishing</span>
+          <div class="roadmap-copy">
+            <p class="roadmap-kicker">02 / Next</p>
+            <h3>Public Pages + Dev Log Pipeline</h3>
+            <p>Projects, Dev Logs, About, and Contact are the next workbench. The goal is a clean public loop: what exists, what changed, who made it, and how to reach the studio.</p>
+            <ul class="roadmap-points" aria-label="Next roadmap focus">
+              <li>Projects page clarity</li>
+              <li>Dev Log publishing rhythm</li>
+              <li>About / Contact cleanup</li>
+            </ul>
           </div>
+          <aside class="roadmap-hud roadmap-hud--buffs" aria-label="System buffs">
+            <p class="roadmap-hud__title">System Buffs</p>
+            <dl class="roadmap-stat-list">
+              <div>
+                <dt>Readability</dt>
+                <dd>+15</dd>
+              </div>
+              <div>
+                <dt>Visual Clutter</dt>
+                <dd>-30</dd>
+              </div>
+              <div>
+                <dt>Scope Creep Resistance</dt>
+                <dd>+40</dd>
+              </div>
+              <div>
+                <dt>Corporate Fog</dt>
+                <dd>0%</dd>
+              </div>
+            </dl>
+          </aside>
         </article>
 
         <article class="roadmap-item">
+          <div class="roadmap-node" aria-hidden="true"></div>
           <div class="roadmap-copy">
             <p class="roadmap-kicker">03 / Later</p>
             <h3>Future Game / Cinematic Projects</h3>
             <p>Kitchen Wars, The Door, vampire cinematic planning, Unreal/Blender skill-building, and future playable experiments stay on the horizon while the foundation gets <span class="accent-word">real</span>.</p>
+            <ul class="roadmap-points" aria-label="Later roadmap focus">
+              <li>Games after the hub is stable</li>
+              <li>Cinematics after the pipeline exists</li>
+            </ul>
+            <div class="asset-loading asset-loading--compact" aria-label="Pipeline locked status">
+              <p class="asset-loading__label">Pipeline Locked</p>
+              <p class="asset-loading__title">Playable builds are not public yet</p>
+              <div class="asset-loading__bar" style="--asset-progress: 20%" aria-hidden="true"></div>
+              <p class="asset-loading__meta">Foundation work in progress · 20%</p>
+            </div>
           </div>
-          <div class="roadmap-node" aria-hidden="true"></div>
-          <div class="roadmap-visual" role="img" aria-label="Abstract future project display for games, cinematics, and playable experiments">
-            <span class="roadmap-visual__label">Future Stage</span>
-            <span class="roadmap-visual__line"></span>
-            <span class="roadmap-visual__chip">Kitchen Wars</span>
-            <span class="roadmap-visual__chip">Cinematics</span>
-            <span class="roadmap-visual__chip">Playable Tests</span>
-          </div>
+          <aside class="roadmap-hud roadmap-hud--quests" aria-label="Roadmap status readouts">
+            <p class="roadmap-hud__title">Quest Log</p>
+            <ul class="roadmap-pulse-list">
+              <li><span>Updated</span> Quest Log Updated</li>
+              <li><span>Stable</span> Foundation Stable</li>
+              <li><span>Pending</span> Mascot Pipeline Pending</li>
+            </ul>
+          </aside>
         </article>
       </div>
     </section>
@@ -193,10 +254,18 @@
           <span class="section-divider__label">testimonials</span>
         </div>
         <h2 id="testimonials-title">Early Studio Notes</h2>
-        <p class="lede">Unfiltered condiment type talk from industry professionals.</p>
+        <p class="lede">Open-source feedback from competing condiments who reluctantly admit the repository doesn't completely suck.</p>
       </div>
-      <div class="testimonial-grid">
-        <figure class="testimonial">
+      <div class="review-feed" role="list" aria-label="Studio review feed">
+        <figure class="review-note review-note--featured" role="listitem">
+          <figcaption class="review-note__header">
+            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for De-Jon Mustard">DM</span>
+            <span class="review-note__identity">
+              <span class="testimonial-name">De-Jon Mustard</span>
+              <span class="review-note__meta">reviewed homepage-pr-006 · 2 unresolved condiments</span>
+            </span>
+            <span class="review-note__status review-note__status--approved">Approved</span>
+          </figcaption>
           <div class="star-rating" aria-label="Five stars plus one extra sketch star">
             <span aria-hidden="true">★</span>
             <span aria-hidden="true">★</span>
@@ -206,12 +275,16 @@
             <span class="star-rating__bonus" aria-hidden="true">☆</span>
           </div>
           <blockquote class="speech-bubble">iTry didn’t just raise the bar. He launched it into the stratosphere. Frankly, five stars felt dishonest, so I added a sixth.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
-          <figcaption class="testimonial-person">
-            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for De-Jon Mustard">Image here</span>
-            <span class="testimonial-name">De-Jon Mustard</span>
-          </figcaption>
         </figure>
-        <figure class="testimonial">
+        <figure class="review-note review-note--offset" role="listitem">
+          <figcaption class="review-note__header">
+            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Mister Mayo">MM</span>
+            <span class="review-note__identity">
+              <span class="testimonial-name">Mister Mayo</span>
+              <span class="review-note__meta">left a code review note · hierarchy pass</span>
+            </span>
+            <span class="review-note__status">Needs polish</span>
+          </figcaption>
           <div class="star-rating" aria-label="Four stars">
             <span aria-hidden="true">★</span>
             <span aria-hidden="true">★</span>
@@ -219,22 +292,22 @@
             <span aria-hidden="true">★</span>
           </div>
           <blockquote class="speech-bubble">Clear structure. Better hierarchy. The work is still in progress, but now it reads like it knows where it is going.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
-          <figcaption class="testimonial-person">
-            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Mister Mayo">Image here</span>
-            <span class="testimonial-name">Mister Mayo</span>
-          </figcaption>
         </figure>
-        <figure class="testimonial">
+        <figure class="review-note review-note--compact" role="listitem">
+          <figcaption class="review-note__header">
+            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Jenairic Relish">JR</span>
+            <span class="review-note__identity">
+              <span class="testimonial-name">Jenairic Relish</span>
+              <span class="review-note__meta">commented from staging · quick sanity check</span>
+            </span>
+            <span class="review-note__status review-note__status--lgtm">LGTM</span>
+          </figcaption>
           <div class="star-rating" aria-label="Three stars">
             <span aria-hidden="true">★</span>
             <span aria-hidden="true">★</span>
             <span aria-hidden="true">★</span>
           </div>
           <blockquote class="speech-bubble">Looks good. Reads clean. I’m happy.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
-          <figcaption class="testimonial-person">
-            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Jenairic Relish">Image here</span>
-            <span class="testimonial-name">Jenairic Relish</span>
-          </figcaption>
         </figure>
       </div>
     </section>
@@ -249,7 +322,7 @@
           <p class="lede">Recent site changes, balance tweaks, shipped work, and known bugs from the iTryKetchup Studio pipeline.</p>
         </div>
         <div class="button-row">
-          <a class="button-secondary" href="devlogs.html">Read Dev Logs</a>
+          <a class="button-secondary buff-link" href="devlogs.html" data-buff="+10 Wisdom | +5 Condiment Spite">Read Dev Logs</a>
         </div>
       </div>
       <article class="patch-notes-card" aria-label="Latest patch notes preview">
@@ -291,8 +364,8 @@
           <figcaption>— iTry Ketchup</figcaption>
         </figure>
         <div class="button-row">
-          <a class="button" href="about.html">About the Studio</a>
-          <a class="button-secondary" href="contact.html">Get in Touch</a>
+          <a class="button buff-link" href="about.html" data-buff="+7 Studio Context | +4 Lore">About the Studio</a>
+          <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Networking">Get in Touch</a>
         </div>
       </div>
     </section>
@@ -302,12 +375,14 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. YouTube Coming Soon. Analytics disabled for v1.0.</p>
+        <p class="small">Static hub foundation. Analytics disabled for v1.0.</p>
+        <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
+// Status: Pending</code></pre>
       </div>
       <div class="footer-links">
         <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-        <span class="small">YouTube Coming Soon</span>
+        <span class="small footer-status-token">// external-media: pending</span>
       </div>
     </div>
   </footer>
@@ -315,6 +390,6 @@
   <script src="js/mascots-data.js" defer></script>
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js?v=1.3.2" defer></script>
 </body>
 </html>
