@@ -6,7 +6,7 @@
   <title>Page Not Found - iTryKetchup Studio Hub</title>
   <meta name="description" content="The page could not be found. Return to the iTryKetchup Studio Hub to keep exploring.">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=1.7">
 </head>
 <body data-page="404">
   <header class="site-header">
@@ -27,25 +27,29 @@
   </header>
 
   <main class="page-shell">
-    <section class="browser-panel" aria-labelledby="not-found-title">
+    <section class="browser-panel not-found-hero" aria-labelledby="not-found-title">
       <div class="browser-panel__bar" aria-hidden="true">
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">404.html</span>
+        <span class="browser-panel__label">itryketchup-studio.blend / missing-route</span>
       </div>
       <div class="browser-panel__body hero-grid">
-        <div>
-          <p class="eyebrow">404</p>
+        <div class="hero-copy">
+          <p class="eyebrow hero-meta">404 viewport</p>
           <h1 id="not-found-title">This page wandered off.</h1>
-          <p class="lede">The link might be old, unfinished, or just taking a dramatic little detour. Head back to the Hub and keep exploring from there.</p>
+          <p class="hero-subheadline">The route is missing, but the studio is still running.</p>
+          <p class="hero-support">The link might be old, moved, or still waiting in the build queue. Head back to a working workspace and keep exploring from there.</p>
           <div class="button-row">
-            <a class="button" href="index.html">Return to Hub</a>
+            <a class="button" href="index.html">Return Home</a>
             <a class="button-secondary" href="projects.html">View Projects</a>
+            <a class="button-secondary" href="dev-logs/">Read Dev Logs</a>
           </div>
         </div>
-        <div class="hero-visual">
-          <img src="assets/mascots/mascot-placeholder.svg" alt="Confused iTryKetchup Studio mascot placeholder for the missing page." data-image-id="confused" data-image-assignment="notFoundMascotId">
+        <div class="hero-visual not-found-hero__visual">
+          <div class="not-found-viewport-label" aria-hidden="true">Object Mode / Recovery</div>
+          <div class="not-found-hero__floor" aria-hidden="true"></div>
+          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="iTry Ketchup mascot, the friendly ketchup-bottle-inspired face of iTryKetchup Studio">
         </div>
       </div>
     </section>
