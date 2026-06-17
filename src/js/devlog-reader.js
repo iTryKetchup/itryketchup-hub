@@ -14,6 +14,8 @@
   };
 
   let currentButton = null;
+  let logsByKey = new Map();
+  let loadedLogs = [];
 
   function escapeHtml(value) {
     return String(value || "")
@@ -58,6 +60,76 @@
       .join(" | ");
   }
 
+  function logSlug(log) {
+    return String(log.filename || log.title || log.session || "dev-log")
+      .replace(/\.md$/i, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function registerLogKeys(log) {
+    const keys = [
+      log.session,
+      log.filename,
+      log.filename.replace(/\.md$/i, ""),
+      logSlug(log),
+      `${log.area}-${log.session}`
+    ];
+
+    keys.forEach((key) => {
+      const normalized = String(key || "").trim().toLowerCase();
+      if (normalized) logsByKey.set(normalized, log);
+    });
+  }
+
+  function getRequestedLog(logs) {
+    const params = new URLSearchParams(window.location.search);
+    const queryValue = params.get("log");
+    const hash = window.location.hash.replace(/^#/, "");
+    const hashValue = hash.startsWith("log=") ? hash.slice(4) : hash;
+    const requested = decodeURIComponent(queryValue || hashValue || "").trim().toLowerCase();
+
+    if (!requested || requested === "entries-title" || requested === "devlog-viewer") {
+      return null;
+    }
+
+    return logsByKey.get(requested) || logs.find((log) => logSlug(log) === requested) || null;
+  }
+
+  function findLogButton(log) {
+    if (!log) return null;
+    return document.querySelector(`[data-log-slug="${logSlug(log)}"]`);
+  }
+
+  function loadRequestedFromUrl(options) {
+    const requestedLog = getRequestedLog(loadedLogs);
+    if (!requestedLog || !requestedLog.publicReady || !requestedLog.filename) {
+      return false;
+    }
+
+    loadLog(requestedLog, findLogButton(requestedLog), Object.assign({ focusViewer: true, updateUrl: false }, options || {}));
+    return true;
+  }
+
+  function updateLogUrl(log) {
+    if (!window.history || !log) return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("log");
+    url.hash = `log=${encodeURIComponent(logSlug(log))}`;
+    window.history.pushState({ devlog: logSlug(log) }, "", url);
+  }
+
+  function clearLogUrl() {
+    if (!window.history) return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("log");
+    url.hash = "";
+    window.history.pushState({}, "", url);
+  }
+
   function renderTagList(tags) {
     if (!tags.length) return null;
 
@@ -81,6 +153,8 @@
     card.type = "button";
     card.disabled = !canOpen;
     card.dataset.filename = log.filename;
+    card.dataset.logSlug = logSlug(log);
+    card.setAttribute("aria-label", canOpen ? `Open ${log.title}` : `${log.title} is pending public release`);
 
     if (!canOpen) {
       card.classList.add("is-pending");
@@ -114,11 +188,11 @@
 
     const action = document.createElement("span");
     action.className = canOpen ? "text-action" : "text-action is-disabled";
-    action.textContent = canOpen ? "Open markdown log" : "Pending public release";
+    action.textContent = canOpen ? "Open session notes" : "Pending public release";
     card.appendChild(action);
 
     if (canOpen) {
-      card.addEventListener("click", () => loadLog(log, card));
+      card.addEventListener("click", () => loadLog(log, card, { updateUrl: true }));
     }
 
     return card;
@@ -336,17 +410,37 @@
     return output.join("\n");
   }
 
-  async function loadLog(log, button) {
+  function setSelectedButton(button) {
+    if (currentButton) {
+      currentButton.removeAttribute("aria-pressed");
+      currentButton.classList.remove("is-selected");
+    }
+
+    currentButton = button || null;
+
+    if (currentButton) {
+      currentButton.setAttribute("aria-pressed", "true");
+      currentButton.classList.add("is-selected");
+    }
+  }
+
+  async function loadLog(log, button, options) {
     const viewer = document.querySelector(selectors.viewer);
     if (!viewer) return;
+    const settings = Object.assign({ focusViewer: true, updateUrl: false }, options || {});
 
-    if (currentButton) currentButton.removeAttribute("aria-pressed");
-    currentButton = button;
-    currentButton.setAttribute("aria-pressed", "true");
+    setSelectedButton(button);
 
     setViewerState("loading", log);
-    viewer.focus({ preventScroll: true });
-    viewer.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (settings.updateUrl) {
+      updateLogUrl(log);
+    }
+
+    if (settings.focusViewer) {
+      viewer.focus({ preventScroll: true });
+      viewer.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
     try {
       const response = await fetch(`${logBasePath}${encodeURIComponent(log.filename)}`);
@@ -387,11 +481,24 @@
         if (dateSort !== 0) return dateSort;
         return String(b.session).localeCompare(String(a.session));
       });
+      logsByKey = new Map();
+      loadedLogs = logs;
+      loadedLogs.forEach(registerLogKeys);
 
       setCount(logs);
       containers.forEach((container) => {
+        if (!logs.length) {
+          container.innerHTML = '<p class="devlog-viewer__state">No public Dev Logs are ready yet.</p>';
+          return;
+        }
+
         container.replaceChildren(...logs.map(createDevLogCard));
       });
+
+      const defaultLog = logs.find((log) => log.publicReady && log.filename);
+      if (!loadRequestedFromUrl({ focusViewer: true }) && defaultLog) {
+        loadLog(defaultLog, findLogButton(defaultLog), { focusViewer: false, updateUrl: false });
+      }
     } catch (error) {
       setCount([]);
       containers.forEach((container) => {
@@ -409,9 +516,9 @@
     if (!close) return;
 
     close.addEventListener("click", () => {
-      if (currentButton) currentButton.removeAttribute("aria-pressed");
-      currentButton = null;
+      setSelectedButton(null);
       setViewerState("empty");
+      clearLogUrl();
       const firstCard = document.querySelector(".devlog-card-button:not(:disabled)");
       if (firstCard) firstCard.focus();
     });
@@ -421,5 +528,7 @@
     if (document.body.getAttribute("data-page") !== "devlogs") return;
     wireClose();
     loadIndex();
+    window.addEventListener("hashchange", () => loadRequestedFromUrl({ focusViewer: true }));
+    window.addEventListener("popstate", () => loadRequestedFromUrl({ focusViewer: true }));
   });
 })();

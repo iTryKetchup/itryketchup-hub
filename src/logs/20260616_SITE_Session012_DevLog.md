@@ -96,16 +96,16 @@ Complete and deploy a broad homepage identity / polish pass following the Websit
 
 ## 6. Files / Repos / Links Changed
 
-- Website repo: `C:\Projects\Websites\itryketchup-hub`
+- Website repo: `itryketchup-hub`
 - Live site: `https://www.itryketchup.com/`
 - Deployed commit: `dbf192c1fa52a18bc8495214348945c95d13c5eb`
 - Commit message: `feat(home): polish studio homepage identity`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\index.html`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\css\styles.css`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\js\mascots-data.js`
-- Added / optimized asset: `C:\Projects\Websites\itryketchup-hub\src\assets\brand\ketchup-splotch.png`
-- Added / optimized asset: `C:\Projects\Websites\itryketchup-hub\src\assets\brand\ketchup-splotch.webp`
-- Added / optimized asset: `C:\Projects\Websites\itryketchup-hub\src\assets\mascots\itry\ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp`
+- Updated file: `src/index.html`
+- Updated file: `src/css/styles.css`
+- Updated file: `src/js/mascots-data.js`
+- Added / optimized asset: `src/assets/brand/ketchup-splotch.png`
+- Added / optimized asset: `src/assets/brand/ketchup-splotch.webp`
+- Added / optimized asset: `src/assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp`
 
 **Testing / verification documented:**
 - Local responsive checks were run during implementation at desktop 1280x800, tablet 768x900, and mobile 390x844.
@@ -150,5 +150,3 @@ Complete and deploy a broad homepage identity / polish pass following the Websit
 ---
 
 > *Filename: 20260616_SITE_Session012_DevLog.md*
-> *Store: C:\Projects\iTryKetchup\DevLogs\*
-> *Post: itryketchup.com/dev-logs (when public)*

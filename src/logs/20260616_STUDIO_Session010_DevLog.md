@@ -77,8 +77,8 @@ Complete Phase 9D website mascot integration planning and protect the website re
 
 ## 6. Files / Repos / Links Changed
 
-- Characters repo: `C:\Projects\Characters`
-- Planning file: `C:\Projects\Characters\iTryKetchup\07_ProductionBridge\WebsiteMascotIntegrationPlan_iTry_v1.0.md`
+- Characters repo: `the Characters project`
+- Planning file: internal Characters project website mascot integration plan.
 - Git checkpoint: `fe0e6de`
 - Commit message: `docs(itryketchup): add website mascot integration plan`
 - Planned website role: `ITRY-MASCOT-001-HERO` -> Homepage hero area.
@@ -125,5 +125,3 @@ Complete Phase 9D website mascot integration planning and protect the website re
 ---
 
 > *Filename: 20260616_STUDIO_Session010_DevLog.md*
-> *Store: C:\Projects\iTryKetchup\DevLogs\*
-> *Post: itryketchup.com/dev-logs (when public)*

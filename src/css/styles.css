@@ -3693,11 +3693,16 @@ body[data-page="devlogs"] .grid-two {
 
 body[data-page="devlogs"] .devlog-reader-layout {
   display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
   gap: 20px;
+  align-items: start;
+  margin-top: 24px;
 }
 
 body[data-page="devlogs"] .devlog-index-grid {
   align-items: stretch;
+  grid-template-columns: 1fr;
+  margin-top: 0;
 }
 
 body[data-page="devlogs"] .devlog-card {
@@ -3726,6 +3731,11 @@ body[data-page="devlogs"] .devlog-card-button {
   cursor: pointer;
   font: inherit;
   text-align: left;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease,
+    background-color 160ms ease;
 }
 
 body[data-page="devlogs"] .devlog-card-button:hover,
@@ -3736,6 +3746,18 @@ body[data-page="devlogs"] .devlog-card-button[aria-pressed="true"] {
     0 22px 48px rgba(0, 0, 0, 0.32),
     inset 0 0 0 1px rgba(255, 59, 47, 0.22);
   transform: translateY(-1px);
+}
+
+body[data-page="devlogs"] .devlog-card-button.is-selected {
+  background:
+    linear-gradient(90deg, rgba(255, 59, 47, 0.13) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    #181316;
+}
+
+body[data-page="devlogs"] .devlog-card-button.is-selected::before {
+  color: #ffd8d4;
+  content: "SELECTED SESSION";
 }
 
 body[data-page="devlogs"] .devlog-card-button:disabled {
@@ -3849,6 +3871,10 @@ body[data-page="devlogs"] .devlog-tag-list li {
 }
 
 body[data-page="devlogs"] .devlog-viewer {
+  position: sticky;
+  top: 86px;
+  min-width: 0;
+  max-height: calc(100vh - 112px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-left: 2px solid rgba(255, 59, 47, 0.68);
@@ -3912,6 +3938,8 @@ body[data-page="devlogs"] .devlog-viewer__close:hover {
 }
 
 body[data-page="devlogs"] .devlog-viewer__body {
+  max-height: calc(100vh - 156px);
+  overflow: auto;
   padding: 24px;
 }
 
@@ -3923,6 +3951,7 @@ body[data-page="devlogs"] .devlog-viewer__content {
   color: #e9e2dc;
   font-size: 1rem;
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 body[data-page="devlogs"] .devlog-viewer__content h2,
@@ -3979,6 +4008,7 @@ body[data-page="devlogs"] .devlog-viewer__content code {
 body[data-page="devlogs"] .devlog-viewer__content pre {
   overflow-x: auto;
   padding: 14px;
+  max-width: 100%;
 }
 
 body[data-page="devlogs"] .devlog-viewer__content pre code {
@@ -3996,6 +4026,7 @@ body[data-page="devlogs"] .devlog-viewer__content hr {
 }
 
 body[data-page="devlogs"] .devlog-table-scroll {
+  max-width: 100%;
   overflow-x: auto;
 }
 
@@ -5240,6 +5271,15 @@ body[data-page="contact"] .footer-status-token {
     padding-top: 34px;
   }
 
+  body[data-page="devlogs"] .devlog-reader-layout {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="devlogs"] .devlog-viewer {
+    position: static;
+    max-height: none;
+  }
+
   .devlogs-hero .browser-panel__body {
     padding: 28px;
   }
@@ -5285,6 +5325,7 @@ body[data-page="contact"] .footer-status-token {
   }
 
   body[data-page="devlogs"] .devlog-viewer__body {
+    max-height: none;
     padding: 20px;
   }
 }

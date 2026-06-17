@@ -136,18 +136,18 @@ Document the completed Website v1.4 public-page polish pass, including About, Pr
 
 ## 6. Files / Repos / Links Changed
 
-- Website repo: `C:\Projects\Websites\itryketchup-hub`
+- Website repo: `itryketchup-hub`
 - Live site: `https://www.itryketchup.com/`
 - Commit: `09bc1bbcade29b8d01051e7945b1ceec5d17c8f6`
 - Commit message: `feat(site): polish public pages`
 - Deployment: pushed to `origin/main`.
 - Deployment: GitHub Pages deployment completed.
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\about.html`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\contact.html`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\css\styles.css`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\devlogs.html`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\index.html`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\projects.html`
+- Updated file: `src/about.html`
+- Updated file: `src/contact.html`
+- Updated file: `src/css/styles.css`
+- Updated file: `src/devlogs.html`
+- Updated file: `src/index.html`
+- Updated file: `src/projects.html`
 
 **Live pages verified:**
 - `https://www.itryketchup.com/`
@@ -212,5 +212,3 @@ Document the completed Website v1.4 public-page polish pass, including About, Pr
 ---
 
 > *Filename: 20260617_SITE_Session014_DevLog.md*
-> *Store: C:\Projects\iTryKetchup\DevLogs\*
-> *Post: itryketchup.com/dev-logs (when public)*

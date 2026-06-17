@@ -91,15 +91,15 @@ Document the completed homepage v1.3 interactive polish pass, including roadmap 
 
 ## 6. Files / Repos / Links Changed
 
-- Website repo: `C:\Projects\Websites\itryketchup-hub`
+- Website repo: `itryketchup-hub`
 - Live site: `https://www.itryketchup.com/`
 - Commit: `5a02ed40260ffe01d51e302c088bbc6cf4e989ba`
 - Commit message: `feat(home): add interactive studio polish`
 - Deployment: pushed to `origin/main`.
 - Deployment: GitHub Pages deployment completed.
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\index.html`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\css\styles.css`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\js\main.js`
+- Updated file: `src/index.html`
+- Updated file: `src/css/styles.css`
+- Updated file: `src/js/main.js`
 
 **Testing / verification documented:**
 - Homepage loaded successfully.
@@ -151,5 +151,3 @@ Document the completed homepage v1.3 interactive polish pass, including roadmap 
 ---
 
 > *Filename: 20260617_SITE_Session013_DevLog.md*
-> *Store: C:\Projects\iTryKetchup\DevLogs\*
-> *Post: itryketchup.com/dev-logs (when public)*

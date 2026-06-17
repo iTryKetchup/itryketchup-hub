@@ -31,12 +31,12 @@ Complete the website v1.1 homepage hero mascot integration using only the approv
 ## 2. What I Did
 
 - [x] Copied the approved iTry Ketchup Homepage Hero mascot into the website repo as an optimized WebP.
-- [x] Added the optimized hero mascot asset at `C:\Projects\Websites\itryketchup-hub\src\assets\mascots\itry\ITRY-MASCOT-001-HERO_A2.3-F2.webp`.
-- [x] Updated the homepage hero image in `C:\Projects\Websites\itryketchup-hub\src\index.html`.
-- [x] Added the `itryHero` mascot registry entry in `C:\Projects\Websites\itryketchup-hub\src\js\mascots-data.js`.
-- [x] Pointed `homeHeroMascotId` to `itryHero` in `C:\Projects\Websites\itryketchup-hub\src\js\site-settings.js`.
-- [x] Added restrained hero image sizing / responsive CSS in `C:\Projects\Websites\itryketchup-hub\src\css\styles.css`.
-- [x] Tested the local static site at `http://localhost:8080/`.
+- [x] Added the optimized hero mascot asset at `src/assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2.webp`.
+- [x] Updated the homepage hero image in `src/index.html`.
+- [x] Added the `itryHero` mascot registry entry in `src/js/mascots-data.js`.
+- [x] Pointed `homeHeroMascotId` to `itryHero` in `src/js/site-settings.js`.
+- [x] Added restrained hero image sizing / responsive CSS in `src/css/styles.css`.
+- [x] Tested the local static site.
 - [x] Checked desktop at 1280x800, tablet at 768x900, and mobile at 390x844.
 - [x] Confirmed the WebP loaded.
 - [x] Confirmed alt text.
@@ -78,13 +78,13 @@ Complete the website v1.1 homepage hero mascot integration using only the approv
 
 ## 6. Files / Repos / Links Changed
 
-- Website repo: `C:\Projects\Websites\itryketchup-hub`
-- Added asset: `C:\Projects\Websites\itryketchup-hub\src\assets\mascots\itry\ITRY-MASCOT-001-HERO_A2.3-F2.webp`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\index.html`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\js\mascots-data.js`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\js\site-settings.js`
-- Updated file: `C:\Projects\Websites\itryketchup-hub\src\css\styles.css`
-- Original approved Characters PNG stayed safely in `C:\Projects\Characters\iTryKetchup\09_Exports\Approved\Hero\ITRY-MASCOT-001-HERO_A2.3-F2.png`.
+- Website repo: `itryketchup-hub`
+- Added asset: `src/assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2.webp`
+- Updated file: `src/index.html`
+- Updated file: `src/js/mascots-data.js`
+- Updated file: `src/js/site-settings.js`
+- Updated file: `src/css/styles.css`
+- Original approved Characters export stayed outside the website repo.
 - Website WebP size: about 81.2 KiB.
 - Dimensions preserved: 1024x1536.
 - Large 1.66 MiB PNG was not committed to the website repo.
@@ -130,8 +130,6 @@ Complete the website v1.1 homepage hero mascot integration using only the approv
 ---
 
 > *Filename: 20260616_SITE_Session011_DevLog.md*
-> *Store: C:\Projects\iTryKetchup\DevLogs\*
-> *Post: itryketchup.com/dev-logs (when public)*
 
 ---
 
