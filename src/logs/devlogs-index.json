@@ -70,5 +70,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["website", "devlogs", "archive", "markdown", "deployment"]
+  },
+  {
+    "session": "016",
+    "date": "2026-06-17",
+    "area": "SITE",
+    "title": "Page-Specific Mascot Assets",
+    "version": "Website v1.6",
+    "summary": "Added optimized page-specific mascot assets for Projects, Dev Logs, and Contact while preserving the HERO mascot on Home and About.",
+    "filename": "20260617_SITE_Session016_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["website", "mascots", "assets", "deployment", "visual-identity"]
   }
 ]
