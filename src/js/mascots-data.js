@@ -20,6 +20,34 @@ window.MascotsData = {
     alt: "iTry Ketchup mascot, the friendly ketchup-bottle-inspired face of iTryKetchup Studio",
     role: "Home hero mascot"
   },
+  itryGuide: {
+    id: "itryGuide",
+    name: "iTry Ketchup Guide",
+    src: "assets/mascots/itry/ITRY-MASCOT-002-GUIDE_GuideA.webp",
+    alt: "iTry Ketchup mascot pointing toward project work",
+    role: "Projects guide mascot"
+  },
+  itryDevLog: {
+    id: "itryDevLog",
+    name: "iTry Ketchup Dev Log",
+    src: "assets/mascots/itry/ITRY-MASCOT-003-DEVLOG_DevLogA.webp",
+    alt: "iTry Ketchup mascot holding a dev log checklist",
+    role: "Dev Logs archive mascot"
+  },
+  itrySocial: {
+    id: "itrySocial",
+    name: "iTry Ketchup Social",
+    src: "assets/mascots/itry/ITRY-MASCOT-004-SOCIAL_SocialC.webp",
+    alt: "iTry Ketchup mascot posed for social and contact identity",
+    role: "Contact and social identity mascot"
+  },
+  itryAnnounce: {
+    id: "itryAnnounce",
+    name: "iTry Ketchup Announcement",
+    src: "assets/mascots/itry/ITRY-MASCOT-005-ANNOUNCE_CandidateA.webp",
+    alt: "iTry Ketchup mascot celebrating a shipped update",
+    role: "Announcement and milestone mascot"
+  },
   samurai: {
     id: "samurai",
     name: "Samurai Ketchup",

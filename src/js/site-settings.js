@@ -13,8 +13,11 @@ window.SiteSettings = {
   imageAssignments: {
     defaultMascotId: "default",
     homeHeroMascotId: "itryHero",
-    aboutMascotId: "gamer",
-    devLogsMascotId: "scholar",
+    aboutMascotId: "itryHero",
+    projectsMascotId: "itryGuide",
+    devLogsMascotId: "itryDevLog",
+    contactMascotId: "itrySocial",
+    announcementMascotId: "itryAnnounce",
     notFoundMascotId: "confused",
     projectFallbackImageId: "projectPlaceholder",
     socialPreviewImageId: "socialPreview"
