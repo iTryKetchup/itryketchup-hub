@@ -3691,6 +3691,15 @@ body[data-page="devlogs"] .grid-two {
   margin-top: 24px;
 }
 
+body[data-page="devlogs"] .devlog-reader-layout {
+  display: grid;
+  gap: 20px;
+}
+
+body[data-page="devlogs"] .devlog-index-grid {
+  align-items: stretch;
+}
+
 body[data-page="devlogs"] .devlog-card {
   position: relative;
   overflow: hidden;
@@ -3703,6 +3712,35 @@ body[data-page="devlogs"] .devlog-card {
     #14161a;
   background-size: 22px 22px;
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
+}
+
+body[data-page="devlogs"] .devlog-card-button {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  appearance: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+body[data-page="devlogs"] .devlog-card-button:hover,
+body[data-page="devlogs"] .devlog-card-button:focus-visible,
+body[data-page="devlogs"] .devlog-card-button[aria-pressed="true"] {
+  border-color: rgba(255, 59, 47, 0.84);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.32),
+    inset 0 0 0 1px rgba(255, 59, 47, 0.22);
+  transform: translateY(-1px);
+}
+
+body[data-page="devlogs"] .devlog-card-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
 }
 
 body[data-page="devlogs"] .devlog-card::before {
@@ -3733,8 +3771,40 @@ body[data-page="devlogs"] .devlog-card h3 {
   margin-top: 0;
 }
 
+body[data-page="devlogs"] .devlog-card__title {
+  display: block;
+  color: var(--red);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+body[data-page="devlogs"] .devlog-card__version {
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f4d3cf;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body[data-page="devlogs"] .devlog-card__summary {
+  display: block;
+  color: #d0c8c1;
+  line-height: 1.55;
+}
+
 body[data-page="devlogs"] .devlog-card p {
   color: #d0c8c1;
+}
+
+body[data-page="devlogs"] .devlog-card span.eyebrow {
+  display: block;
 }
 
 body[data-page="devlogs"] .devlog-card .eyebrow {
@@ -3756,6 +3826,206 @@ body[data-page="devlogs"] .text-action {
 
 body[data-page="devlogs"] .text-action.is-disabled {
   color: #aaa39d;
+}
+
+body[data-page="devlogs"] .devlog-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+body[data-page="devlogs"] .devlog-tag-list li {
+  border: 1px solid rgba(255, 59, 47, 0.18);
+  border-radius: 999px;
+  padding: 4px 7px;
+  background: rgba(255, 59, 47, 0.08);
+  color: #e9b8b3;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+body[data-page="devlogs"] .devlog-viewer {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 2px solid rgba(255, 59, 47, 0.68);
+  border-radius: 6px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    #101216;
+  background-size: 26px 26px;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.3);
+}
+
+body[data-page="devlogs"] .devlog-viewer:focus {
+  outline: none;
+}
+
+body[data-page="devlogs"] .devlog-viewer:focus-visible {
+  outline: 3px solid rgba(255, 59, 47, 0.75);
+  outline-offset: 4px;
+}
+
+body[data-page="devlogs"] .devlog-viewer__bar {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid #30343b;
+  padding: 8px 12px;
+  background: #0b0d11;
+}
+
+body[data-page="devlogs"] .devlog-viewer__path {
+  min-width: 0;
+  overflow: hidden;
+  color: #b8b0aa;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body[data-page="devlogs"] .devlog-viewer__close {
+  margin-left: auto;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 5px;
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f6f2ee;
+  cursor: pointer;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+body[data-page="devlogs"] .devlog-viewer__close:hover {
+  border-color: rgba(255, 59, 47, 0.72);
+  background: rgba(255, 59, 47, 0.12);
+}
+
+body[data-page="devlogs"] .devlog-viewer__body {
+  padding: 24px;
+}
+
+body[data-page="devlogs"] .devlog-viewer__body h3 {
+  margin-top: 0;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content {
+  color: #e9e2dc;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content h2,
+body[data-page="devlogs"] .devlog-viewer__content h3,
+body[data-page="devlogs"] .devlog-viewer__content h4,
+body[data-page="devlogs"] .devlog-viewer__content h5,
+body[data-page="devlogs"] .devlog-viewer__content h6 {
+  max-width: none;
+  margin: 1.45em 0 0.45em;
+  color: #ff554b;
+  font-size: 1.22rem;
+  line-height: 1.22;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content p,
+body[data-page="devlogs"] .devlog-viewer__content ul,
+body[data-page="devlogs"] .devlog-viewer__content ol,
+body[data-page="devlogs"] .devlog-viewer__content blockquote,
+body[data-page="devlogs"] .devlog-viewer__content pre,
+body[data-page="devlogs"] .devlog-table-scroll {
+  margin: 0 0 16px;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content ul,
+body[data-page="devlogs"] .devlog-viewer__content ol {
+  padding-left: 1.25rem;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content li + li {
+  margin-top: 6px;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content blockquote {
+  border-left: 3px solid rgba(255, 59, 47, 0.72);
+  padding: 10px 14px;
+  background: rgba(255, 59, 47, 0.08);
+  color: #f1d5d2;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content pre,
+body[data-page="devlogs"] .devlog-viewer__content code {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.32);
+  color: #f6f2ee;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content code {
+  padding: 2px 5px;
+  font-size: 0.9em;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content pre {
+  overflow-x: auto;
+  padding: 14px;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content pre code {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  white-space: pre;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content hr {
+  height: 1px;
+  border: 0;
+  margin: 24px 0;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body[data-page="devlogs"] .devlog-table-scroll {
+  overflow-x: auto;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content th,
+body[data-page="devlogs"] .devlog-viewer__content td {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 9px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+body[data-page="devlogs"] .devlog-viewer__content th {
+  background: rgba(255, 59, 47, 0.12);
+  color: #ffe4e1;
+}
+
+body[data-page="devlogs"] .devlog-viewer__state {
+  margin: 0;
+  color: #ddd6d0;
+}
+
+body[data-page="devlogs"] .devlog-viewer__state--error {
+  color: #ffb7af;
 }
 
 body[data-page="devlogs"] .notice {
@@ -5013,6 +5283,10 @@ body[data-page="contact"] .footer-status-token {
     width: 58px;
     height: 58px;
   }
+
+  body[data-page="devlogs"] .devlog-viewer__body {
+    padding: 20px;
+  }
 }
 
 @media (max-width: 700px) {
@@ -5032,6 +5306,16 @@ body[data-page="contact"] .footer-status-token {
   .devlogs-hero__visual {
     min-height: 270px;
   }
+
+  body[data-page="devlogs"] .devlog-viewer__bar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  body[data-page="devlogs"] .devlog-viewer__close {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 520px) {
@@ -5045,7 +5329,8 @@ body[data-page="contact"] .footer-status-token {
   }
 
   .devlogs-hero .browser-panel__body,
-  body[data-page="devlogs"] .devlog-card {
+  body[data-page="devlogs"] .devlog-card,
+  body[data-page="devlogs"] .devlog-viewer__body {
     padding: 18px;
   }
 
@@ -5072,6 +5357,18 @@ body[data-page="contact"] .footer-status-token {
 
   .devlogs-status-strip {
     gap: 8px;
+  }
+
+  body[data-page="devlogs"] .devlog-card__title {
+    font-size: 1.1rem;
+  }
+
+  body[data-page="devlogs"] .devlog-viewer__content {
+    font-size: 0.96rem;
+  }
+
+  body[data-page="devlogs"] .devlog-viewer__content table {
+    min-width: 500px;
   }
 }
 
