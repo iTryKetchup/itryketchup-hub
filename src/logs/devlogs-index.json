@@ -82,5 +82,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["website", "mascots", "assets", "deployment", "visual-identity"]
+  },
+  {
+    "session": "017",
+    "date": "2026-06-17",
+    "area": "SITE",
+    "title": "Visual Alignment and 404 Polish",
+    "version": "Website v1.7",
+    "summary": "Cleaned up page hero visuals, aligned the 404 page with the dark studio system, improved mascot spacing, and preserved the working Dev Logs archive.",
+    "filename": "20260617_SITE_Session017_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["website", "visual-polish", "404", "layout", "deployment"]
   }
 ]
