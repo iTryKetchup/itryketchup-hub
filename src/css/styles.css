@@ -385,29 +385,25 @@ body[data-page="home"] .home-hero .browser-panel__body {
   background-size: 34px 34px, 34px 34px, auto, auto;
 }
 
-body[data-page="home"] .home-hero .browser-panel__body::before,
-body[data-page="home"] .home-hero .browser-panel__body::after {
+body[data-page="home"] .home-hero .browser-panel__body::before {
   position: absolute;
   top: 18px;
+  right: 14px;
   bottom: 18px;
+  left: 14px;
   z-index: 0;
-  width: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 6px;
   background:
-    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0 4px, transparent 4px 18px),
-    rgba(8, 10, 13, 0.72);
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.07)) left top / 1px 100% no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.07)) 27px top / 1px 100% no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.07)) right top / 1px 100% no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.07)) calc(100% - 27px) top / 1px 100% no-repeat,
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0 4px, transparent 4px 18px) left top / 28px 100% no-repeat,
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0 4px, transparent 4px 18px) right top / 28px 100% no-repeat,
+    linear-gradient(rgba(8, 10, 13, 0.72), rgba(8, 10, 13, 0.72)) left top / 28px 100% no-repeat,
+    linear-gradient(rgba(8, 10, 13, 0.72), rgba(8, 10, 13, 0.72)) right top / 28px 100% no-repeat;
   content: "";
   opacity: 0.58;
   pointer-events: none;
-}
-
-body[data-page="home"] .home-hero .browser-panel__body::before {
-  left: 14px;
-}
-
-body[data-page="home"] .home-hero .browser-panel__body::after {
-  right: 14px;
 }
 
 .hero-grid,
@@ -419,8 +415,35 @@ body[data-page="home"] .home-hero .browser-panel__body::after {
 }
 
 body[data-page="home"] .hero-grid {
+  position: relative;
+  isolation: isolate;
   grid-template-columns: minmax(0, 1.02fr) minmax(300px, 0.88fr);
   gap: 42px;
+}
+
+body[data-page="home"] .home-hero .hero-grid::after {
+  position: absolute;
+  right: 56px;
+  bottom: -1%;
+  left: 56px;
+  z-index: 0;
+  height: 34%;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 59, 47, 0.1), rgba(255, 255, 255, 0.05), transparent) center 24% / 68% 1px no-repeat,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.028)) center 52% / 100% 1px no-repeat,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.022)) center 72% / 100% 1px no-repeat,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.02)) center 82% / 100% 1px no-repeat,
+    repeating-conic-gradient(from 244deg at 62% -12%, transparent 0deg 5.8deg, rgba(255, 255, 255, 0.055) 6deg 6.28deg, transparent 6.5deg 12deg),
+    repeating-linear-gradient(0deg, transparent 0 12px, rgba(255, 255, 255, 0.045) 13px 14px, transparent 15px 56px),
+    radial-gradient(ellipse at 62% 100%, rgba(255, 59, 47, 0.055), transparent 68%),
+    linear-gradient(180deg, rgba(3, 5, 8, 0.96), #030508 30%, #030508 100%);
+  background-color: #030508;
+  background-size: 84% 1px, 100% 1px, 100% 1px, 100% 1px, 100% 100%, 100% 100%, auto, auto;
+  content: "";
+  opacity: 1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 18%, #000 34%, #000 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 18%, #000 34%, #000 100%);
 }
 
 .hero-copy,
@@ -607,10 +630,10 @@ body[data-page="home"] .home-hero .hero-workspace-widget {
   width: min(160px, 22vw);
   border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: 6px;
-  background: rgba(9, 11, 15, 0.74);
+  background: rgba(9, 11, 15, 0.97);
   box-shadow:
     0 16px 38px rgba(0, 0, 0, 0.32),
-    inset 0 0 0 1px rgba(255, 59, 47, 0.05);
+    inset 0 0 0 1px rgba(255, 59, 47, 0.1);
   color: #b7b0aa;
   font-size: 0.68rem;
   line-height: 1.2;
@@ -4861,14 +4884,20 @@ body[data-page="contact"] .footer-status-token {
     padding: 28px;
   }
 
-  body[data-page="home"] .home-hero .browser-panel__body::before,
-  body[data-page="home"] .home-hero .browser-panel__body::after {
+  body[data-page="home"] .home-hero .browser-panel__body::before {
     display: none;
   }
 
   body[data-page="home"] .hero-grid {
     grid-template-columns: minmax(0, 1fr) minmax(210px, 0.55fr);
     gap: 24px;
+  }
+
+  body[data-page="home"] .home-hero .hero-grid::after {
+    right: 28px;
+    bottom: -5%;
+    left: 28px;
+    height: 29%;
   }
 
   body[data-page="home"] .hero-visual {
@@ -4897,6 +4926,7 @@ body[data-page="contact"] .footer-status-token {
   }
 
   body[data-page="home"] .home-hero .hero-visual img {
+    z-index: 2;
     max-height: 310px;
   }
 
@@ -5009,6 +5039,10 @@ body[data-page="contact"] .footer-status-token {
 
   body[data-page="home"] .hero-visual {
     min-height: 260px;
+  }
+
+  body[data-page="home"] .home-hero .hero-grid::after {
+    height: 30%;
   }
 
   body[data-page="home"] .home-hero .hero-axis-gizmo {
@@ -5218,6 +5252,14 @@ body[data-page="contact"] .footer-status-token {
     display: flex;
     min-height: 190px;
     padding: 8px;
+  }
+
+  body[data-page="home"] .home-hero .hero-grid::after {
+    right: 18px;
+    bottom: -4%;
+    left: 18px;
+    height: 28%;
+    background-size: 84% 1px, 100% 1px, 100% 1px, 100% 1px, 100% 100%, 100% 100%, auto, auto;
   }
 
   body[data-page="home"] .home-hero h1 {
