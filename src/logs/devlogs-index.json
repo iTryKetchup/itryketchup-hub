@@ -94,5 +94,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["website", "visual-polish", "404", "layout", "deployment"]
+  },
+  {
+    "session": "018",
+    "date": "2026-06-18",
+    "area": "SITE",
+    "title": "Home Perspective Viewport Grid",
+    "version": "Website v1.8",
+    "summary": "Added a Home-only CSS perspective floor grid so the hero reads more like a Blender-style viewport while preserving the static site and existing page behavior.",
+    "filename": "20260618_SITE_Session018_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["website", "home", "visual-polish", "css", "viewport"]
   }
 ]
