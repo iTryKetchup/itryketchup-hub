@@ -97,9 +97,9 @@ window.MascotsData = {
   },
   socialPreview: {
     id: "socialPreview",
-    name: "Social Preview Placeholder",
-    src: "assets/social/social-preview-placeholder.svg",
-    alt: "Social preview placeholder for iTryKetchup Studio Hub.",
+    name: "iTryKetchup Studio Social Preview",
+    src: "assets/social/social-preview.png",
+    alt: "Social preview image for iTryKetchup Studio Hub with the iTry Ketchup mascot.",
     role: "Open Graph and social preview target"
   }
 };
