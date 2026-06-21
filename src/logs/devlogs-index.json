@@ -142,5 +142,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["kitchen-wars", "game-dev", "planning"]
+  },
+  {
+    "session": "024",
+    "date": "2026-06-21",
+    "area": "SITE",
+    "title": "Kitchen Wars: The Door Is Live",
+    "version": "Website v1.2",
+    "summary": "Kitchen Wars: The Door is now playable on the iTryKetchup website as a verified standalone Canvas MVP.",
+    "filename": "20260621_SITE_Session024_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "kitchen-wars", "canvas", "launch"]
   }
 ]
