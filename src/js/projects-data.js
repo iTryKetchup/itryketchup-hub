@@ -11,13 +11,13 @@ window.ProjectsData = [
   },
   {
     title: "Kitchen Wars: The Door",
-    category: "Game concept",
-    status: "planned",
+    category: "Canvas game prototype",
+    status: "active",
     visibility: "public",
-    summary: "A kitchen-themed game idea currently parked in planning while the website foundation is the active project. Not playable yet, not in production during the v1.0 site sprint.",
+    summary: "A verified v1.0 standalone Canvas MVP. Play the tiny kitchen-chaos door-defense prototype in your browser.",
     imageId: "spaceSoldier",
-    link: "",
-    actionLabel: "Planned"
+    link: "games/the-door/",
+    actionLabel: "Play The Door"
   },
   {
     title: "Kitchen Wars: The Crisper",
