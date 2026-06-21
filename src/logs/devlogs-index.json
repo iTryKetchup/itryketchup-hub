@@ -118,5 +118,29 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["website", "visual-system", "supporting-pages", "perspective-floor"]
+  },
+  {
+    "session": "022",
+    "date": "2026-06-20",
+    "area": "SITE",
+    "title": "SITE v1.1 Asset Polish Complete",
+    "version": "Website v1.1",
+    "summary": "iTryKetchup Studio completed a small post-launch website polish pass focused on the favicon, social preview image, and metadata verification. The site remains in shipped/maintenance mode, with no redesign or feature expansion.",
+    "filename": "20260620_SITE_Session022_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "maintenance", "polish"]
+  },
+  {
+    "session": "023",
+    "date": "2026-06-21",
+    "area": "PRIMUS",
+    "title": "Kitchen Wars: The Door Planning Package Complete",
+    "version": "Planning Package",
+    "summary": "Kitchen Wars: The Door completed its planning package. The project now has its Charter, Scope of Work, MVP Plan, Folder Rules, and ParkingLot defined before build work begins. The first version is planned as a standalone vanilla JavaScript / Canvas 3-lane runner-shooter.",
+    "filename": "20260621_PRIMUS_Session023_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["kitchen-wars", "game-dev", "planning"]
   }
 ]
