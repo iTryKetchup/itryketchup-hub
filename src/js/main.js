@@ -196,10 +196,8 @@
   }
 
   function wireTerminalEasterEgg() {
-    const form = document.querySelector("[data-terminal-form]");
-    const input = document.querySelector("[data-terminal-input]");
-    const output = document.querySelector("[data-terminal-output]");
-    if (!form || !input || !output) return;
+    const widgets = document.querySelectorAll("[data-terminal-widget]");
+    if (!widgets.length) return;
 
     const responses = {
       help: "Available commands: help, dir, ketchup, status, clear",
@@ -208,49 +206,98 @@
       ketchup: "    __\n   /  \\\n  | IT |\n  | RY |\n  |____|\n   \\__/  secret sauce detected"
     };
 
-    function appendOutput(command, response) {
-      const entry = document.createElement("div");
-      entry.className = "terminal-output__entry";
+    const aboutResponses = [
+      "[BUG] Polish pass escaped containment. Re-apply ketchup sealant.",
+      "[ERROR] Unicorn startup not found. Try: small-studio --honest",
+      "[WARN] Blender grid alignment improved by 12%. Floor still judging us.",
+      "[BUG] Mascot charm stat overflowed. Mystery remains suspiciously low.",
+      "[ERROR] projects_REAL_v3 detected. Quarantining folder name.",
+      "[WARN] GitHub account located. Business plan still loading.",
+      "[BUG] Sauce pipeline clogged near final-final-maybe.",
+      "[ERROR] Corporate fog machine unavailable. Public dev logs remain visible.",
+      "[WARN] Cinematic ambition detected. Current build budget recommends patience.",
+      "[BUG] Command succeeded emotionally, failed technically."
+    ];
 
-      const commandLine = document.createElement("div");
-      commandLine.className = "terminal-output__command";
-      commandLine.textContent = `PS C:\\itryketchup-studio> ${command}`;
-
-      const responseBlock = document.createElement("pre");
-      responseBlock.className = "terminal-output__response";
-      responseBlock.textContent = response;
-
-      entry.append(commandLine, responseBlock);
-      output.appendChild(entry);
-      output.scrollTop = output.scrollHeight;
+    function responseForAbout(command) {
+      const normalized = command.toLowerCase();
+      let hash = 0;
+      for (const character of normalized) {
+        hash = (hash + character.charCodeAt(0)) % aboutResponses.length;
+      }
+      return aboutResponses[hash];
     }
 
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+    function severityFor(response) {
+      const match = response.match(/^\[(BUG|ERROR|WARN)\]/);
+      return match ? match[1].toLowerCase() : "";
+    }
 
-      const rawCommand = input.value.trim();
-      if (!rawCommand) return;
+    widgets.forEach((widget) => {
+      const form = widget.querySelector("[data-terminal-form]");
+      const input = widget.querySelector("[data-terminal-input]");
+      const output = widget.querySelector("[data-terminal-output]");
+      if (!form || !input || !output || widget.dataset.terminalWired === "true") return;
 
-      const command = rawCommand.toLowerCase();
-      input.value = "";
+      const mode = widget.dataset.terminalMode || "home";
+      const prompt = widget.dataset.terminalPrompt || "PS C:\\itryketchup-studio>";
+      const maxEntries = Number.parseInt(widget.dataset.terminalMaxEntries || "8", 10);
 
-      if (command === "clear") {
-        output.replaceChildren();
-        return;
+      function appendOutput(command, response) {
+        const entry = document.createElement("div");
+        entry.className = "terminal-output__entry";
+
+        const commandLine = document.createElement("div");
+        commandLine.className = "terminal-output__command";
+        commandLine.textContent = `${prompt} ${command}`;
+
+        const responseBlock = document.createElement("pre");
+        responseBlock.className = "terminal-output__response";
+        const severity = severityFor(response);
+        if (severity) {
+          responseBlock.dataset.terminalSeverity = severity;
+        }
+        responseBlock.textContent = response;
+
+        entry.append(commandLine, responseBlock);
+        output.appendChild(entry);
+        while (output.children.length > maxEntries) {
+          output.removeChild(output.firstElementChild);
+        }
+        output.scrollTop = output.scrollHeight;
       }
 
-      const response = responses[command] || `Command not recognized: ${rawCommand}\nTry 'help' before the condiment firewall notices.`;
-      appendOutput(rawCommand, response);
-    });
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-    input.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter") return;
-      event.preventDefault();
-      if (typeof form.requestSubmit === "function") {
-        form.requestSubmit();
-      } else {
-        form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
-      }
+        const rawCommand = input.value.trim();
+        if (!rawCommand) return;
+
+        const command = rawCommand.toLowerCase();
+        input.value = "";
+
+        if (mode !== "about" && command === "clear") {
+          output.replaceChildren();
+          return;
+        }
+
+        const response = mode === "about"
+          ? responseForAbout(rawCommand)
+          : responses[command] || `Command not recognized: ${rawCommand}\nTry 'help' before the condiment firewall notices.`;
+        appendOutput(rawCommand, response);
+      });
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        event.preventDefault();
+        if (typeof form.requestSubmit === "function") {
+          form.requestSubmit();
+        } else {
+          form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+        }
+      });
+
+      widget.dataset.terminalWired = "true";
     });
   }
 
