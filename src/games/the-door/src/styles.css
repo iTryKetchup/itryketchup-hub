@@ -52,6 +52,7 @@ h1 {
 .game-frame {
   position: relative;
   overflow: hidden;
+  touch-action: none;
   border: 1px solid rgba(255, 246, 223, 0.22);
   border-radius: 8px;
   background: #14110f;
@@ -62,6 +63,8 @@ canvas {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
+  touch-action: none;
+  user-select: none;
 }
 
 .start-button {

@@ -14,7 +14,7 @@ window.ProjectsData = [
     category: "Canvas game prototype",
     status: "active",
     visibility: "public",
-    summary: "A verified v1.0 standalone Canvas MVP. Play the tiny kitchen-chaos door-defense prototype in your browser.",
+    summary: "A verified v1.1 Canvas game with art-polished kitchen chaos and desktop or touch controls. Play The Door in your browser.",
     imageId: "spaceSoldier",
     link: "games/the-door/",
     actionLabel: "Play The Door"

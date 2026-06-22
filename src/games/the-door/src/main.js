@@ -34,6 +34,9 @@ const LEADERBOARD_MAX_ENTRIES = 10;
 const SCORE_PER_SECOND = 12;
 const ENEMY_HIT_BONUS = 150;
 const DEFAULT_PLAYER_NAME = "You";
+const TOUCH_SWIPE_MIN_DISTANCE = 34;
+const TOUCH_TAP_MAX_DISTANCE = 18;
+const TOUCH_TAP_MAX_DURATION_MS = 280;
 
 const THREAT_TYPES = ["enemy", "lowObstacle", "highObstacle"];
 const THREAT_DIMENSIONS = {
@@ -65,6 +68,13 @@ const player = {
   isJumping: false,
   isDucking: false,
   lastShotAt: -SHOOT_COOLDOWN_MS,
+};
+
+const touchGesture = {
+  isTracking: false,
+  startX: 0,
+  startY: 0,
+  startTime: 0,
 };
 
 const projectiles = [];
@@ -228,6 +238,14 @@ function getNextThreatType() {
   return threatSpawnBag.pop();
 }
 
+function cleanLeaderboardName(name) {
+  if (typeof name !== "string") {
+    return "";
+  }
+
+  return name.replace(/\s*\(fake\)\s*/gi, " ").replace(/\s+/g, " ").trim();
+}
+
 function spawnThreat(timestamp = performance.now()) {
   if (!canSpawnThreat(timestamp)) {
     return;
@@ -269,11 +287,11 @@ function updateScore(deltaTime) {
 
 function getSeedLeaderboard() {
   return [
-    { name: "Captain Ketchup (fake)", score: 900 },
-    { name: "Professor Pickle (fake)", score: 720 },
-    { name: "Samurai Sauce (fake)", score: 560 },
-    { name: "Can Crusher (fake)", score: 430 },
-    { name: "The Fridge (fake)", score: 300 },
+    { name: "Captain Ketchup", score: 900 },
+    { name: "Professor Pickle", score: 720 },
+    { name: "Samurai Sauce", score: 560 },
+    { name: "Can Crusher", score: 430 },
+    { name: "The Fridge", score: 300 },
   ];
 }
 
@@ -281,10 +299,14 @@ function normalizeLeaderboard(entries) {
   const normalizedEntries = Array.isArray(entries) ? entries : [];
 
   return normalizedEntries
-    .map((entry) => ({
-      name: typeof entry.name === "string" && entry.name.trim() !== "" ? entry.name.trim() : DEFAULT_PLAYER_NAME,
-      score: Number.isFinite(Number(entry.score)) ? Math.max(0, Math.floor(Number(entry.score))) : 0,
-    }))
+    .map((entry) => {
+      const cleanedName = cleanLeaderboardName(entry.name);
+
+      return {
+        name: cleanedName !== "" ? cleanedName : DEFAULT_PLAYER_NAME,
+        score: Number.isFinite(Number(entry.score)) ? Math.max(0, Math.floor(Number(entry.score))) : 0,
+      };
+    })
     .sort((leftEntry, rightEntry) => rightEntry.score - leftEntry.score)
     .slice(0, LEADERBOARD_MAX_ENTRIES);
 }
@@ -313,7 +335,7 @@ function loadLeaderboard() {
         const normalizedLeaderboard = normalizeLeaderboard(parsedLeaderboard);
 
         if (normalizedLeaderboard.length > 0) {
-          return normalizedLeaderboard;
+          return saveLeaderboard(normalizedLeaderboard);
         }
       }
 
@@ -549,37 +571,110 @@ function handleKeyDown(event) {
   }
 }
 
+function getChangedTouch(event) {
+  return event.changedTouches && event.changedTouches.length > 0 ? event.changedTouches[0] : null;
+}
+
+function preventTouchScroll(event) {
+  if (event.cancelable) {
+    event.preventDefault();
+  }
+}
+
+function handleTouchStart(event) {
+  const touch = getChangedTouch(event);
+
+  if (!touch) {
+    return;
+  }
+
+  preventTouchScroll(event);
+  touchGesture.isTracking = true;
+  touchGesture.startX = touch.clientX;
+  touchGesture.startY = touch.clientY;
+  touchGesture.startTime = event.timeStamp;
+}
+
+function handleTouchMove(event) {
+  if (touchGesture.isTracking) {
+    preventTouchScroll(event);
+  }
+}
+
+function handleTouchEnd(event) {
+  const touch = getChangedTouch(event);
+
+  if (!touch || !touchGesture.isTracking) {
+    return;
+  }
+
+  preventTouchScroll(event);
+  touchGesture.isTracking = false;
+
+  const deltaX = touch.clientX - touchGesture.startX;
+  const deltaY = touch.clientY - touchGesture.startY;
+  const distanceX = Math.abs(deltaX);
+  const distanceY = Math.abs(deltaY);
+  const gestureDuration = event.timeStamp - touchGesture.startTime;
+
+  // Touch controls mirror keyboard actions: swipe lanes, swipe up/down, tap to start/restart or shoot.
+  if (Math.max(distanceX, distanceY) >= TOUCH_SWIPE_MIN_DISTANCE) {
+    if (distanceX > distanceY) {
+      moveLane(deltaX > 0 ? 1 : -1);
+    } else if (deltaY < 0) {
+      jump(event.timeStamp);
+    } else {
+      duck(event.timeStamp);
+    }
+
+    return;
+  }
+
+  if (Math.max(distanceX, distanceY) <= TOUCH_TAP_MAX_DISTANCE && gestureDuration <= TOUCH_TAP_MAX_DURATION_MS) {
+    if (game.state === "ready" || game.state === "gameOver") {
+      restartGame(event.timeStamp);
+    } else {
+      shoot(event.timeStamp);
+    }
+  }
+}
+
 function drawBackground(timestamp) {
   const gradient = context.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-  gradient.addColorStop(0, "#17110f");
-  gradient.addColorStop(0.55, "#211a17");
-  gradient.addColorStop(1, "#0f0d0b");
+  gradient.addColorStop(0, "#dce9e8");
+  gradient.addColorStop(0.48, "#afc7c5");
+  gradient.addColorStop(1, "#334442");
 
   context.fillStyle = gradient;
   context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  const glow = context.createRadialGradient(
-    CANVAS_WIDTH / 2,
-    road.horizonY + 18,
-    20,
-    CANVAS_WIDTH / 2,
-    road.horizonY + 18,
-    280
-  );
-  glow.addColorStop(0, "rgba(255, 205, 88, 0.18)");
-  glow.addColorStop(1, "rgba(255, 205, 88, 0)");
+  const doorWall = context.createLinearGradient(44, 0, 188, 0);
+  doorWall.addColorStop(0, "#f5fbf8");
+  doorWall.addColorStop(0.64, "#dce8e5");
+  doorWall.addColorStop(1, "#9fb6b2");
 
-  context.fillStyle = glow;
-  context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  context.fillStyle = doorWall;
+  context.fillRect(44, 86, 146, 444);
 
-  context.strokeStyle = "rgba(255, 255, 255, 0.07)";
-  context.lineWidth = 1;
+  context.fillStyle = "rgba(30, 55, 52, 0.18)";
+  context.fillRect(178, 86, 12, 444);
 
-  const scrollOffset = game.state === "playing" ? (timestamp * 0.035) % 38 : 0;
-  for (let y = road.horizonY + scrollOffset; y < CANVAS_HEIGHT; y += 38) {
+  context.strokeStyle = "rgba(37, 63, 60, 0.22)";
+  context.lineWidth = 2;
+  for (let y = 124; y < 510; y += 64) {
     context.beginPath();
-    context.moveTo(0, y);
-    context.lineTo(CANVAS_WIDTH, y);
+    context.moveTo(62, y);
+    context.lineTo(178, y);
+    context.stroke();
+  }
+
+  const chillLinesOffset = game.state === "playing" ? (timestamp * 0.018) % 48 : 0;
+  context.strokeStyle = "rgba(255, 255, 255, 0.16)";
+  context.lineWidth = 1;
+  for (let y = road.horizonY + chillLinesOffset; y < CANVAS_HEIGHT; y += 48) {
+    context.beginPath();
+    context.moveTo(202, y);
+    context.lineTo(CANVAS_WIDTH - 88, y + 10);
     context.stroke();
   }
 }
@@ -590,30 +685,29 @@ function drawLanes() {
   const leftTop = getRoadEdgeX(road.horizonY, -1);
   const rightTop = getRoadEdgeX(road.horizonY, 1);
 
+  context.save();
   context.beginPath();
   context.moveTo(leftTop, road.horizonY);
   context.lineTo(rightTop, road.horizonY);
   context.lineTo(rightBottom, road.bottomY);
   context.lineTo(leftBottom, road.bottomY);
   context.closePath();
-  context.fillStyle = "#2b2a24";
+  const shelfGradient = context.createLinearGradient(0, road.horizonY, 0, road.bottomY);
+  shelfGradient.addColorStop(0, "#eef7f3");
+  shelfGradient.addColorStop(0.58, "#b8ccc8");
+  shelfGradient.addColorStop(1, "#708985");
+  context.fillStyle = shelfGradient;
   context.fill();
+  context.clip();
 
-  context.lineWidth = 4;
-  context.strokeStyle = "#f6d366";
-  context.stroke();
-
-  for (let boundary = 1; boundary < LANE_COUNT; boundary += 1) {
+  context.strokeStyle = "rgba(55, 80, 76, 0.22)";
+  context.lineWidth = 2;
+  for (let y = road.horizonY + 34; y < road.bottomY; y += 62) {
     context.beginPath();
-    context.moveTo(getLaneBoundaryX(boundary, road.horizonY), road.horizonY);
-    context.lineTo(getLaneBoundaryX(boundary, road.bottomY), road.bottomY);
-    context.strokeStyle = "rgba(255, 255, 255, 0.54)";
-    context.lineWidth = 3;
-    context.setLineDash([18, 16]);
+    context.moveTo(getRoadEdgeX(y, -1), y);
+    context.lineTo(getRoadEdgeX(y, 1), y + 12);
     context.stroke();
   }
-
-  context.setLineDash([]);
 
   for (let lane = 0; lane < LANE_COUNT; lane += 1) {
     const bottomLeft = getLaneBoundaryX(lane, road.bottomY);
@@ -628,10 +722,72 @@ function drawLanes() {
     context.lineTo(bottomLeft, road.bottomY);
     context.closePath();
     context.fillStyle = lane === player.lane && game.state === "playing"
-      ? "rgba(220, 48, 36, 0.12)"
-      : "rgba(255, 255, 255, 0.02)";
+      ? "rgba(220, 48, 36, 0.16)"
+      : "rgba(255, 255, 255, 0.08)";
     context.fill();
   }
+
+  context.restore();
+
+  context.lineCap = "round";
+
+  context.beginPath();
+  context.moveTo(leftTop, road.horizonY);
+  context.lineTo(rightTop, road.horizonY);
+  context.lineTo(rightBottom, road.bottomY);
+  context.lineTo(leftBottom, road.bottomY);
+  context.closePath();
+  context.lineWidth = 4;
+  context.strokeStyle = "rgba(23, 45, 42, 0.24)";
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(leftTop, road.horizonY);
+  context.lineTo(leftBottom, road.bottomY);
+  context.strokeStyle = "#f5fbf8";
+  context.lineWidth = 18;
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(leftTop + 10, road.horizonY);
+  context.lineTo(leftBottom + 16, road.bottomY);
+  context.strokeStyle = "rgba(75, 103, 98, 0.42)";
+  context.lineWidth = 4;
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(rightTop, road.horizonY);
+  context.lineTo(rightBottom, road.bottomY);
+  context.strokeStyle = "#d8dedb";
+  context.lineWidth = 15;
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(rightTop - 16, road.horizonY + 8);
+  context.lineTo(rightBottom - 26, road.bottomY - 4);
+  context.strokeStyle = "#81938f";
+  context.lineWidth = 5;
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(rightTop + 18, road.horizonY - 2);
+  context.lineTo(rightBottom + 24, road.bottomY + 2);
+  context.strokeStyle = "#f6fbf8";
+  context.lineWidth = 6;
+  context.stroke();
+
+  for (let boundary = 1; boundary < LANE_COUNT; boundary += 1) {
+    context.beginPath();
+    context.moveTo(getLaneBoundaryX(boundary, road.horizonY), road.horizonY);
+    context.lineTo(getLaneBoundaryX(boundary, road.bottomY), road.bottomY);
+    context.strokeStyle = "rgba(35, 66, 61, 0.45)";
+    context.lineWidth = 3;
+    context.setLineDash([16, 14]);
+    context.stroke();
+  }
+
+  context.setLineDash([]);
+  context.lineCap = "butt";
 }
 
 function drawRoundedRect(x, y, width, height, radius) {
@@ -655,41 +811,156 @@ function drawEnemy(threat, x, y, width, height) {
   context.shadowColor = "rgba(0, 0, 0, 0.4)";
   context.shadowBlur = 10;
   context.shadowOffsetY = 6;
+  context.translate(x, y);
+  context.rotate(Math.sin(threat.y * 0.035) * 0.18);
 
-  drawRoundedRect(x - width / 2, y - height / 2, width, height, 14);
-  context.fillStyle = "#2f9ac6";
+  drawRoundedRect(-width / 2, -height / 2, width, height, 13);
+  context.fillStyle = "#c8332d";
   context.fill();
 
   context.shadowColor = "transparent";
-  drawRoundedRect(x - width / 2 + 6, y - height / 2 + 5, width - 12, 16, 8);
-  context.fillStyle = "#bceaf2";
+  drawRoundedRect(-width / 2 + 4, -height / 2 + 4, width - 8, 10, 5);
+  context.fillStyle = "#e6efec";
   context.fill();
 
-  context.fillStyle = "#fff6df";
-  context.fillRect(x - width / 2 + 14, y - 5, width - 28, 9);
+  drawRoundedRect(-width / 2 + 4, height / 2 - 14, width - 8, 10, 5);
+  context.fillStyle = "#b8c7c3";
+  context.fill();
+
+  context.fillStyle = "#f4d36a";
+  context.beginPath();
+  context.moveTo(-width / 2 + 7, -height / 2 + 22);
+  context.lineTo(width / 2 - 8, -height / 2 + 14);
+  context.lineTo(width / 2 - 7, height / 2 - 24);
+  context.lineTo(-width / 2 + 7, height / 2 - 14);
+  context.closePath();
+  context.fill();
+
+  context.fillStyle = "#f9fbf7";
+  drawRoundedRect(-width / 2 + 13, -8, width - 26, 18, 7);
+  context.fill();
+
+  context.fillStyle = "#1d2423";
+  context.font = `${Math.max(10, width * 0.18)}px Arial, sans-serif`;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText("SODA", 0, 1);
+
+  context.fillStyle = "#1a1716";
+  context.beginPath();
+  context.arc(-width * 0.17, -height * 0.2, 3.2, 0, Math.PI * 2);
+  context.arc(width * 0.17, -height * 0.2, 3.2, 0, Math.PI * 2);
+  context.fill();
+
+  context.strokeStyle = "#1a1716";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(-width * 0.2, -height * 0.06);
+  context.quadraticCurveTo(0, height * 0.03, width * 0.2, -height * 0.06);
+  context.stroke();
+
+  context.strokeStyle = "rgba(255, 255, 255, 0.35)";
+  context.lineWidth = 3;
+  context.beginPath();
+  context.moveTo(width / 2 - 10, -height / 2 + 20);
+  context.lineTo(width / 2 - 15, height / 2 - 22);
+  context.stroke();
   context.restore();
 }
 
 function drawLowObstacle(threat, x, y, width, height) {
   context.save();
+  context.globalAlpha = threat.cleared ? 0.5 : 1;
+  context.shadowColor = "rgba(0, 0, 0, 0.28)";
+  context.shadowBlur = 8;
+  context.shadowOffsetY = 5;
+
   drawRoundedRect(x - width / 2, y - height / 2, width, height, 8);
-  context.fillStyle = threat.cleared ? "rgba(93, 178, 93, 0.5)" : "#5db25d";
+  context.fillStyle = "#f5d354";
   context.fill();
 
-  context.fillStyle = "rgba(255, 246, 223, 0.42)";
-  context.fillRect(x - width / 2 + 10, y - height / 2 + 9, width - 20, 8);
+  context.shadowColor = "transparent";
+  context.fillStyle = "#fff0a6";
+  context.fillRect(x - width / 2 + 8, y - height / 2 + 7, width - 16, height - 14);
+
+  context.fillStyle = "#f6d45d";
+  drawRoundedRect(x - width / 2 + 18, y - height / 2 + 9, width - 36, height - 18, 5);
+  context.fill();
+
+  context.strokeStyle = "#c99d26";
+  context.lineWidth = 2;
+  context.stroke();
+
+  context.fillStyle = "#80571a";
+  context.font = `${Math.max(10, height * 0.28)}px Arial, sans-serif`;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText("BUTTER", x, y + 1);
+
+  context.strokeStyle = "rgba(255, 255, 255, 0.38)";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(x - width / 2 - 16, y + height / 2 - 5);
+  context.lineTo(x - width / 2 - 4, y + height / 2 - 5);
+  context.moveTo(x - width / 2 - 22, y + height / 2 + 5);
+  context.lineTo(x - width / 2 - 6, y + height / 2 + 5);
+  context.stroke();
   context.restore();
 }
 
 function drawHighObstacle(threat, x, y, width, height) {
   context.save();
-  drawRoundedRect(x - width / 2, y - height / 2, width, height, 8);
-  context.fillStyle = threat.cleared ? "rgba(127, 102, 219, 0.45)" : "#7f66db";
-  context.fill();
+  context.globalAlpha = threat.cleared ? 0.45 : 1;
+  context.shadowColor = "rgba(0, 0, 0, 0.34)";
+  context.shadowBlur = 8;
+  context.shadowOffsetY = 4;
 
-  context.fillStyle = "rgba(255, 246, 223, 0.5)";
-  context.fillRect(x - width / 2 + 12, y - height / 2 + 12, width - 24, 10);
-  context.fillRect(x - width / 2 + 12, y + height / 2 - 22, width - 24, 10);
+  const left = x - width / 2;
+  const right = x + width / 2;
+  const top = y - height / 2 + 10;
+  const bottom = y + height / 2 - 12;
+
+  context.strokeStyle = "#e7efed";
+  context.lineWidth = 6;
+  context.lineCap = "round";
+
+  context.beginPath();
+  context.moveTo(left + 8, top);
+  context.lineTo(right - 8, top);
+  context.moveTo(left + 8, bottom);
+  context.lineTo(right - 8, bottom);
+  context.stroke();
+
+  context.shadowColor = "transparent";
+  context.strokeStyle = "#738986";
+  context.lineWidth = 3;
+  for (let bar = 0; bar < 5; bar += 1) {
+    const barX = left + 16 + (bar * (width - 32)) / 4;
+
+    context.beginPath();
+    context.moveTo(barX, top - 16);
+    context.lineTo(barX, bottom + 4);
+    context.stroke();
+  }
+
+  context.strokeStyle = "#c6d4d1";
+  context.lineWidth = 3;
+  for (let row = 1; row < 3; row += 1) {
+    const rowY = top + (row * (bottom - top)) / 3;
+
+    context.beginPath();
+    context.moveTo(left + 12, rowY);
+    context.lineTo(right - 12, rowY);
+    context.stroke();
+  }
+
+  context.fillStyle = "#d8342a";
+  context.beginPath();
+  context.moveTo(x - 8, bottom + 8);
+  context.lineTo(x + 8, bottom + 8);
+  context.lineTo(x, bottom + 24);
+  context.closePath();
+  context.fill();
   context.restore();
 }
 
@@ -719,35 +990,99 @@ function drawPlayer() {
   const position = getPlayerPosition();
   const width = PLAYER_WIDTH + player.duckScale * 16;
   const height = PLAYER_HEIGHT - (PLAYER_HEIGHT - DUCK_HEIGHT) * player.duckScale;
-  const x = position.x - width / 2;
-  const y = position.y - height / 2;
+  const step = game.state === "playing" ? Math.sin(game.runTimeMs / 95) : 0;
+  const lean = player.isJumping ? -0.16 : player.isDucking ? 0.08 : step * 0.05;
+  const bodyWidth = width * 0.62;
+  const bodyHeight = height * 0.72;
+  const neckWidth = bodyWidth * 0.46;
+  const capWidth = bodyWidth * 0.58;
+  const bodyTop = -height / 2 + height * 0.23;
+  const bodyLeft = -bodyWidth / 2;
 
   context.save();
+  context.translate(position.x, position.y);
+  context.rotate(lean);
   context.shadowColor = "rgba(0, 0, 0, 0.45)";
   context.shadowBlur = 16;
   context.shadowOffsetY = 10;
 
-  drawRoundedRect(x, y, width, height, 12);
+  context.strokeStyle = "#8f201a";
+  context.lineWidth = Math.max(3, width * 0.07);
+  context.lineCap = "round";
+  context.beginPath();
+  context.moveTo(bodyLeft - 4, bodyTop + bodyHeight * 0.46);
+  context.lineTo(bodyLeft - 18, bodyTop + bodyHeight * 0.64 + step * 3);
+  context.moveTo(-bodyLeft + 4, bodyTop + bodyHeight * 0.45);
+  context.lineTo(-bodyLeft + 17, bodyTop + bodyHeight * 0.34 - step * 3);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(-bodyWidth * 0.23, bodyTop + bodyHeight - 2);
+  context.lineTo(-bodyWidth * 0.42, bodyTop + bodyHeight + 13 + step * 4);
+  context.moveTo(bodyWidth * 0.23, bodyTop + bodyHeight - 2);
+  context.lineTo(bodyWidth * 0.44, bodyTop + bodyHeight + 12 - step * 4);
+  context.stroke();
+
+  drawRoundedRect(bodyLeft, bodyTop, bodyWidth, bodyHeight, 14);
   context.fillStyle = "#d8342a";
   context.fill();
 
   context.shadowColor = "transparent";
-  drawRoundedRect(x + 14, y - 16 + player.duckScale * 14, width - 28, 24, 9);
+  drawRoundedRect(-neckWidth / 2, bodyTop - height * 0.12, neckWidth, height * 0.18, 6);
+  context.fillStyle = "#b92c25";
+  context.fill();
+
+  drawRoundedRect(-capWidth / 2, bodyTop - height * 0.23, capWidth, height * 0.14, 5);
   context.fillStyle = "#f3d35f";
   context.fill();
 
-  context.fillStyle = "rgba(255, 255, 255, 0.82)";
-  context.fillRect(x + 18, y + 18, width - 36, Math.max(8, 12 - player.duckScale * 3));
+  context.fillStyle = "#fff6df";
+  drawRoundedRect(-bodyWidth * 0.34, bodyTop + bodyHeight * 0.32, bodyWidth * 0.68, bodyHeight * 0.28, 7);
+  context.fill();
+
+  context.fillStyle = "#d8342a";
+  context.font = `${Math.max(10, bodyWidth * 0.24)}px Arial, sans-serif`;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText("RUN", 0, bodyTop + bodyHeight * 0.46);
+
+  context.fillStyle = "#fff6df";
+  context.beginPath();
+  context.arc(-bodyWidth * 0.16, bodyTop + bodyHeight * 0.19, 5, 0, Math.PI * 2);
+  context.arc(bodyWidth * 0.16, bodyTop + bodyHeight * 0.19, 5, 0, Math.PI * 2);
+  context.fill();
+
+  context.fillStyle = "#191211";
+  context.beginPath();
+  context.arc(-bodyWidth * 0.14, bodyTop + bodyHeight * 0.2, 2.4, 0, Math.PI * 2);
+  context.arc(bodyWidth * 0.18, bodyTop + bodyHeight * 0.2, 2.4, 0, Math.PI * 2);
+  context.fill();
+
+  context.strokeStyle = "#191211";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(-bodyWidth * 0.26, bodyTop + bodyHeight * 0.12);
+  context.lineTo(-bodyWidth * 0.06, bodyTop + bodyHeight * 0.09);
+  context.moveTo(bodyWidth * 0.07, bodyTop + bodyHeight * 0.09);
+  context.lineTo(bodyWidth * 0.28, bodyTop + bodyHeight * 0.12);
+  context.stroke();
+
+  context.strokeStyle = "rgba(255, 246, 223, 0.34)";
+  context.lineWidth = 3;
+  context.beginPath();
+  context.moveTo(bodyWidth * 0.25, bodyTop + bodyHeight * 0.18);
+  context.lineTo(bodyWidth * 0.2, bodyTop + bodyHeight * 0.72);
+  context.stroke();
   context.restore();
 }
 
 function drawProjectiles() {
   context.save();
-  context.strokeStyle = "#f3d35f";
-  context.fillStyle = "#fff6df";
+  context.strokeStyle = "#d8342a";
+  context.fillStyle = "#f3d35f";
   context.lineWidth = 4;
   context.lineCap = "round";
-  context.shadowColor = "rgba(243, 211, 95, 0.55)";
+  context.shadowColor = "rgba(216, 52, 42, 0.5)";
   context.shadowBlur = 12;
 
   projectiles.forEach((projectile) => {
@@ -770,6 +1105,10 @@ function drawScore() {
   }
 
   context.save();
+  drawRoundedRect(20, 18, 156, game.state === "playing" ? 58 : 38, 8);
+  context.fillStyle = "rgba(15, 20, 19, 0.62)";
+  context.fill();
+
   context.textAlign = "left";
   context.textBaseline = "top";
   context.font = "700 24px Arial, sans-serif";
@@ -796,7 +1135,7 @@ function drawLeaderboard(x, y) {
 
   context.font = "13px Arial, sans-serif";
   context.fillStyle = "rgba(255, 246, 223, 0.64)";
-  context.fillText("fake seeds + this browser", x, y + 24);
+  context.fillText("local scores on this browser", x, y + 24);
 
   context.font = "16px Arial, sans-serif";
   leaderboardEntries.slice(0, LEADERBOARD_MAX_ENTRIES).forEach((entry, index) => {
@@ -822,19 +1161,20 @@ function drawStartOverlay() {
   context.fillStyle = "#fff6df";
   context.textAlign = "center";
   context.textBaseline = "middle";
-  context.font = "700 46px Arial, sans-serif";
-  context.fillText("Kitchen Wars: The Door", CANVAS_WIDTH / 2, 198);
+  context.font = "700 42px Arial, sans-serif";
+  context.fillText("Kitchen Wars: The Door", CANVAS_WIDTH / 2, 126);
 
   context.font = "20px Arial, sans-serif";
   context.fillStyle = "#f4d36a";
-  context.fillText("Press Enter or Space", CANVAS_WIDTH / 2, 246);
+  context.fillText("Press Enter, Space, or tap Start", CANVAS_WIDTH / 2, 180);
 
   context.font = "16px Arial, sans-serif";
   context.fillStyle = "rgba(255, 246, 223, 0.82)";
-  context.fillText("Move: A/D or Left/Right", CANVAS_WIDTH / 2, 284);
-  context.fillText("Jump: W or Up | Duck: S or Down | Shoot: Space", CANVAS_WIDTH / 2, 314);
+  context.fillText("Move: A/D or Left/Right", CANVAS_WIDTH / 2, 244);
+  context.fillText("Jump: W/Up | Duck: S/Down", CANVAS_WIDTH / 2, 274);
+  context.fillText("Shoot: Space or tap", CANVAS_WIDTH / 2, 304);
 
-  drawLeaderboard(626, 174);
+  drawLeaderboard(626, 198);
 }
 
 function drawGameOverOverlay() {
@@ -858,7 +1198,7 @@ function drawGameOverOverlay() {
   context.font = "16px Arial, sans-serif";
   context.fillStyle = "rgba(255, 246, 223, 0.82)";
   context.fillText("Press Enter or use Restart", CANVAS_WIDTH / 2, 254);
-  context.fillText("Shoot cans, jump low boxes, duck high bars.", CANVAS_WIDTH / 2, 284);
+  context.fillText("Shoot cans. Jump butter. Duck racks.", CANVAS_WIDTH / 2, 284);
 
   drawLeaderboard(626, 174);
 }
@@ -884,6 +1224,9 @@ function gameLoop(timestamp) {
 }
 
 window.addEventListener("keydown", handleKeyDown);
+canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
 startButton.addEventListener("click", () => {
   if (game.state === "ready" || game.state === "gameOver") {
     startGame();
