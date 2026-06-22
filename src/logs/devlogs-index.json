@@ -154,5 +154,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "kitchen-wars", "canvas", "launch"]
+  },
+  {
+    "session": "028",
+    "date": "2026-06-22",
+    "area": "SITE",
+    "title": "Kitchen Wars: The Door v1.1 Is Live",
+    "version": "Kitchen Wars: The Door v1.1",
+    "summary": "Kitchen Wars: The Door v1.1 is live with art polish, a fridge-door shelf setting, cleaner leaderboard presentation, and mobile touch controls.",
+    "filename": "20260622_SITE_Session028_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "kitchen-wars", "canvas", "art-polish", "mobile"]
   }
 ]
