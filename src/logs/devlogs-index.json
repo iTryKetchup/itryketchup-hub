@@ -166,5 +166,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "kitchen-wars", "canvas", "art-polish", "mobile"]
+  },
+  {
+    "session": "029",
+    "date": "2026-06-22",
+    "area": "SITE",
+    "title": "SITE v1.4 About Page Polish",
+    "version": "Website v1.4",
+    "summary": "The About page polish pass is live with stronger hero/workspace styling, a product-tag mascot card, rewritten Studio Identity and STUDIO STATS sections, sauce trail and splatter details, post-it style cards, a fake PowerShell interaction, recipe/lab Build Philosophy cards, responsive checks, and live verification.",
+    "filename": "20260622_SITE_Session029_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "about", "polish", "studio-identity"]
   }
 ]
