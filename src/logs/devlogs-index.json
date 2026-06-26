@@ -178,5 +178,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "about", "polish", "studio-identity"]
+  },
+  {
+    "session": "036",
+    "date": "2026-06-26",
+    "area": "MASCOT",
+    "title": "MASCOT Dev Log - Reviewer Pose Pack Complete",
+    "version": "Reviewer Pose Pack",
+    "summary": "The MASCOT reviewer and pose production package reached 16 of 16 completed visual targets, covering reviewer base variants, iTry utility poses, and the De-Jon Mustard, Mister Mayo, and Jenairic Relish reviewer pose batches.",
+    "filename": "20260626_MASCOT_ReviewerPosePack_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["mascot", "reviewers", "pose-pack", "production"]
   }
 ]
