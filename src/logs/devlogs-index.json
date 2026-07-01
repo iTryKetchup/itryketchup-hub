@@ -190,5 +190,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["mascot", "reviewers", "pose-pack", "production"]
+  },
+  {
+    "session": "043",
+    "date": "2026-07-01",
+    "area": "SITE",
+    "title": "The Wolf Tale Release Hub Is Live",
+    "version": "Website v1.5.1",
+    "summary": "The Wolf Tale now has a dedicated release hub on iTryKetchup Studio, bringing together the current episodes, official script PDF, playlist, and a combined audio player for reading and listening in one place.",
+    "filename": "20260701_SITE_Session043_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "wolf-tale", "youtube", "release-hub", "audio", "script"]
   }
 ]
