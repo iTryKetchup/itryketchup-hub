@@ -24,7 +24,7 @@ window.SiteSettings = {
   },
   domainTarget: "itryketchup.com",
   featureFlags: {
-    analytics: false,
+    analytics: true,
     videosPage: false,
     projectDetailPages: false,
     backendContactForm: false

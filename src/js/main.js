@@ -86,6 +86,8 @@
     action.textContent = project.actionLabel || "More";
     if (project.link) {
       action.href = project.link;
+      action.dataset.track = "project_open";
+      action.dataset.trackLabel = `${project.title} - ${action.textContent}`;
     } else {
       action.setAttribute("aria-disabled", "true");
     }
@@ -127,6 +129,8 @@
     action.textContent = log.link ? (log.actionLabel || "Read Log") : `${log.actionLabel || "Log"} - static preview`;
     if (log.link) {
       action.href = log.link;
+      action.dataset.track = "devlog_open";
+      action.dataset.trackLabel = `${log.title} - ${action.textContent}`;
     } else {
       action.setAttribute("aria-disabled", "true");
     }

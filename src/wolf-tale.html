@@ -138,14 +138,14 @@
           <h2 id="script-title">Read the Tale</h2>
           <p class="lede">Read the public script for Episode 01 and Episode 02 in one clean PDF.</p>
           <div class="button-row">
-            <a class="button buff-link" href="/assets/wolf-tale/the-wolf-tale-official-script.pdf" target="_blank" rel="noopener" data-buff="+10 Official Script | +5 Story Context">Read the Official Script</a>
+    <a class="button buff-link" href="/assets/wolf-tale/the-wolf-tale-official-script.pdf" target="_blank" rel="noopener" data-buff="+10 Official Script | +5 Story Context" data-track="download" data-track-label="The Wolf Tale official script PDF">Read the Official Script</a>
           </div>
         </div>
         <div class="wolf-tale-audio-card" aria-labelledby="wolf-tale-audio-title">
           <p class="eyebrow">Audio Edition</p>
           <h3 id="wolf-tale-audio-title">Listen while you read</h3>
           <p>Play the combined EP01 + EP02 audio track directly on this page while you scroll through the official script.</p>
-          <audio class="wolf-tale-audio-player" controls preload="metadata">
+          <audio class="wolf-tale-audio-player" controls preload="metadata" aria-label="The Wolf Tale combined EP01 and EP02 audio">
             <source src="/assets/wolf-tale/the-wolf-tale-ep01-ep02-audio.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
           </audio>
@@ -158,7 +158,7 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. Analytics disabled for v1.0.</p>
+        <p class="small">Static hub foundation. Privacy-friendly analytics active for v1.6.</p>
         <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
 // Status: Early Access</code></pre>
       </div>
@@ -174,5 +174,7 @@
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
   <script src="js/main.js" defer></script>
+  <script src="js/supabase-config.js" defer></script>
+  <script src="js/site-analytics.js" defer></script>
 </body>
 </html>

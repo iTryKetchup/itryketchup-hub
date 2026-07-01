@@ -17,12 +17,14 @@
         <canvas id="gameCanvas" width="960" height="540">
           Kitchen Wars: The Door requires a browser that supports Canvas.
         </canvas>
-        <button id="startButton" class="start-button" type="button">Start</button>
+        <button id="startButton" class="start-button" type="button" data-track="game_open" data-track-label="Kitchen Wars: The Door start button">Start</button>
       </section>
 
       <p class="control-hint">Move: A/D or Left/Right. Jump: W or Up. Duck: S or Down. Shoot: Space. Restart: Enter.</p>
     </main>
 
+    <script src="../../js/supabase-config.js"></script>
+    <script src="../../js/site-analytics.js"></script>
     <script src="src/main.js"></script>
   </body>
 </html>
