@@ -7469,9 +7469,9 @@ body[data-page="wolf-tale"] .button-secondary:hover {
 
 .wolf-hero__body {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  grid-template-columns: minmax(0, 0.82fr) minmax(360px, 1.18fr);
   gap: 36px;
-  align-items: stretch;
+  align-items: center;
   min-height: 520px;
   padding: 48px 56px;
   background:
@@ -7522,110 +7522,32 @@ body[data-page="wolf-tale"] .button-secondary:hover {
 .wolf-hero__scene {
   position: relative;
   min-height: 420px;
+  margin: 0;
   overflow: hidden;
   border: 1px solid rgba(247, 239, 225, 0.1);
   border-radius: 8px;
-  background:
-    radial-gradient(ellipse at 52% 18%, rgba(214, 179, 90, 0.16), transparent 28%),
-    linear-gradient(180deg, #1b1a18 0%, #101210 45%, #050606 100%);
+  background: #080909;
   box-shadow:
     inset 0 0 0 1px rgba(226, 74, 50, 0.08),
     0 24px 52px rgba(0, 0, 0, 0.34);
 }
 
-.wolf-sky,
-.wolf-moon,
-.wolf-ridge,
-.wolf-track {
+.wolf-hero__scene::after {
   position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 8, 8, 0.04) 0%, rgba(7, 8, 8, 0) 52%, rgba(7, 8, 8, 0.32) 100%),
+    linear-gradient(90deg, rgba(226, 74, 50, 0.16), transparent 22%, transparent 78%, rgba(214, 179, 90, 0.08));
+  content: "";
   pointer-events: none;
 }
 
-.wolf-sky {
-  inset: 0;
-  background:
-    linear-gradient(90deg, transparent, rgba(247, 239, 225, 0.06), transparent) center 22% / 78% 1px no-repeat,
-    linear-gradient(90deg, rgba(247, 239, 225, 0.035) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(247, 239, 225, 0.026) 1px, transparent 1px);
-  background-size: 78% 1px, 48px 48px, 48px 48px;
-}
-
-.wolf-moon {
-  top: 44px;
-  right: 64px;
-  width: 92px;
-  height: 92px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 36% 34%, #fff4d3 0 7px, transparent 8px),
-    radial-gradient(circle at 60% 58%, rgba(85, 74, 57, 0.36) 0 10px, transparent 11px),
-    #d8b96c;
-  box-shadow: 0 0 44px rgba(214, 179, 90, 0.22);
-  opacity: 0.82;
-}
-
-.wolf-ridge {
-  right: -8%;
-  left: -8%;
-  clip-path: polygon(0 64%, 9% 52%, 19% 61%, 31% 42%, 43% 60%, 56% 37%, 68% 56%, 81% 39%, 91% 58%, 100% 48%, 100% 100%, 0 100%);
-}
-
-.wolf-ridge--back {
-  bottom: 18%;
-  height: 48%;
-  background: linear-gradient(180deg, rgba(70, 81, 65, 0.62), rgba(17, 23, 20, 0.9));
-}
-
-.wolf-ridge--front {
-  bottom: -1%;
-  height: 54%;
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.45), transparent 32%, rgba(226, 74, 50, 0.1)),
-    linear-gradient(180deg, #181b16 0%, #070808 72%);
-}
-
-.wolf-track {
-  bottom: 62px;
-  width: 18px;
-  height: 26px;
-  border-radius: 50% 50% 45% 45%;
-  background: rgba(247, 239, 225, 0.22);
-  transform: rotate(-18deg);
-}
-
-.wolf-track::before,
-.wolf-track::after {
-  position: absolute;
-  top: -7px;
-  width: 7px;
-  height: 9px;
-  border-radius: 999px;
-  background: rgba(247, 239, 225, 0.18);
-  content: "";
-}
-
-.wolf-track::before {
-  left: 1px;
-}
-
-.wolf-track::after {
-  right: 1px;
-}
-
-.wolf-track--one {
-  right: 34%;
-}
-
-.wolf-track--two {
-  right: 45%;
-  bottom: 104px;
-  opacity: 0.7;
-}
-
-.wolf-track--three {
-  right: 55%;
-  bottom: 142px;
-  opacity: 0.45;
+.wolf-hero__scene img {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .wolf-rules-panel {
@@ -7640,8 +7562,8 @@ body[data-page="wolf-tale"] .button-secondary:hover {
 
 .wolf-rule-list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -7651,13 +7573,26 @@ body[data-page="wolf-tale"] .button-secondary:hover {
   min-width: 0;
   border: 1px solid rgba(214, 179, 90, 0.3);
   border-radius: 6px;
-  padding: 10px 12px;
+  padding: 14px;
   background: rgba(247, 239, 225, 0.045);
   color: #efe4d2;
+  font-size: 0.94rem;
+  line-height: 1.4;
+}
+
+.wolf-rule-list strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #d6b35a;
   font-family: Consolas, "Courier New", monospace;
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
   line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.wolf-rule-list span {
+  display: block;
 }
 
 .wolf-episode-grid {
@@ -7692,8 +7627,7 @@ body[data-page="wolf-tale"] .button-secondary:hover {
   padding: 22px;
 }
 
-.wolf-episode-label,
-.wolf-release-note__kicker {
+.wolf-episode-label {
   margin: 0 0 6px;
   color: #d6b35a;
   font-family: Consolas, "Courier New", monospace;
@@ -7713,10 +7647,47 @@ body[data-page="wolf-tale"] .button-secondary:hover {
   margin-top: 18px;
 }
 
-.wolf-release-note {
+.wolf-cinematic-anchor {
+  position: relative;
   align-self: stretch;
-  border-left: 3px solid rgba(226, 74, 50, 0.72);
-  padding: 18px 0 18px 20px;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(247, 239, 225, 0.13);
+  border-radius: 8px;
+  background: #0d0f0e;
+  box-shadow: var(--shadow);
+}
+
+.wolf-cinematic-anchor img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.wolf-cinematic-anchor figcaption {
+  margin: 0;
+  border-top: 1px solid rgba(247, 239, 225, 0.1);
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.wolf-script-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(247, 239, 225, 0.13);
+  border-radius: 8px;
+  padding: 24px;
+  background:
+    linear-gradient(90deg, rgba(226, 74, 50, 0.08), transparent 48%),
+    #101210;
+  box-shadow: var(--shadow);
+}
+
+.wolf-script-card p:last-child {
+  max-width: 58ch;
   color: var(--muted);
 }
 
@@ -7737,6 +7708,10 @@ body[data-page="wolf-tale"] .footer-status-token {
   }
 
   .wolf-hero__scene {
+    min-height: 320px;
+  }
+
+  .wolf-hero__scene img {
     min-height: 320px;
   }
 
@@ -7771,7 +7746,8 @@ body[data-page="wolf-tale"] .footer-status-token {
 
   .wolf-hero__body,
   .wolf-rules-panel,
-  .wolf-episode-card__copy {
+  .wolf-episode-card__copy,
+  .wolf-script-card {
     padding: 18px;
   }
 
@@ -7788,6 +7764,10 @@ body[data-page="wolf-tale"] .footer-status-token {
   }
 
   .wolf-hero__scene {
+    min-height: 250px;
+  }
+
+  .wolf-hero__scene img {
     min-height: 250px;
   }
 
