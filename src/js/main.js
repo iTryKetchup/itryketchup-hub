@@ -1,6 +1,7 @@
 (function () {
   const statusLabels = {
     active: "Active",
+    released: "Released",
     planned: "Planned",
     "coming-soon": "Coming Soon",
     hidden: "Hidden",

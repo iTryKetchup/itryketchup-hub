@@ -1793,12 +1793,14 @@ body[data-page="home"] .status-badge {
   color: var(--ink);
 }
 
-.status-active {
+.status-active,
+.status-released {
   background: #def2df;
   color: #2f6532;
 }
 
-body[data-page="home"] .status-active {
+body[data-page="home"] .status-active,
+body[data-page="home"] .status-released {
   background: rgba(123, 207, 138, 0.16);
   color: #a8eab3;
 }
@@ -4174,7 +4176,8 @@ body[data-page="projects"] .status-badge {
   color: var(--ink);
 }
 
-body[data-page="projects"] .status-active {
+body[data-page="projects"] .status-active,
+body[data-page="projects"] .status-released {
   background: rgba(123, 207, 138, 0.16);
   color: #a8eab3;
 }

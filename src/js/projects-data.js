@@ -30,14 +30,16 @@ window.ProjectsData = [
     actionLabel: "Planned"
   },
   {
-    title: "First Wolf",
-    category: "Game / story concept",
-    status: "coming-soon",
+    title: "The Wolf Tale",
+    category: "YouTube / Story Project",
+    status: "released",
     visibility: "public",
-    summary: "An early-stage project idea with room for mood, mechanics, and story direction later. For now, it stays visible as planned work without overpromising a release.",
-    imageId: "projectPlaceholder",
-    link: "",
-    actionLabel: "Coming Soon"
+    summary: "A cinematic documentary-style prehistoric fiction audio drama exploring the imagined origins of the human-wolf bond. Watch the current episodes, read the official script, and follow the release.",
+    imageId: "wolfTale",
+    image: "assets/wolf-tale/wolf-tale-playlist-hero.webp",
+    alt: "The Wolf Tale playlist artwork showing a wolf, mammoth, hunters, and snowy prehistoric mountains.",
+    link: "wolf-tale.html",
+    actionLabel: "Open The Wolf Tale"
   },
   {
     title: "Skynet vs Star Wars Fan Project",
