@@ -7679,7 +7679,9 @@ body[data-page="wolf-tale"] .button-secondary:hover {
 
 .wolf-script-card {
   display: grid;
-  gap: 12px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.85fr);
+  gap: 24px;
+  align-items: start;
   border: 1px solid rgba(247, 239, 225, 0.13);
   border-radius: 8px;
   padding: 24px;
@@ -7689,9 +7691,34 @@ body[data-page="wolf-tale"] .button-secondary:hover {
   box-shadow: var(--shadow);
 }
 
-.wolf-script-card p:last-child {
+.wolf-script-copy .lede,
+.wolf-tale-audio-card p {
   max-width: 58ch;
   color: var(--muted);
+}
+
+.wolf-tale-audio-card {
+  min-width: 0;
+  border-left: 2px solid rgba(214, 179, 90, 0.7);
+  padding: 4px 0 4px 20px;
+}
+
+.wolf-tale-audio-card .eyebrow {
+  margin-bottom: 8px;
+  color: #d6b35a;
+}
+
+.wolf-tale-audio-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.45rem;
+}
+
+.wolf-tale-audio-player {
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  margin-top: 18px;
+  accent-color: var(--red);
 }
 
 body[data-page="wolf-tale"] .text-action {
@@ -7724,6 +7751,16 @@ body[data-page="wolf-tale"] .footer-status-token {
 
   .wolf-episode-grid {
     grid-template-columns: 1fr;
+  }
+
+  .wolf-script-card {
+    grid-template-columns: 1fr;
+  }
+
+  .wolf-tale-audio-card {
+    border-top: 1px solid rgba(247, 239, 225, 0.13);
+    border-left: 0;
+    padding: 22px 0 0;
   }
 }
 
