@@ -40,13 +40,19 @@
       <div class="section-header">
         <span class="section-divider__label">sign in</span>
         <h2 id="analytics-login-title">Analytics Login</h2>
-        <p class="lede">Use the analytics admin email. Supabase will send a magic link.</p>
+        <p class="lede">Use the analytics admin email and password.</p>
       </div>
       <form class="analytics-login-form" data-analytics-login-form>
-        <label for="analytics-email">Email</label>
         <div class="analytics-login-row">
-          <input id="analytics-email" name="email" type="email" autocomplete="email" required data-analytics-email>
-          <button class="button" type="submit">Send Magic Link</button>
+          <div class="analytics-login-field">
+            <label for="analytics-email">Email</label>
+            <input id="analytics-email" name="email" type="email" autocomplete="email" required data-analytics-email>
+          </div>
+          <div class="analytics-login-field">
+            <label for="analytics-password">Password</label>
+            <input id="analytics-password" name="password" type="password" autocomplete="current-password" required data-analytics-password>
+          </div>
+          <button class="button" type="submit">Sign In</button>
         </div>
       </form>
     </section>

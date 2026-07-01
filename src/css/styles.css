@@ -7869,6 +7869,14 @@ body[data-page="studio-analytics"] .site-header {
   padding: 0.85rem 1rem;
 }
 
+.analytics-login-field {
+  flex: 1 1 260px;
+}
+
+.analytics-login-field input {
+  width: 100%;
+}
+
 .analytics-message {
   min-height: 1.5rem;
   color: var(--muted);

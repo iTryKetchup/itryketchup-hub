@@ -3,6 +3,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const config = window.ITK_SUPABASE_CONFIG || {};
 const emailForm = document.querySelector("[data-analytics-login-form]");
 const emailInput = document.querySelector("[data-analytics-email]");
+const passwordInput = document.querySelector("[data-analytics-password]");
 const loginPanel = document.querySelector("[data-analytics-login]");
 const dashboardPanel = document.querySelector("[data-analytics-dashboard]");
 const messageNode = document.querySelector("[data-analytics-message]");
@@ -26,10 +27,6 @@ function setMessage(text, tone) {
   if (!messageNode) return;
   messageNode.textContent = text || "";
   messageNode.dataset.tone = tone || "";
-}
-
-function currentRedirectUrl() {
-  return `${window.location.origin}${window.location.pathname}`;
 }
 
 function showLogin() {
@@ -166,7 +163,7 @@ async function refreshSession() {
   const session = data && data.session;
   if (!session) {
     showLogin();
-    setMessage("Sign in with the analytics admin email to view the dashboard.", "");
+    setMessage("Sign in with the analytics admin email and password to view the dashboard.", "");
     return;
   }
   if (signedInNode) signedInNode.textContent = session.user && session.user.email ? session.user.email : "Signed in";
@@ -181,21 +178,23 @@ function wireEvents() {
     emailForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const email = emailInput ? emailInput.value.trim() : "";
+      const password = passwordInput ? passwordInput.value : "";
       if (!email) {
         setMessage("Enter an email address.", "error");
         return;
       }
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: currentRedirectUrl()
-        }
-      });
-      if (error) {
-        setMessage("Magic link request failed. Check the email and try again.", "error");
+      if (!password) {
+        setMessage("Enter a password.", "error");
         return;
       }
-      setMessage("Magic link sent. Check your email, then return here.", "success");
+      setMessage("Signing in...", "");
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setMessage("Sign-in failed. Check the email and password, then try again.", "error");
+        return;
+      }
+      if (passwordInput) passwordInput.value = "";
+      await refreshSession();
     });
   }
 
