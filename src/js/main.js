@@ -200,6 +200,40 @@
     });
   }
 
+  function wireTechStackReveal() {
+    document.querySelectorAll("[data-tech-stack-reveal]").forEach((reveal) => {
+      const toggle = reveal.querySelector("[data-tech-stack-toggle]");
+      const status = reveal.querySelector(".about-tech-stack-trigger__status");
+      if (!toggle || reveal.dataset.techStackWired === "true") return;
+
+      function setOpen(isOpen) {
+        reveal.classList.toggle("is-open", isOpen);
+        toggle.setAttribute("aria-expanded", String(isOpen));
+        if (status) {
+          status.textContent = isOpen ? "open" : "peek";
+        }
+      }
+
+      toggle.addEventListener("click", () => {
+        setOpen(!reveal.classList.contains("is-open"));
+      });
+
+      toggle.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          setOpen(!reveal.classList.contains("is-open"));
+          return;
+        }
+
+        if (event.key !== "Escape") return;
+        setOpen(false);
+        toggle.blur();
+      });
+
+      reveal.dataset.techStackWired = "true";
+    });
+  }
+
   function wireTerminalEasterEgg() {
     const widgets = document.querySelectorAll("[data-terminal-widget]");
     if (!widgets.length) return;
@@ -314,6 +348,7 @@
     markCurrentPage();
     fillYear();
     preventDisabledLinks();
+    wireTechStackReveal();
     wireTerminalEasterEgg();
   });
 })();

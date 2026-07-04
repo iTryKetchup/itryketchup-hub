@@ -135,8 +135,10 @@
       </div>
       <div class="split-grid split-grid--top">
         <p class="lede">We don't do corporate mystique or fake departments. This is a practical public home for live systems, raw notes, experimental prototypes, and the occasional chaotic idea that survives first contact with code.</p>
-        <div class="about-signal-panel" aria-label="Studio stats">
-          <p class="about-panel-kicker">studio stats</p>
+        <div class="about-signal-panel about-tech-stack-card" aria-labelledby="studio-hub-title">
+          <p class="about-panel-kicker">studio hub</p>
+          <h3 id="studio-hub-title">iTryKetchup Studio Hub</h3>
+          <p class="about-tech-stack-card__summary">A static public base for projects, notes, experiments, and the occasional suspiciously organized sauce packet.</p>
           <dl class="about-signal-list">
             <div>
               <dt>Operations Hub</dt>
@@ -151,6 +153,23 @@
               <dd>Studio deployment of v1.0 complete. Honest labeling on all modules is enforced.</dd>
             </div>
           </dl>
+          <div class="about-tech-stack-reveal" data-tech-stack-reveal>
+            <button class="about-tech-stack-trigger" type="button" aria-expanded="false" aria-controls="about-tech-stack-panel" data-tech-stack-toggle>
+              <span>Tech Stack</span>
+              <span class="about-tech-stack-trigger__status" aria-hidden="true">peek</span>
+            </button>
+            <div class="about-tech-stack-panel" id="about-tech-stack-panel" data-tech-stack-panel>
+              <ul class="about-tech-stack-list" aria-label="Website tech stack">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>GitHub Pages</li>
+                <li>Supabase analytics</li>
+                <li>Git / GitHub workflow</li>
+              </ul>
+              <p>Static pages, public analytics wiring, and a GitHub Pages deployment path. No private project files in the pour.</p>
+            </div>
+          </div>
         </div>
       </div>
       <figure class="about-library-mascot">
@@ -296,7 +315,7 @@
   <script src="js/mascots-data.js" defer></script>
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
-  <script src="js/main.js?v=1.10-about-interactions" defer></script>
+  <script src="js/main.js?v=1.8-tech-stack-reveal-a11y" defer></script>
   <script src="js/supabase-config.js" defer></script>
   <script src="js/site-analytics.js" defer></script>
 </body>

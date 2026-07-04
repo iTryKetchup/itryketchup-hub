@@ -3341,6 +3341,127 @@ body[data-page="about"] .callout-list li {
   line-height: 1.45;
 }
 
+.about-tech-stack-card {
+  display: grid;
+  gap: 0;
+}
+
+.about-tech-stack-card h3 {
+  margin: 8px 0 0;
+  color: #fff4ef;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: clamp(1.25rem, 2.1vw, 1.7rem);
+  line-height: 1.08;
+}
+
+.about-tech-stack-card__summary {
+  margin: 10px 0 0;
+  color: #e7ded6;
+  font-weight: 760;
+  line-height: 1.45;
+}
+
+.about-tech-stack-reveal {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.about-tech-stack-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(255, 244, 239, 0.24);
+  border-radius: 5px;
+  padding: 10px 12px;
+  background:
+    linear-gradient(90deg, rgba(255, 59, 47, 0.2), rgba(255, 209, 110, 0.08)),
+    rgba(255, 255, 255, 0.055);
+  color: #fff7ed;
+  cursor: pointer;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.about-tech-stack-trigger:hover {
+  border-color: rgba(255, 209, 110, 0.62);
+  background:
+    linear-gradient(90deg, rgba(255, 59, 47, 0.28), rgba(255, 209, 110, 0.14)),
+    rgba(255, 255, 255, 0.075);
+}
+
+.about-tech-stack-trigger__status {
+  border: 1px solid rgba(255, 209, 110, 0.42);
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: rgba(10, 12, 16, 0.52);
+  color: #ffd16e;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+}
+
+.about-tech-stack-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    max-height 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.about-tech-stack-card:hover .about-tech-stack-panel,
+.about-tech-stack-card:focus-within .about-tech-stack-panel,
+.about-tech-stack-reveal.is-open .about-tech-stack-panel {
+  max-height: 360px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-tech-stack-reveal.is-open .about-tech-stack-trigger__status {
+  color: #fff4ef;
+}
+
+.about-tech-stack-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 2px 0 0;
+  list-style: none;
+}
+
+.about-tech-stack-list li {
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 8px 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent),
+    rgba(8, 10, 14, 0.62);
+  color: #f6ede5;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.76rem;
+  font-weight: 850;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.about-tech-stack-panel p {
+  margin: 10px 0 0;
+  color: #d8d0c9;
+  font-size: 0.9rem;
+  font-weight: 720;
+  line-height: 1.42;
+}
+
 .about-card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6233,6 +6354,20 @@ body[data-page="contact"] .footer-status-token {
   .about-product-tag,
   body[data-page="about"] .about-recipe-card {
     padding: 18px;
+  }
+
+  .about-tech-stack-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .about-tech-stack-panel {
+    max-height: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .about-tech-stack-list {
+    grid-template-columns: 1fr;
   }
 
   .about-hero h1,
