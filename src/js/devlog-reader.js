@@ -1,5 +1,6 @@
 (function () {
   const indexPath = "logs/devlogs-index.json";
+  const indexRequestPath = `${indexPath}?v=20260704-site-v18-polish-log`;
   const logBasePath = "logs/";
 
   const selectors = {
@@ -469,7 +470,7 @@
     });
 
     try {
-      const response = await fetch(indexPath);
+      const response = await fetch(indexRequestPath);
       if (!response.ok) {
         throw new Error(`Index returned ${response.status}.`);
       }
