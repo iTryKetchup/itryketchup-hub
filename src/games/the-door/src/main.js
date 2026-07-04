@@ -37,12 +37,71 @@ const DEFAULT_PLAYER_NAME = "You";
 const TOUCH_SWIPE_MIN_DISTANCE = 34;
 const TOUCH_TAP_MAX_DISTANCE = 18;
 const TOUCH_TAP_MAX_DURATION_MS = 280;
+const AUDIO_BASE_PATH = "assets/audio/";
+const LANDING_SQUASH_DURATION_MS = 180;
+const PROJECTILE_DESPAWN_MARGIN = 18;
+const PROJECTILE_DESPAWN_BURST_LIMIT = 6;
+const MAX_PARTICLES = 160;
+const PARTICLE_GRAVITY = 0.0014;
 
 const THREAT_TYPES = ["enemy", "lowObstacle", "highObstacle"];
 const THREAT_DIMENSIONS = {
   enemy: { width: 54, height: 74 },
   lowObstacle: { width: 86, height: 42 },
   highObstacle: { width: 96, height: 88 },
+};
+
+const AUDIO_CLIPS = {
+  fridgeHum: {
+    file: "ambience-fridge-hum.mp3",
+    volume: 0.16,
+    loop: true,
+  },
+  footstep: {
+    file: "sfx-footstep-pat.mp3",
+    volume: 0.14,
+    minIntervalMs: 300,
+    stopAfterMs: 180,
+  },
+  jump: {
+    file: "sfx-jump-boing.mp3",
+    volume: 0.42,
+    minIntervalMs: 260,
+  },
+  duck: {
+    file: "sfx-duck-slide.mp3",
+    volume: 0.22,
+    minIntervalMs: 260,
+    stopAfterMs: 520,
+  },
+  wireClank: {
+    file: "sfx-wire-clank.mp3",
+    volume: 0.5,
+    minIntervalMs: 160,
+  },
+  shoot: {
+    file: "sfx-shoot-squirt.mp3",
+    volume: 0.22,
+    minIntervalMs: 120,
+    stopAfterMs: 360,
+  },
+  canThwack: {
+    file: "sfx-can-thwack.mp3",
+    volume: 0.36,
+    minIntervalMs: 180,
+    stopAfterMs: 520,
+  },
+  canHit: {
+    file: "sfx-can-hit-thwack.mp3",
+    volume: 0.44,
+    minIntervalMs: 120,
+  },
+  gameOver: {
+    file: "sfx-gameover-buzzer.mp3",
+    volume: 0.44,
+    minIntervalMs: 500,
+    stopAfterMs: 1300,
+  },
 };
 
 const game = {
@@ -62,7 +121,9 @@ const game = {
 const player = {
   lane: STARTING_LANE,
   jumpStartedAt: 0,
+  jumpProgress: 0,
   duckStartedAt: 0,
+  lastLandedAt: -LANDING_SQUASH_DURATION_MS,
   yOffset: 0,
   duckScale: 0,
   isJumping: false,
@@ -79,6 +140,12 @@ const touchGesture = {
 
 const projectiles = [];
 const threats = [];
+const particles = [];
+const screenShake = {
+  startedAt: 0,
+  durationMs: 0,
+  strength: 0,
+};
 let threatSpawnBag = [];
 let leaderboardEntries = [];
 
@@ -92,6 +159,154 @@ const road = {
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
+
+function createAudioManager() {
+  const supportsAudio = typeof Audio !== "undefined";
+  const clips = new Map();
+  const lastPlayedAt = {};
+  let isUnlocked = false;
+
+  function getClip(key) {
+    const config = AUDIO_CLIPS[key];
+
+    if (!supportsAudio || !config) {
+      return null;
+    }
+
+    if (!clips.has(key)) {
+      const audio = new Audio(`${AUDIO_BASE_PATH}${config.file}`);
+      audio.preload = config.loop ? "auto" : "metadata";
+      audio.loop = Boolean(config.loop);
+      audio.volume = config.volume;
+      audio.addEventListener(
+        "error",
+        () => {
+          audio.dataset.unavailable = "true";
+        },
+        { once: true }
+      );
+      clips.set(key, audio);
+    }
+
+    return clips.get(key);
+  }
+
+  function safePlay(audio) {
+    if (!audio || audio.dataset.unavailable === "true") {
+      return;
+    }
+
+    try {
+      const playPromise = audio.play();
+
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {});
+      }
+    } catch (error) {
+      if (audio.dataset) {
+        audio.dataset.unavailable = "true";
+      }
+    }
+  }
+
+  function stopAfter(audio, durationMs) {
+    if (!durationMs) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+      } catch (error) {
+        // Runtime audio controls can fail on unavailable media; gameplay should keep moving.
+      }
+    }, durationMs);
+  }
+
+  function unlock() {
+    if (!supportsAudio) {
+      return;
+    }
+
+    isUnlocked = true;
+  }
+
+  function startAmbience() {
+    unlock();
+
+    const audio = getClip("fridgeHum");
+
+    if (!audio) {
+      return;
+    }
+
+    audio.volume = AUDIO_CLIPS.fridgeHum.volume;
+    audio.loop = true;
+    safePlay(audio);
+  }
+
+  function stopAmbience() {
+    const audio = clips.get("fridgeHum");
+
+    if (!audio) {
+      return;
+    }
+
+    try {
+      audio.pause();
+      audio.currentTime = 0;
+    } catch (error) {
+      // Missing or blocked ambience should never affect the game loop.
+    }
+  }
+
+  function playSfx(key, timestamp = performance.now(), options = {}) {
+    const config = AUDIO_CLIPS[key];
+
+    if (!isUnlocked || !config || config.loop) {
+      return;
+    }
+
+    const minIntervalMs = config.minIntervalMs || 0;
+    const lastPlayed = lastPlayedAt[key] ?? Number.NEGATIVE_INFINITY;
+
+    if (timestamp - lastPlayed < minIntervalMs) {
+      return;
+    }
+
+    const source = getClip(key);
+
+    if (!source || source.dataset.unavailable === "true") {
+      return;
+    }
+
+    lastPlayedAt[key] = timestamp;
+
+    const audio = source.cloneNode(true);
+    audio.volume = clamp(config.volume * (options.volumeMultiplier || 1), 0, 1);
+    audio.loop = false;
+    audio.addEventListener(
+      "error",
+      () => {
+        source.dataset.unavailable = "true";
+      },
+      { once: true }
+    );
+
+    safePlay(audio);
+    stopAfter(audio, options.stopAfterMs || config.stopAfterMs);
+  }
+
+  return {
+    unlock,
+    startAmbience,
+    stopAmbience,
+    playSfx,
+  };
+}
+
+const audioManager = createAudioManager();
 
 function getRoadEdgeX(y, side) {
   const centerX = CANVAS_WIDTH / 2;
@@ -118,10 +333,117 @@ function getPlayerPosition() {
   };
 }
 
+function getProjectileTrackBoundaryY() {
+  return road.horizonY + PROJECTILE_DESPAWN_MARGIN;
+}
+
+function trimParticles() {
+  if (particles.length > MAX_PARTICLES) {
+    particles.splice(0, particles.length - MAX_PARTICLES);
+  }
+}
+
+function addParticle(particle) {
+  particles.push({
+    age: 0,
+    life: 360,
+    gravity: PARTICLE_GRAVITY,
+    shape: "dot",
+    ...particle,
+  });
+  trimParticles();
+}
+
+function spawnKetchupDroplets(x, y, count = 7, direction = -1) {
+  for (let index = 0; index < count; index += 1) {
+    const spread = (Math.random() - 0.5) * 0.34;
+    const speed = 0.08 + Math.random() * 0.22;
+
+    addParticle({
+      x,
+      y,
+      vx: spread,
+      vy: direction * speed - Math.random() * 0.08,
+      radius: 2 + Math.random() * 2.6,
+      life: 280 + Math.random() * 180,
+      gravity: 0.0016,
+      color: Math.random() > 0.35 ? "#d8342a" : "#a81f1a",
+      shape: "drop",
+    });
+  }
+}
+
+function spawnCanBurst(x, y) {
+  for (let index = 0; index < 14; index += 1) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 0.11 + Math.random() * 0.28;
+
+    addParticle({
+      x,
+      y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 0.05,
+      radius: 2 + Math.random() * 3,
+      life: 320 + Math.random() * 180,
+      gravity: 0.0009,
+      color: Math.random() > 0.45 ? "#d9e1de" : "#f4d36a",
+      shape: Math.random() > 0.5 ? "shard" : "puff",
+      rotation: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 0.02,
+    });
+  }
+
+  spawnKetchupDroplets(x, y + 4, 5, 1);
+}
+
+function spawnBoundaryMist(projectile) {
+  const boundaryY = getProjectileTrackBoundaryY();
+  const x = getLaneCenterX(projectile.lane, boundaryY);
+
+  for (let index = 0; index < PROJECTILE_DESPAWN_BURST_LIMIT; index += 1) {
+    addParticle({
+      x,
+      y: boundaryY,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: 0.02 + Math.random() * 0.14,
+      radius: 1.8 + Math.random() * 2.2,
+      life: 220 + Math.random() * 120,
+      gravity: 0.0007,
+      color: index % 2 === 0 ? "#d8342a" : "#fff6df",
+      shape: "drop",
+    });
+  }
+}
+
+function triggerShake(strength, durationMs, timestamp = performance.now()) {
+  screenShake.startedAt = timestamp;
+  screenShake.durationMs = durationMs;
+  screenShake.strength = Math.max(screenShake.strength, strength);
+}
+
+function getScreenShakeOffset(timestamp) {
+  const elapsed = timestamp - screenShake.startedAt;
+
+  if (elapsed < 0 || elapsed >= screenShake.durationMs) {
+    screenShake.strength = 0;
+    return { x: 0, y: 0 };
+  }
+
+  const fade = 1 - elapsed / screenShake.durationMs;
+  const intensity = screenShake.strength * fade;
+
+  return {
+    x: (Math.random() - 0.5) * intensity,
+    y: (Math.random() - 0.5) * intensity,
+  };
+}
+
 function resetPlayerState() {
   player.lane = STARTING_LANE;
   player.jumpStartedAt = 0;
+  player.jumpProgress = 0;
   player.duckStartedAt = 0;
+  player.lastLandedAt = -LANDING_SQUASH_DURATION_MS;
   player.yOffset = 0;
   player.duckScale = 0;
   player.isJumping = false;
@@ -150,11 +472,16 @@ function resetRunState(timestamp) {
   resetPlayerState();
   projectiles.length = 0;
   threats.length = 0;
+  particles.length = 0;
   threatSpawnBag.length = 0;
+  screenShake.startedAt = 0;
+  screenShake.durationMs = 0;
+  screenShake.strength = 0;
 }
 
 function restartGame(timestamp = performance.now()) {
   resetRunState(timestamp);
+  audioManager.startAmbience();
 
   setStartButton("Restart", false);
   startButton.blur();
@@ -164,10 +491,20 @@ function startGame() {
   restartGame(performance.now());
 }
 
-function triggerGameOver() {
+function triggerGameOver(cause = "general", timestamp = performance.now()) {
   if (game.state !== "playing") {
     return;
   }
+
+  if (cause === "highObstacle") {
+    audioManager.playSfx("wireClank", timestamp);
+  } else if (cause === "enemy" || cause === "lowObstacle") {
+    audioManager.playSfx("canThwack", timestamp);
+  }
+
+  audioManager.playSfx("gameOver", timestamp);
+  audioManager.stopAmbience();
+  triggerShake(7.5, 280, timestamp);
 
   game.finalScore = Math.floor(game.score);
   recordFinalScore(game.finalScore);
@@ -176,12 +513,17 @@ function triggerGameOver() {
   setStartButton("Restart", true);
 }
 
-function moveLane(direction) {
+function moveLane(direction, timestamp = performance.now()) {
   if (game.state !== "playing") {
     return;
   }
 
-  player.lane = clamp(player.lane + direction, 0, LANE_COUNT - 1);
+  const nextLane = clamp(player.lane + direction, 0, LANE_COUNT - 1);
+
+  if (nextLane !== player.lane) {
+    player.lane = nextLane;
+    audioManager.playSfx("footstep", timestamp);
+  }
 }
 
 function jump(timestamp) {
@@ -191,6 +533,8 @@ function jump(timestamp) {
 
   player.isJumping = true;
   player.jumpStartedAt = timestamp;
+  player.jumpProgress = 0;
+  audioManager.playSfx("jump", timestamp);
 }
 
 function duck(timestamp) {
@@ -200,6 +544,7 @@ function duck(timestamp) {
 
   player.isDucking = true;
   player.duckStartedAt = timestamp;
+  audioManager.playSfx("duck", timestamp);
 }
 
 function shoot(timestamp) {
@@ -219,6 +564,9 @@ function shoot(timestamp) {
   });
 
   player.lastShotAt = timestamp;
+  audioManager.playSfx("shoot", timestamp);
+  spawnKetchupDroplets(position.x, position.y - 52, 8, -1);
+  triggerShake(1.6, 90, timestamp);
 }
 
 function shuffleThreatTypes() {
@@ -382,11 +730,17 @@ function updateDifficulty(deltaTime) {
 function updatePlayer(timestamp) {
   if (player.isJumping) {
     const jumpProgress = clamp((timestamp - player.jumpStartedAt) / JUMP_DURATION_MS, 0, 1);
+    player.jumpProgress = jumpProgress;
     player.yOffset = -Math.sin(jumpProgress * Math.PI) * JUMP_HEIGHT;
 
     if (jumpProgress >= 1) {
       player.isJumping = false;
+      player.jumpProgress = 0;
       player.yOffset = 0;
+      player.lastLandedAt = timestamp;
+
+      const position = getPlayerPosition();
+      spawnKetchupDroplets(position.x, PLAYER_BASE_Y + 24, 6, -1);
     }
   }
 
@@ -405,14 +759,36 @@ function updateProjectiles(deltaTime) {
   for (let index = projectiles.length - 1; index >= 0; index -= 1) {
     projectiles[index].y -= PROJECTILE_SPEED * deltaTime;
   }
-
-  cleanupProjectiles();
 }
 
 function cleanupProjectiles() {
+  const boundaryY = getProjectileTrackBoundaryY();
+
   for (let index = projectiles.length - 1; index >= 0; index -= 1) {
-    if (projectiles[index].y < -24) {
+    const projectile = projectiles[index];
+
+    if (projectile.y <= boundaryY) {
+      spawnBoundaryMist(projectile);
       projectiles.splice(index, 1);
+    }
+  }
+}
+
+function updateParticles(deltaTime) {
+  for (let index = particles.length - 1; index >= 0; index -= 1) {
+    const particle = particles[index];
+
+    particle.age += deltaTime;
+    particle.vy += particle.gravity * deltaTime;
+    particle.x += particle.vx * deltaTime;
+    particle.y += particle.vy * deltaTime;
+
+    if (particle.spin) {
+      particle.rotation += particle.spin * deltaTime;
+    }
+
+    if (particle.age >= particle.life) {
+      particles.splice(index, 1);
     }
   }
 }
@@ -471,6 +847,10 @@ function checkProjectileHits(timestamp) {
       const hitRange = threat.height / 2 + PROJECTILE_HIT_PADDING;
 
       if (projectile.lane === threat.lane && Math.abs(projectile.y - threat.y) <= hitRange) {
+        const hitX = getLaneCenterX(threat.lane, threat.y);
+        spawnCanBurst(hitX, threat.y);
+        audioManager.playSfx("canHit", timestamp);
+        triggerShake(3.2, 140, timestamp);
         threats.splice(threatIndex, 1);
         projectiles.splice(projectileIndex, 1);
         game.score += ENEMY_HIT_BONUS;
@@ -481,14 +861,16 @@ function checkProjectileHits(timestamp) {
   }
 }
 
-function checkPlayerThreatCollision() {
+function checkPlayerThreatCollision(timestamp = performance.now()) {
   threats.forEach((threat) => {
     if (game.state !== "playing" || threat.cleared || threat.lane !== player.lane || !isThreatInPlayerZone(threat)) {
       return;
     }
 
     if (threat.type === "enemy") {
-      triggerGameOver();
+      const hitX = getLaneCenterX(threat.lane, threat.y);
+      spawnCanBurst(hitX, threat.y);
+      triggerGameOver("enemy", timestamp);
       return;
     }
 
@@ -496,7 +878,8 @@ function checkPlayerThreatCollision() {
       if (isPlayerClearingLowObstacle()) {
         threat.cleared = true;
       } else {
-        triggerGameOver();
+        spawnKetchupDroplets(getLaneCenterX(threat.lane, threat.y), threat.y, 8, -1);
+        triggerGameOver("lowObstacle", timestamp);
       }
 
       return;
@@ -506,7 +889,7 @@ function checkPlayerThreatCollision() {
       if (isPlayerClearingHighObstacle()) {
         threat.cleared = true;
       } else {
-        triggerGameOver();
+        triggerGameOver("highObstacle", timestamp);
       }
     }
   });
@@ -519,11 +902,13 @@ function updatePlayingState(timestamp, deltaTime) {
   updateProjectiles(deltaTime);
   updateThreats(deltaTime, timestamp);
   checkProjectileHits(timestamp);
-  checkPlayerThreatCollision();
+  cleanupProjectiles();
+  checkPlayerThreatCollision(timestamp);
 }
 
 function handleKeyDown(event) {
   const key = event.key.toLowerCase();
+  audioManager.unlock();
 
   if (key === "enter") {
     event.preventDefault();
@@ -549,13 +934,13 @@ function handleKeyDown(event) {
 
   if (key === "arrowleft" || key === "a") {
     event.preventDefault();
-    moveLane(-1);
+    moveLane(-1, event.timeStamp);
     return;
   }
 
   if (key === "arrowright" || key === "d") {
     event.preventDefault();
-    moveLane(1);
+    moveLane(1, event.timeStamp);
     return;
   }
 
@@ -588,6 +973,7 @@ function handleTouchStart(event) {
     return;
   }
 
+  audioManager.unlock();
   preventTouchScroll(event);
   touchGesture.isTracking = true;
   touchGesture.startX = touch.clientX;
@@ -620,7 +1006,7 @@ function handleTouchEnd(event) {
   // Touch controls mirror keyboard actions: swipe lanes, swipe up/down, tap to start/restart or shoot.
   if (Math.max(distanceX, distanceY) >= TOUCH_SWIPE_MIN_DISTANCE) {
     if (distanceX > distanceY) {
-      moveLane(deltaX > 0 ? 1 : -1);
+      moveLane(deltaX > 0 ? 1 : -1, event.timeStamp);
     } else if (deltaY < 0) {
       jump(event.timeStamp);
     } else {
@@ -639,44 +1025,180 @@ function handleTouchEnd(event) {
   }
 }
 
+function drawIceDispenser(x, y, width, height) {
+  context.save();
+  context.shadowColor = "rgba(20, 30, 28, 0.18)";
+  context.shadowBlur = 16;
+  context.shadowOffsetY = 8;
+
+  drawRoundedRect(x, y, width, height, 14);
+  context.fillStyle = "#d4e2df";
+  context.fill();
+
+  context.shadowColor = "transparent";
+  drawRoundedRect(x + 13, y + 14, width - 26, height - 28, 9);
+  context.fillStyle = "#879b98";
+  context.fill();
+
+  drawRoundedRect(x + 35, y + 34, width - 70, 46, 7);
+  context.fillStyle = "#243432";
+  context.fill();
+
+  context.fillStyle = "#a9c3bf";
+  context.fillRect(x + 48, y + 52, width - 96, 6);
+  context.fillRect(x + width / 2 - 5, y + 58, 10, 32);
+
+  context.fillStyle = "#e9f5f0";
+  context.beginPath();
+  context.arc(x + width / 2, y + 110, 15, 0, Math.PI * 2);
+  context.fill();
+
+  context.strokeStyle = "rgba(255, 255, 255, 0.45)";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(x + 20, y + 22);
+  context.lineTo(x + width - 24, y + 22);
+  context.stroke();
+  context.restore();
+}
+
+function drawStickyNote(x, y, width, height, rotation) {
+  context.save();
+  context.translate(x + width / 2, y + height / 2);
+  context.rotate(rotation);
+  context.shadowColor = "rgba(27, 34, 31, 0.2)";
+  context.shadowBlur = 10;
+  context.shadowOffsetY = 6;
+
+  drawRoundedRect(-width / 2, -height / 2, width, height, 6);
+  context.fillStyle = "#f4d36a";
+  context.fill();
+
+  context.shadowColor = "transparent";
+  context.strokeStyle = "rgba(97, 76, 21, 0.24)";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(-width * 0.3, -height * 0.08);
+  context.lineTo(width * 0.24, -height * 0.12);
+  context.moveTo(-width * 0.22, height * 0.12);
+  context.lineTo(width * 0.3, height * 0.08);
+  context.stroke();
+
+  context.fillStyle = "#8f201a";
+  context.font = "700 13px Arial, sans-serif";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText("milk?", 0, height * 0.28);
+  context.restore();
+}
+
+function drawChildDrawing(x, y, width, height, rotation) {
+  context.save();
+  context.translate(x + width / 2, y + height / 2);
+  context.rotate(rotation);
+  context.shadowColor = "rgba(27, 34, 31, 0.18)";
+  context.shadowBlur = 9;
+  context.shadowOffsetY = 5;
+
+  drawRoundedRect(-width / 2, -height / 2, width, height, 4);
+  context.fillStyle = "#fff6df";
+  context.fill();
+
+  context.shadowColor = "transparent";
+  context.strokeStyle = "#5aa7b1";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(-width * 0.36, height * 0.22);
+  context.lineTo(-width * 0.08, -height * 0.16);
+  context.lineTo(width * 0.18, height * 0.22);
+  context.stroke();
+
+  context.strokeStyle = "#d8342a";
+  context.beginPath();
+  context.arc(width * 0.22, -height * 0.18, 12, 0, Math.PI * 2);
+  context.stroke();
+
+  context.fillStyle = "#f4d36a";
+  context.beginPath();
+  context.arc(-width * 0.28, -height * 0.24, 6, 0, Math.PI * 2);
+  context.fill();
+  context.restore();
+}
+
+function drawFridgeMagnet(x, y, width, height, label, color, rotation = 0) {
+  context.save();
+  context.translate(x + width / 2, y + height / 2);
+  context.rotate(rotation);
+  context.shadowColor = "rgba(18, 27, 25, 0.24)";
+  context.shadowBlur = 10;
+  context.shadowOffsetY = 5;
+
+  drawRoundedRect(-width / 2, -height / 2, width, height, 9);
+  context.fillStyle = color;
+  context.fill();
+
+  context.shadowColor = "transparent";
+  context.strokeStyle = "rgba(255, 255, 255, 0.48)";
+  context.lineWidth = 2;
+  context.stroke();
+
+  context.fillStyle = "#fff6df";
+  context.font = "700 12px Arial, sans-serif";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(label, 0, 1);
+  context.restore();
+}
+
 function drawBackground(timestamp) {
-  const gradient = context.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-  gradient.addColorStop(0, "#dce9e8");
-  gradient.addColorStop(0.48, "#afc7c5");
-  gradient.addColorStop(1, "#334442");
+  const gradient = context.createLinearGradient(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  gradient.addColorStop(0, "#f7fbf7");
+  gradient.addColorStop(0.42, "#d7e3df");
+  gradient.addColorStop(1, "#829995");
 
   context.fillStyle = gradient;
   context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  const doorWall = context.createLinearGradient(44, 0, 188, 0);
-  doorWall.addColorStop(0, "#f5fbf8");
-  doorWall.addColorStop(0.64, "#dce8e5");
-  doorWall.addColorStop(1, "#9fb6b2");
-
-  context.fillStyle = doorWall;
-  context.fillRect(44, 86, 146, 444);
-
-  context.fillStyle = "rgba(30, 55, 52, 0.18)";
-  context.fillRect(178, 86, 12, 444);
-
-  context.strokeStyle = "rgba(37, 63, 60, 0.22)";
-  context.lineWidth = 2;
-  for (let y = 124; y < 510; y += 64) {
+  context.save();
+  context.globalAlpha = 0.28;
+  for (let x = -6; x < CANVAS_WIDTH; x += 14) {
+    context.strokeStyle = x % 28 === 0 ? "#ffffff" : "#a3b8b4";
+    context.lineWidth = 1;
     context.beginPath();
-    context.moveTo(62, y);
-    context.lineTo(178, y);
+    context.moveTo(x, 0);
+    context.lineTo(x + 34, CANVAS_HEIGHT);
     context.stroke();
   }
+  context.restore();
 
-  const chillLinesOffset = game.state === "playing" ? (timestamp * 0.018) % 48 : 0;
-  context.strokeStyle = "rgba(255, 255, 255, 0.16)";
+  const chillLinesOffset = game.state === "playing" ? (timestamp * 0.018) % 58 : 0;
+  context.strokeStyle = "rgba(255, 255, 255, 0.24)";
   context.lineWidth = 1;
-  for (let y = road.horizonY + chillLinesOffset; y < CANVAS_HEIGHT; y += 48) {
+  for (let y = 72 + chillLinesOffset; y < CANVAS_HEIGHT; y += 58) {
     context.beginPath();
-    context.moveTo(202, y);
-    context.lineTo(CANVAS_WIDTH - 88, y + 10);
+    context.moveTo(38, y);
+    context.lineTo(CANVAS_WIDTH - 46, y + 8);
     context.stroke();
   }
+
+  context.fillStyle = "rgba(30, 55, 52, 0.14)";
+  context.fillRect(198, 78, 8, 452);
+  context.fillRect(CANVAS_WIDTH - 218, 78, 8, 452);
+
+  context.strokeStyle = "rgba(36, 62, 58, 0.22)";
+  context.lineWidth = 2;
+  context.beginPath();
+  context.moveTo(44, 80);
+  context.lineTo(44, 530);
+  context.moveTo(CANVAS_WIDTH - 44, 80);
+  context.lineTo(CANVAS_WIDTH - 44, 530);
+  context.stroke();
+
+  drawStickyNote(72, 116, 92, 68, -0.08);
+  drawChildDrawing(78, 320, 104, 88, 0.06);
+  drawIceDispenser(724, 96, 148, 146);
+  drawFridgeMagnet(696, 308, 132, 34, "iTryKetchup", "#d8342a", -0.04);
+  drawFridgeMagnet(114, 238, 58, 28, "YUM", "#5aa7b1", 0.1);
 }
 
 function drawLanes() {
@@ -685,6 +1207,7 @@ function drawLanes() {
   const leftTop = getRoadEdgeX(road.horizonY, -1);
   const rightTop = getRoadEdgeX(road.horizonY, 1);
 
+  context.setLineDash([]);
   context.save();
   context.beginPath();
   context.moveTo(leftTop, road.horizonY);
@@ -692,20 +1215,58 @@ function drawLanes() {
   context.lineTo(rightBottom, road.bottomY);
   context.lineTo(leftBottom, road.bottomY);
   context.closePath();
-  const shelfGradient = context.createLinearGradient(0, road.horizonY, 0, road.bottomY);
-  shelfGradient.addColorStop(0, "#eef7f3");
-  shelfGradient.addColorStop(0.58, "#b8ccc8");
-  shelfGradient.addColorStop(1, "#708985");
-  context.fillStyle = shelfGradient;
+
+  const doorGradient = context.createLinearGradient(0, road.horizonY, 0, road.bottomY);
+  doorGradient.addColorStop(0, "#fbfff9");
+  doorGradient.addColorStop(0.46, "#e3eee9");
+  doorGradient.addColorStop(1, "#a9beb9");
+  context.fillStyle = doorGradient;
   context.fill();
   context.clip();
 
-  context.strokeStyle = "rgba(55, 80, 76, 0.22)";
-  context.lineWidth = 2;
-  for (let y = road.horizonY + 34; y < road.bottomY; y += 62) {
+  for (let stripe = 0; stripe <= 18; stripe += 1) {
+    const progress = stripe / 18;
+    const topX = leftTop + (rightTop - leftTop) * progress;
+    const bottomX = leftBottom + (rightBottom - leftBottom) * progress;
+    context.strokeStyle = stripe % 2 === 0 ? "rgba(255, 255, 255, 0.28)" : "rgba(92, 116, 111, 0.12)";
+    context.lineWidth = stripe % 2 === 0 ? 1 : 2;
+    context.beginPath();
+    context.moveTo(topX, road.horizonY);
+    context.lineTo(bottomX, road.bottomY);
+    context.stroke();
+  }
+
+  context.strokeStyle = "rgba(93, 119, 114, 0.2)";
+  context.lineWidth = 3;
+  for (let y = road.horizonY + 46; y < road.bottomY; y += 74) {
     context.beginPath();
     context.moveTo(getRoadEdgeX(y, -1), y);
-    context.lineTo(getRoadEdgeX(y, 1), y + 12);
+    context.lineTo(getRoadEdgeX(y, 1), y + 6);
+    context.stroke();
+
+    context.strokeStyle = "rgba(255, 255, 255, 0.35)";
+    context.lineWidth = 1;
+    context.beginPath();
+    context.moveTo(getRoadEdgeX(y + 7, -1), y + 7);
+    context.lineTo(getRoadEdgeX(y + 7, 1), y + 12);
+    context.stroke();
+    context.strokeStyle = "rgba(93, 119, 114, 0.2)";
+    context.lineWidth = 3;
+  }
+
+  for (let streak = 0; streak < 18; streak += 1) {
+    const y = road.horizonY + 26 + ((streak * 47) % 310);
+    const leftX = getRoadEdgeX(y, -1);
+    const rightX = getRoadEdgeX(y, 1);
+    const progress = ((streak * 29) % 100) / 100;
+    const x = leftX + (rightX - leftX) * progress;
+    const length = 16 + ((streak * 11) % 34);
+
+    context.strokeStyle = streak % 3 === 0 ? "rgba(255, 255, 255, 0.46)" : "rgba(118, 146, 140, 0.22)";
+    context.lineWidth = streak % 4 === 0 ? 2 : 1;
+    context.beginPath();
+    context.moveTo(x, y);
+    context.lineTo(x + 3, Math.min(y + length, road.bottomY));
     context.stroke();
   }
 
@@ -722,14 +1283,15 @@ function drawLanes() {
     context.lineTo(bottomLeft, road.bottomY);
     context.closePath();
     context.fillStyle = lane === player.lane && game.state === "playing"
-      ? "rgba(220, 48, 36, 0.16)"
-      : "rgba(255, 255, 255, 0.08)";
+      ? "rgba(216, 52, 42, 0.13)"
+      : "rgba(255, 255, 255, 0.055)";
     context.fill();
   }
 
   context.restore();
 
   context.lineCap = "round";
+  context.lineJoin = "round";
 
   context.beginPath();
   context.moveTo(leftTop, road.horizonY);
@@ -737,57 +1299,59 @@ function drawLanes() {
   context.lineTo(rightBottom, road.bottomY);
   context.lineTo(leftBottom, road.bottomY);
   context.closePath();
-  context.lineWidth = 4;
-  context.strokeStyle = "rgba(23, 45, 42, 0.24)";
+  context.lineWidth = 6;
+  context.strokeStyle = "rgba(33, 58, 54, 0.26)";
   context.stroke();
 
   context.beginPath();
   context.moveTo(leftTop, road.horizonY);
   context.lineTo(leftBottom, road.bottomY);
-  context.strokeStyle = "#f5fbf8";
+  context.strokeStyle = "#fbfff9";
   context.lineWidth = 18;
-  context.stroke();
-
-  context.beginPath();
-  context.moveTo(leftTop + 10, road.horizonY);
-  context.lineTo(leftBottom + 16, road.bottomY);
-  context.strokeStyle = "rgba(75, 103, 98, 0.42)";
-  context.lineWidth = 4;
   context.stroke();
 
   context.beginPath();
   context.moveTo(rightTop, road.horizonY);
   context.lineTo(rightBottom, road.bottomY);
-  context.strokeStyle = "#d8dedb";
-  context.lineWidth = 15;
-  context.stroke();
-
-  context.beginPath();
-  context.moveTo(rightTop - 16, road.horizonY + 8);
-  context.lineTo(rightBottom - 26, road.bottomY - 4);
-  context.strokeStyle = "#81938f";
-  context.lineWidth = 5;
-  context.stroke();
-
-  context.beginPath();
-  context.moveTo(rightTop + 18, road.horizonY - 2);
-  context.lineTo(rightBottom + 24, road.bottomY + 2);
-  context.strokeStyle = "#f6fbf8";
-  context.lineWidth = 6;
+  context.strokeStyle = "#d6e2de";
+  context.lineWidth = 18;
   context.stroke();
 
   for (let boundary = 1; boundary < LANE_COUNT; boundary += 1) {
+    const topX = getLaneBoundaryX(boundary, road.horizonY);
+    const bottomX = getLaneBoundaryX(boundary, road.bottomY);
+
     context.beginPath();
-    context.moveTo(getLaneBoundaryX(boundary, road.horizonY), road.horizonY);
-    context.lineTo(getLaneBoundaryX(boundary, road.bottomY), road.bottomY);
-    context.strokeStyle = "rgba(35, 66, 61, 0.45)";
+    context.moveTo(topX, road.horizonY + 2);
+    context.lineTo(bottomX, road.bottomY - 2);
+    context.strokeStyle = "rgba(54, 85, 79, 0.28)";
+    context.lineWidth = 13;
+    context.stroke();
+
+    context.beginPath();
+    context.moveTo(topX - 3, road.horizonY + 4);
+    context.lineTo(bottomX - 8, road.bottomY - 4);
+    context.strokeStyle = "rgba(255, 255, 255, 0.55)";
     context.lineWidth = 3;
-    context.setLineDash([16, 14]);
+    context.stroke();
+
+    context.beginPath();
+    context.moveTo(topX + 4, road.horizonY + 6);
+    context.lineTo(bottomX + 8, road.bottomY - 2);
+    context.strokeStyle = "rgba(57, 88, 82, 0.2)";
+    context.lineWidth = 4;
     context.stroke();
   }
 
-  context.setLineDash([]);
+  context.beginPath();
+  context.moveTo(leftTop, road.horizonY);
+  context.lineTo(rightTop, road.horizonY);
+  context.strokeStyle = "rgba(255, 255, 255, 0.68)";
+  context.lineWidth = 9;
+  context.stroke();
+
   context.lineCap = "butt";
+  context.lineJoin = "miter";
 }
 
 function drawRoundedRect(x, y, width, height, radius) {
@@ -806,14 +1370,62 @@ function drawRoundedRect(x, y, width, height, radius) {
   context.closePath();
 }
 
+function drawGroundShadow(x, y, width, height, alpha = 0.22) {
+  context.save();
+  context.fillStyle = `rgba(20, 28, 25, ${alpha})`;
+  context.beginPath();
+  context.ellipse(x, y, width / 2, height / 2, 0, 0, Math.PI * 2);
+  context.fill();
+  context.restore();
+}
+
+function drawParticles() {
+  particles.forEach((particle) => {
+    const fade = clamp(1 - particle.age / particle.life, 0, 1);
+    const radius = particle.radius * (0.68 + fade * 0.32);
+
+    context.save();
+    context.globalAlpha = fade;
+    context.fillStyle = particle.color;
+    context.translate(particle.x, particle.y);
+
+    if (particle.shape === "shard") {
+      context.rotate(particle.rotation || 0);
+      drawRoundedRect(-radius * 1.6, -radius * 0.42, radius * 3.2, radius * 0.84, 1);
+      context.fill();
+    } else if (particle.shape === "puff") {
+      context.globalAlpha = fade * 0.44;
+      context.beginPath();
+      context.ellipse(0, 0, radius * 1.6, radius, 0, 0, Math.PI * 2);
+      context.fill();
+    } else {
+      context.beginPath();
+      context.ellipse(0, 0, radius * 0.82, radius * 1.18, 0, 0, Math.PI * 2);
+      context.fill();
+    }
+
+    context.restore();
+  });
+}
+
 function drawEnemy(threat, x, y, width, height) {
   context.save();
-  context.shadowColor = "rgba(0, 0, 0, 0.4)";
-  context.shadowBlur = 10;
-  context.shadowOffsetY = 6;
   context.translate(x, y);
   context.rotate(Math.sin(threat.y * 0.035) * 0.18);
 
+  context.strokeStyle = "rgba(255, 255, 255, 0.5)";
+  context.lineWidth = 2;
+  context.lineCap = "round";
+  context.beginPath();
+  context.moveTo(-width * 0.42, -height * 0.78);
+  context.lineTo(-width * 0.28, -height * 0.56);
+  context.moveTo(width * 0.34, -height * 0.72);
+  context.lineTo(width * 0.22, -height * 0.5);
+  context.stroke();
+
+  context.shadowColor = "rgba(0, 0, 0, 0.4)";
+  context.shadowBlur = 10;
+  context.shadowOffsetY = 6;
   drawRoundedRect(-width / 2, -height / 2, width, height, 13);
   context.fillStyle = "#c8332d";
   context.fill();
@@ -874,6 +1486,10 @@ function drawLowObstacle(threat, x, y, width, height) {
   context.shadowColor = "rgba(0, 0, 0, 0.28)";
   context.shadowBlur = 8;
   context.shadowOffsetY = 5;
+
+  context.fillStyle = "rgba(246, 212, 93, 0.22)";
+  drawRoundedRect(x - width / 2 + 10, y - height / 2 - 28, width - 20, 18, 8);
+  context.fill();
 
   drawRoundedRect(x - width / 2, y - height / 2, width, height, 8);
   context.fillStyle = "#f5d354";
@@ -961,6 +1577,16 @@ function drawHighObstacle(threat, x, y, width, height) {
   context.lineTo(x, bottom + 24);
   context.closePath();
   context.fill();
+
+  context.fillStyle = "#f6fbf8";
+  context.strokeStyle = "#8aa09c";
+  context.lineWidth = 2;
+  [-0.34, 0.34].forEach((offset) => {
+    context.beginPath();
+    context.arc(x + width * offset, top - 14, Math.max(5, width * 0.06), 0, Math.PI * 2);
+    context.fill();
+    context.stroke();
+  });
   context.restore();
 }
 
@@ -975,6 +1601,9 @@ function drawThreats() {
     const x = getLaneCenterX(threat.lane, threat.y);
     const width = threat.width * scale;
     const height = threat.height * scale;
+    const shadowAlpha = threat.cleared ? 0.08 : 0.2;
+
+    drawGroundShadow(x + width * 0.08, threat.y + height * 0.5 + 8, width * 0.9, Math.max(10, height * 0.16), shadowAlpha);
 
     if (threat.type === "enemy") {
       drawEnemy(threat, x, threat.y, width, height);
@@ -986,12 +1615,17 @@ function drawThreats() {
   });
 }
 
-function drawPlayer() {
+function drawPlayer(timestamp = performance.now()) {
   const position = getPlayerPosition();
   const width = PLAYER_WIDTH + player.duckScale * 16;
   const height = PLAYER_HEIGHT - (PLAYER_HEIGHT - DUCK_HEIGHT) * player.duckScale;
   const step = game.state === "playing" ? Math.sin(game.runTimeMs / 95) : 0;
   const lean = player.isJumping ? -0.16 : player.isDucking ? 0.08 : step * 0.05;
+  const jumpStretch = player.isJumping ? Math.sin(player.jumpProgress * Math.PI) : 0;
+  const landingSquash = clamp(1 - (timestamp - player.lastLandedAt) / LANDING_SQUASH_DURATION_MS, 0, 1);
+  const visualScaleX = 1 - jumpStretch * 0.08 + landingSquash * 0.16 + player.duckScale * 0.12;
+  const visualScaleY = 1 + jumpStretch * 0.14 - landingSquash * 0.12 - player.duckScale * 0.08;
+  const airAmount = clamp(-player.yOffset / JUMP_HEIGHT, 0, 1);
   const bodyWidth = width * 0.62;
   const bodyHeight = height * 0.72;
   const neckWidth = bodyWidth * 0.46;
@@ -999,8 +1633,17 @@ function drawPlayer() {
   const bodyTop = -height / 2 + height * 0.23;
   const bodyLeft = -bodyWidth / 2;
 
+  drawGroundShadow(
+    position.x + 5,
+    PLAYER_BASE_Y + 50,
+    width * (0.82 - airAmount * 0.28),
+    Math.max(8, 18 * (1 - airAmount * 0.52)),
+    0.24 * (1 - airAmount * 0.36)
+  );
+
   context.save();
   context.translate(position.x, position.y);
+  context.scale(visualScaleX, visualScaleY);
   context.rotate(lean);
   context.shadowColor = "rgba(0, 0, 0, 0.45)";
   context.shadowBlur = 16;
@@ -1211,11 +1854,18 @@ function gameLoop(timestamp) {
     updatePlayingState(timestamp, deltaTime);
   }
 
+  updateParticles(deltaTime);
+
   drawBackground(timestamp);
+  const shakeOffset = getScreenShakeOffset(timestamp);
+  context.save();
+  context.translate(shakeOffset.x, shakeOffset.y);
   drawLanes();
   drawThreats();
   drawProjectiles();
-  drawPlayer();
+  drawParticles();
+  drawPlayer(timestamp);
+  context.restore();
   drawScore();
   drawStartOverlay();
   drawGameOverOverlay();
@@ -1228,6 +1878,8 @@ canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
 canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
 canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
 startButton.addEventListener("click", () => {
+  audioManager.unlock();
+
   if (game.state === "ready" || game.state === "gameOver") {
     startGame();
   }

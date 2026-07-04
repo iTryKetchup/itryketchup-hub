@@ -43,7 +43,7 @@ body {
 h1 {
   margin: 0;
   color: #fff6df;
-  font-size: clamp(1.6rem, 3.4rem, 3.4rem);
+  font-size: 3rem;
   line-height: 1;
   letter-spacing: 0;
   text-align: right;
@@ -118,6 +118,8 @@ canvas {
   }
 
   .start-button {
-    top: calc(50% + 72px);
+    top: auto;
+    bottom: 12px;
+    min-height: 40px;
   }
 }
