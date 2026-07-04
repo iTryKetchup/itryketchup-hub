@@ -10,7 +10,7 @@
   <meta property="og:image" content="https://www.itryketchup.com/assets/social/social-preview.png">
   <meta property="og:url" content="https://www.itryketchup.com/">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.7-home-grid-surface-edge-rows">
+  <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
 </head>
 <body data-page="home">
   <header class="site-header">
@@ -45,11 +45,22 @@
           <p class="hero-subheadline">We do... things?</p>
           <p class="hero-punchline">coming to your fridge soon!</p>
           <p class="hero-support">A small creative studio hub for <span class="accent-word">projects</span>, dev logs, experiments, and work-in-progress systems as they get built in public.</p>
-          <div class="button-row" aria-label="Home actions">
-            <a class="button buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Curiosity">View Projects</a>
-            <a class="button-secondary buff-link" href="dev-logs/" data-buff="+10 Wisdom | +5 Condiment Spite">Read Dev Logs</a>
-            <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Networking">Contact</a>
-            <a class="button-secondary buff-link" href="https://github.com/iTryKetchup/itryketchup-hub" data-buff="+12 Source Visibility | +3 Repo Lore">GitHub</a>
+          <div class="home-workbench-inline" aria-hidden="true">
+            <div class="home-workbench-inline__bar">
+              <span>Viewport</span>
+              <span>Object Mode</span>
+            </div>
+            <div class="home-workbench-inline__stage">
+              <span class="home-workbench-inline__cube"></span>
+              <span class="home-workbench-inline__label">KETCHUP_CUBE_001</span>
+              <span class="home-workbench-inline__axis home-workbench-inline__axis--x">X</span>
+              <span class="home-workbench-inline__axis home-workbench-inline__axis--y">Y</span>
+              <span class="home-workbench-inline__axis home-workbench-inline__axis--z">Z</span>
+            </div>
+            <div class="home-workbench-inline__tools">
+              <span>shade: tiny-studio</span>
+              <span>render: honest-chaos</span>
+            </div>
           </div>
         </div>
         <div class="hero-visual">
@@ -139,8 +150,8 @@
       </div>
       <div class="split-grid split-grid--header">
         <div>
-          <h2 id="studio-roadmap-title">Building Toward Bigger Things, One Useful System at a Time</h2>
-          <p class="lede">The studio roadmap keeps the next steps visible: current builds, repeatable media workflows, and future cinematic or playable experiments.</p>
+          <h2 id="studio-roadmap-title">Shipped Hub, Live Door, Scheduled Wolves</h2>
+          <p class="lede">The roadmap is the public status board: what is live now, what is scheduled but not public yet, and what stays parked until it has a real scope.</p>
         </div>
         <div class="button-row">
           <a class="button-secondary buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Curiosity">Browse Projects</a>
@@ -150,36 +161,36 @@
         <article class="roadmap-item">
           <div class="roadmap-node" aria-hidden="true"></div>
           <div class="roadmap-copy">
-            <p class="roadmap-kicker">01 / Now</p>
-            <h3>Current Website Polish</h3>
-            <p>The hub is getting the practical pass first: homepage readability, layout polish, asset discipline, and enough structure that every public page feels intentional.</p>
+            <p class="roadmap-kicker">01 / Live now</p>
+            <h3>Website Maintenance + Door v1.2</h3>
+            <p>The public hub is shipped and in maintenance/polish mode. Kitchen Wars: The Door is live on the website, including the v1.2 sound, juice, and fridge visual polish pass.</p>
             <ul class="roadmap-points" aria-label="Current roadmap focus">
-              <li>Home page v1.2.1 polish</li>
-              <li>Black / white / red Studio identity</li>
-              <li>Scope kept shippable</li>
+              <li>Website shipped and being polished</li>
+              <li>Door playable in the browser</li>
+              <li>Door v1.2 polish is live</li>
             </ul>
           </div>
           <aside class="roadmap-hud roadmap-hud--status" aria-label="Build status">
             <p class="roadmap-hud__title">Build Status</p>
-            <div class="roadmap-meter" style="--meter: 80%">
-              <span class="roadmap-meter__label">Website Polish</span>
+            <div class="roadmap-meter" style="--meter: 100%">
+              <span class="roadmap-meter__label">Website Hub</span>
               <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">80% Operational</span>
+              <span class="roadmap-meter__value">Shipped</span>
             </div>
-            <div class="roadmap-meter" style="--meter: 60%">
-              <span class="roadmap-meter__label">Public Pages</span>
+            <div class="roadmap-meter" style="--meter: 100%">
+              <span class="roadmap-meter__label">Door v1.2</span>
               <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">60% In Progress</span>
+              <span class="roadmap-meter__value">Live</span>
             </div>
-            <div class="roadmap-meter" style="--meter: 30%">
-              <span class="roadmap-meter__label">Story / Video Pipeline</span>
+            <div class="roadmap-meter" style="--meter: 100%">
+              <span class="roadmap-meter__label">Wolf Tale Hub</span>
               <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">30% In Alpha</span>
+              <span class="roadmap-meter__value">Live</span>
             </div>
-            <div class="roadmap-meter" style="--meter: 10%">
-              <span class="roadmap-meter__label">Game / Cinematic Tools</span>
+            <div class="roadmap-meter" style="--meter: 50%">
+              <span class="roadmap-meter__label">Episodes</span>
               <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">10% Locked</span>
+              <span class="roadmap-meter__value">Scheduled</span>
             </div>
           </aside>
         </article>
@@ -187,29 +198,29 @@
         <article class="roadmap-item roadmap-item--flipped">
           <div class="roadmap-node" aria-hidden="true"></div>
           <div class="roadmap-copy">
-            <p class="roadmap-kicker">02 / Next</p>
-            <h3>Public Pages + Dev Log Pipeline</h3>
-            <p>Projects, Dev Logs, About, and Contact are the next workbench. The goal is a clean public loop: what exists, what changed, who made it, and how to reach the studio.</p>
+            <p class="roadmap-kicker">02 / Scheduled</p>
+            <h3>The Wolf Tale Release Window</h3>
+            <p>The Wolf Tale release hub exists now with current episode links, the official script PDF, playlist, and native audio player. The scheduled YouTube releases are still scheduled, not claimed as public early.</p>
             <ul class="roadmap-points" aria-label="Next roadmap focus">
-              <li>Projects page clarity</li>
-              <li>Dev Log publishing rhythm</li>
-              <li>About / Contact cleanup</li>
+              <li>EP01 scheduled for 2026-07-07</li>
+              <li>EP02 scheduled for 2026-07-10</li>
+              <li>Release hub is public-safe and ready</li>
             </ul>
           </div>
           <aside class="roadmap-hud roadmap-hud--buffs" aria-label="System buffs">
             <p class="roadmap-hud__title">System Buffs</p>
             <dl class="roadmap-stat-list">
               <div>
-                <dt>Readability</dt>
-                <dd>+15</dd>
+                <dt>Release Hub</dt>
+                <dd>Live</dd>
               </div>
               <div>
-                <dt>Visual Clutter</dt>
-                <dd>-30</dd>
+                <dt>Public Claims</dt>
+                <dd>Honest</dd>
               </div>
               <div>
-                <dt>Scope Creep Resistance</dt>
-                <dd>+40</dd>
+                <dt>Scheduled Episodes</dt>
+                <dd>2</dd>
               </div>
               <div>
                 <dt>Corporate Fog</dt>
@@ -224,14 +235,14 @@
           <div class="roadmap-copy">
             <p class="roadmap-kicker">03 / Later</p>
             <h3>Future Game / Cinematic Projects</h3>
-            <p>Kitchen Wars, The Door, vampire cinematic planning, Unreal/Blender skill-building, and future playable experiments stay on the horizon while the foundation gets <span class="accent-word">real</span>.</p>
+            <p>Kitchen Wars expansion ideas, vampire cinematic planning, Unreal/Blender skill-building, and future playable experiments stay on the horizon until they have their own approved scope.</p>
             <ul class="roadmap-points" aria-label="Later roadmap focus">
-              <li>Games after the hub is stable</li>
-              <li>Cinematics after the pipeline exists</li>
+              <li>New games after a new scope exists</li>
+              <li>Cinematics after the pipeline is ready</li>
             </ul>
             <div class="asset-loading asset-loading--compact" aria-label="Pipeline locked status">
               <p class="asset-loading__label">Pipeline Locked</p>
-              <p class="asset-loading__title">Playable builds are not public yet</p>
+              <p class="asset-loading__title">Future builds are not promised early</p>
               <div class="asset-loading__bar" style="--asset-progress: 20%" aria-hidden="true"></div>
               <p class="asset-loading__meta">Foundation work in progress · 20%</p>
             </div>
@@ -239,9 +250,9 @@
           <aside class="roadmap-hud roadmap-hud--quests" aria-label="Roadmap status readouts">
             <p class="roadmap-hud__title">Quest Log</p>
             <ul class="roadmap-pulse-list">
-              <li><span>Updated</span> Quest Log Updated</li>
-              <li><span>Stable</span> Foundation Stable</li>
-              <li><span>Pending</span> Mascot Pipeline Pending</li>
+              <li><span>Live</span> Door v1.2 verified</li>
+              <li><span>Live</span> Wolf Tale hub exists</li>
+              <li><span>Pending</span> Future scopes stay parked</li>
             </ul>
           </aside>
         </article>
@@ -259,7 +270,7 @@
       <div class="review-feed" role="list" aria-label="Studio review feed">
         <figure class="review-note review-note--featured" role="listitem">
           <figcaption class="review-note__header">
-            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for De-Jon Mustard">DM</span>
+            <img class="review-avatar" src="assets/mascots/reviewers/dejon-mustard-reviewer.webp" alt="De-Jon Mustard reviewer mascot with a magnifying glass">
             <span class="review-note__identity">
               <span class="testimonial-name">De-Jon Mustard</span>
               <span class="review-note__meta">reviewed homepage-pr-006 · 2 unresolved condiments</span>
@@ -278,7 +289,7 @@
         </figure>
         <figure class="review-note review-note--offset" role="listitem">
           <figcaption class="review-note__header">
-            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Mister Mayo">MM</span>
+            <img class="review-avatar" src="assets/mascots/reviewers/mister-mayo-reviewer.webp" alt="Mister Mayo reviewer mascot thinking through a polish note">
             <span class="review-note__identity">
               <span class="testimonial-name">Mister Mayo</span>
               <span class="review-note__meta">left a code review note · hierarchy pass</span>
@@ -295,7 +306,7 @@
         </figure>
         <figure class="review-note review-note--compact" role="listitem">
           <figcaption class="review-note__header">
-            <span class="avatar-placeholder" role="img" aria-label="Placeholder avatar slot for Jenairic Relish">JR</span>
+            <img class="review-avatar" src="assets/mascots/reviewers/jenairic-relish-reviewer.webp" alt="Jenairic Relish reviewer mascot giving two thumbs up">
             <span class="review-note__identity">
               <span class="testimonial-name">Jenairic Relish</span>
               <span class="review-note__meta">commented from staging · quick sanity check</span>
@@ -375,14 +386,16 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. Privacy-friendly analytics active for v1.6.</p>
-        <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
-// Status: Pending</code></pre>
+        <p class="small">Static hub foundation. Door is live. Wolf Tale release hub is open.</p>
+        <pre class="footer-code-comment"><code>// public channels: connected
+// no corporate fog machines detected</code></pre>
       </div>
       <div class="footer-links">
         <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-        <span class="small footer-status-token">// external-media: pending</span>
+        <a href="https://www.youtube.com/@iTryKetchupStudio">YouTube @iTryKetchupStudio</a>
+        <a href="https://www.youtube.com/@iTryKetchup">YouTube @iTryKetchup</a>
+        <span class="small footer-status-token">// external-media: public handles</span>
       </div>
     </div>
   </footer>

@@ -1,33 +1,23 @@
 window.ProjectsData = [
   {
     title: "iTryKetchup Studio Hub",
-    category: "Website",
-    status: "active",
+    category: "Website / Maintenance",
+    status: "released",
     visibility: "public",
-    summary: "The central public home for iTryKetchup Studio: projects, dev logs, contact information, GitHub presence, and future updates in one maintainable static site.",
+    summary: "The shipped public home for iTryKetchup Studio: projects, dev logs, contact information, GitHub presence, Wolf Tale links, and maintenance polish in one static site.",
     imageId: "projectPlaceholder",
     link: "index.html",
-    actionLabel: "Current Project"
+    actionLabel: "Open the Hub"
   },
   {
     title: "Kitchen Wars: The Door",
     category: "Canvas game prototype",
-    status: "active",
+    status: "released",
     visibility: "public",
-    summary: "A verified v1.1 Canvas game with art-polished kitchen chaos and desktop or touch controls. Play The Door in your browser.",
+    summary: "A live browser game with Door v1.2 sound, juice, and fridge visual polish, plus desktop and touch controls. Play The Door on the website.",
     imageId: "spaceSoldier",
     link: "games/the-door/",
     actionLabel: "Play The Door"
-  },
-  {
-    title: "Kitchen Wars: The Crisper",
-    category: "Game concept",
-    status: "planned",
-    visibility: "public",
-    summary: "A companion kitchen-chaos concept for future exploration. For v1.0, it belongs as a project card or planned state only.",
-    imageId: "spaceSoldier",
-    link: "",
-    actionLabel: "Planned"
   },
   {
     title: "The Wolf Tale",
@@ -42,16 +32,14 @@ window.ProjectsData = [
     actionLabel: "Open The Wolf Tale"
   },
   {
-    title: "Skynet vs Star Wars Fan Project",
-    category: "Fan project",
-    status: "fan-project",
+    title: "Kitchen Wars: The Crisper",
+    category: "Game concept",
+    status: "planned",
     visibility: "public",
-    summary: "A clearly labeled fan project concept exploring a crossover-style idea. This is not original IP and is not affiliated with or endorsed by the original rights holders.",
-    imageId: "projectPlaceholder",
+    summary: "A companion kitchen-chaos concept for future exploration. For now, it remains a planned project card, not a public build.",
+    imageId: "spaceSoldier",
     link: "",
-    actionLabel: "Fan Project",
-    fanProject: true,
-    disclaimer: "Fan project - not original IP, not affiliated with or endorsed by the original rights holders."
+    actionLabel: "Planned"
   },
   {
     title: "Career Tracker",
@@ -62,5 +50,17 @@ window.ProjectsData = [
     imageId: "projectPlaceholder",
     link: "",
     actionLabel: "Planned"
+  },
+  {
+    title: "Skynet vs Star Wars Fan Project",
+    category: "Fan project",
+    status: "fan-project",
+    visibility: "public",
+    summary: "A clearly labeled fan project concept exploring a crossover-style idea. This is not original IP and is not affiliated with or endorsed by the original rights holders.",
+    imageId: "projectPlaceholder",
+    link: "",
+    actionLabel: "Fan Project",
+    fanProject: true,
+    disclaimer: "Fan project - not original IP, not affiliated with or endorsed by the original rights holders."
   }
 ];

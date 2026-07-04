@@ -6,7 +6,7 @@
   <title>Dev Logs - iTryKetchup Studio Hub</title>
   <meta name="description" content="Read development updates for the iTryKetchup Studio Hub and future project progress.">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.8-supporting-floors">
+  <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
 </head>
 <body data-page="devlogs">
   <header class="site-header">
@@ -32,49 +32,27 @@
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">itryketchup-studio.blend / dev-log-console</span>
+        <span class="browser-panel__label">terminal://public-session-archives</span>
       </div>
-      <div class="browser-panel__body hero-grid">
-        <div class="devlogs-hero__floor" aria-hidden="true"></div>
-        <div class="hero-copy">
-          <p class="eyebrow hero-meta">dev log archive</p>
+      <div class="browser-panel__body devlogs-terminal-hero">
+        <div class="terminal-window terminal-window--hero">
+          <div class="terminal-window__line">itryketchup@studio:~$ ./fetch_logs.sh --all-chaos</div>
+          <div class="terminal-window__line">&gt; Initializing public session archives...</div>
+          <div class="terminal-window__line">&gt; [SUCCESS] <span data-devlog-count>18/18 READY</span> patches parsed.</div>
+          <div class="terminal-window__line terminal-window__warning">&gt; WARNING: 0% mustard detected in local system files.</div>
+          <div class="terminal-window__block" aria-label="System metadata">
+            <span>[SYSTEM METADATA]</span>
+            <span>----------------------------------------------</span>
+            <span>LOG_SCOPE     = "Honest Chaos Contained"</span>
+            <span>STATUS        = "Public / Mostly Stable"</span>
+            <span>COFFEE_LEVEL  = "Critically Low"</span>
+            <span>LAST_CRASH    = "3 sessions ago (forgot a semicolon)"</span>
+            <span>ESTIMATED_REGRETS = 42</span>
+            <span>----------------------------------------------</span>
+          </div>
           <h1 id="devlogs-title">Dev Logs</h1>
-          <p class="hero-subheadline">Patch notes from the workshop: what changed, what shipped, what broke, what got fixed, and what is still loading.</p>
-          <p class="hero-support">This is the public session archive for iTryKetchup Studio: small builds, practical experiments, site work, and the honest notes that keep future-me from saying, "wait, why did I do that?"</p>
-          <div class="button-row" aria-label="Dev log actions">
-            <a class="button buff-link" href="#entries-title" data-buff="+10 Patch Visibility | +5 Session Context">View Latest Log</a>
-            <a class="button-secondary buff-link" href="projects.html" data-buff="+10 Project Index | +5 Build Context">View Projects</a>
-            <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Studio Contact">Contact</a>
-          </div>
-        </div>
-        <div class="hero-visual devlogs-hero__visual">
-          <img src="assets/mascots/itry/ITRY-MASCOT-003-DEVLOG_DevLogA.webp" alt="iTry Ketchup mascot holding a dev log checklist">
-          <div class="devlogs-object-tag" aria-hidden="true">
-            <span>Selected</span>
-            <strong>DEVLOG_MASCOT_003</strong>
-          </div>
-        </div>
-        <div class="hero-axis-gizmo" aria-hidden="true">
-          <span class="hero-axis-gizmo__core"></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
-        </div>
-        <div class="hero-workspace-widget" aria-hidden="true">
-          <div class="hero-workspace-widget__header">
-            <span>Log Index</span>
-            <span>v1.0</span>
-          </div>
-          <div class="hero-workspace-widget__rows">
-            <span>Status</span>
-            <span>Public</span>
-            <span>Logs</span>
-            <span>Active</span>
-            <span>Scope</span>
-            <span>Honest</span>
-            <span>Chaos</span>
-            <span>Contained</span>
-          </div>
+          <p class="hero-support">Ready for input. Scroll down to execute queries on the local public archive. CRITICAL_ERROR: Future-me is already asking "Why did I code it this way?"</p>
+          <p class="terminal-window__prompt">Run 'scroll_down' to view the log index...</p>
         </div>
       </div>
     </section>
@@ -85,13 +63,13 @@
           <span class="section-divider__label">patch history</span>
         </div>
         <h2 id="entries-title">Session Archive</h2>
-        <p class="lede">A static build history for the hub and the small studio systems around it. Each card keeps the important context close: project code, session date, scope, and what changed.</p>
+        <p class="lede">Static query results from the public archive. Real links, real dates, real notes, fake diagnostics with suspicious confidence.</p>
       </div>
       <div class="devlogs-status-strip" aria-label="Dev log archive readout">
-        <span class="devlog-chip">LOG INDEX</span>
+        <span class="devlog-chip">[--force-read]</span>
         <span class="devlog-chip" data-devlog-count>LOADING</span>
-        <span class="devlog-chip">PUBLIC COPIES</span>
-        <span class="devlog-chip">MARKDOWN VIEWER</span>
+        <span class="devlog-chip">[--ignore-bugs]</span>
+        <span class="devlog-chip">COFFEE_LEVEL="Critically Low"</span>
       </div>
       <div class="devlog-reader-layout">
         <div class="grid-two devlog-index-grid" data-devlog-list="all" aria-live="polite"></div>
@@ -112,7 +90,7 @@
           </div>
         </article>
       </div>
-      <p class="notice">Dev Logs load from public markdown copies in <code>src/logs</code>. Pending or missing logs stay readable as disabled cards or graceful error states instead of fake links.</p>
+      <p class="notice">Run 'scroll_down' to view the log index. WARNING: pending or missing logs resolve to graceful error states instead of fake links.</p>
     </section>
   </main>
 
@@ -120,14 +98,16 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. Privacy-friendly analytics active for v1.6.</p>
-        <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
-// Status: Pending</code></pre>
+        <p class="small">Static hub foundation. Door is live. Wolf Tale release hub is open.</p>
+        <pre class="footer-code-comment"><code>// public channels: connected
+// no corporate fog machines detected</code></pre>
       </div>
       <div class="footer-links">
         <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-        <span class="small footer-status-token">// external-media: pending</span>
+        <a href="https://www.youtube.com/@iTryKetchupStudio">YouTube @iTryKetchupStudio</a>
+        <a href="https://www.youtube.com/@iTryKetchup">YouTube @iTryKetchup</a>
+        <span class="small footer-status-token">// external-media: public handles</span>
       </div>
     </div>
   </footer>

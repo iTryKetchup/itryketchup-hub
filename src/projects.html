@@ -6,7 +6,7 @@
   <title>Projects - iTryKetchup Studio Hub</title>
   <meta name="description" content="Browse active, planned, coming soon, and fan project cards from iTryKetchup Studio.">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.8-supporting-floors">
+  <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
 </head>
 <body data-page="projects">
   <header class="site-header">
@@ -32,10 +32,9 @@
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
         <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">itryketchup-studio.blend / project-index</span>
+        <span class="browser-panel__label">whiteboard://project-index / dry-erase-sketch</span>
       </div>
       <div class="browser-panel__body hero-grid">
-        <div class="projects-hero__floor" aria-hidden="true"></div>
         <div class="hero-copy">
           <p class="eyebrow hero-meta">projects workspace</p>
           <h1 id="projects-title">Projects</h1>
@@ -47,44 +46,26 @@
             <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Studio Contact">Contact</a>
           </div>
         </div>
-        <div class="hero-visual projects-hero__visual">
-          <div class="projects-viewport-label" aria-hidden="true">Object Mode / Project Shelf</div>
-          <div class="projects-catalog-rack" aria-hidden="true">
-            <span class="projects-catalog-rack__item projects-catalog-rack__item--active">Active</span>
-            <span class="projects-catalog-rack__item projects-catalog-rack__item--planned">Planned</span>
-            <span class="projects-catalog-rack__item projects-catalog-rack__item--fan">Fan Label</span>
+        <div class="projects-whiteboard-sketch" aria-hidden="true">
+          <div class="projects-whiteboard-sketch__header">
+            <span>The Dry-Erase Marker Sketch</span>
+            <span>cap left on: barely</span>
           </div>
-          <div class="projects-module-stack" aria-hidden="true">
-            <span>Website Hub</span>
-            <span>Build Queue</span>
-            <span>Fan Project</span>
-          </div>
-          <img src="assets/mascots/itry/ITRY-MASCOT-002-GUIDE_GuideA.webp" alt="iTry Ketchup mascot pointing toward project work">
-          <div class="projects-object-tag" aria-hidden="true">
-            <span>Selected</span>
-            <strong>ITRY_MASCOT_002</strong>
-          </div>
-        </div>
-        <div class="hero-axis-gizmo" aria-hidden="true">
-          <span class="hero-axis-gizmo__core"></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
-        </div>
-        <div class="hero-workspace-widget" aria-hidden="true">
-          <div class="hero-workspace-widget__header">
-            <span>Build Catalog</span>
-            <span>v1.0</span>
-          </div>
-          <div class="hero-workspace-widget__rows">
-            <span>Status</span>
-            <span>Indexed</span>
-            <span>Scope</span>
-            <span>Honest</span>
-            <span>Fan Labels</span>
-            <span>On</span>
-            <span>Chaos</span>
-            <span>Contained</span>
+          <svg class="projects-whiteboard-sketch__art" viewBox="0 0 520 320" role="img" aria-label="">
+            <path class="marker marker--red" d="M74 238 C92 172 132 126 190 104 C244 84 310 89 362 118 C410 145 438 188 448 239" />
+            <path class="marker marker--red" d="M132 224 L172 164 L230 214 L280 130 L334 214 L382 158 L420 226" />
+            <path class="marker marker--black" d="M126 247 C202 257 298 256 420 245" />
+            <path class="marker marker--black" d="M184 116 C208 102 247 101 272 113" />
+            <path class="marker marker--red marker--thin" d="M88 76 L174 76 M88 101 L238 101 M88 126 L154 126" />
+            <path class="marker marker--black marker--thin" d="M336 74 L432 74 M336 100 L470 100 M336 126 L410 126" />
+            <circle class="marker-dot marker-dot--red" cx="72" cy="76" r="7" />
+            <circle class="marker-dot marker-dot--red" cx="72" cy="101" r="7" />
+            <circle class="marker-dot marker-dot--red" cx="72" cy="126" r="7" />
+          </svg>
+          <div class="projects-whiteboard-sketch__notes">
+            <span>LIVE: Door v1.2</span>
+            <span>LIVE: Wolf Tale hub</span>
+            <span>QUEUE: future sauce</span>
           </div>
         </div>
       </div>
@@ -99,8 +80,8 @@
         <p class="lede">Build modules from the public shelf: active work, planned concepts, coming-soon ideas, and fan experiments labeled before anyone mistakes them for official sauce.</p>
       </div>
       <div class="projects-status-strip" aria-label="Supported project states">
-        <span class="status-badge status-active">Active</span>
         <span class="status-badge status-released">Released</span>
+        <span class="status-badge status-active">Active</span>
         <span class="status-badge status-planned">Planned</span>
         <span class="status-badge status-coming-soon">Coming Soon</span>
         <span class="status-badge status-archive">Archive</span>
@@ -120,14 +101,16 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. Privacy-friendly analytics active for v1.6.</p>
-        <pre class="footer-code-comment"><code>// import { YouTubeChannel } from 'external-media';
-// Status: Pending</code></pre>
+        <p class="small">Static hub foundation. Door is live. Wolf Tale release hub is open.</p>
+        <pre class="footer-code-comment"><code>// public channels: connected
+// no corporate fog machines detected</code></pre>
       </div>
       <div class="footer-links">
         <a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a>
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
-        <span class="small footer-status-token">// external-media: pending</span>
+        <a href="https://www.youtube.com/@iTryKetchupStudio">YouTube @iTryKetchupStudio</a>
+        <a href="https://www.youtube.com/@iTryKetchup">YouTube @iTryKetchup</a>
+        <span class="small footer-status-token">// external-media: public handles</span>
       </div>
     </div>
   </footer>

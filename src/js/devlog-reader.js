@@ -188,7 +188,7 @@
 
     const action = document.createElement("span");
     action.className = canOpen ? "text-action" : "text-action is-disabled";
-    action.textContent = canOpen ? "Open session notes" : "Pending public release";
+    action.textContent = canOpen ? "[--force-read]" : "[--pending-public]";
     card.appendChild(action);
 
     if (canOpen) {
@@ -199,11 +199,10 @@
   }
 
   function setCount(logs) {
-    const count = document.querySelector(selectors.count);
-    if (!count) return;
-
     const publicCount = logs.filter((log) => log.publicReady).length;
-    count.textContent = `${publicCount}/${logs.length} READY`;
+    document.querySelectorAll(selectors.count).forEach((count) => {
+      count.textContent = `${publicCount}/${logs.length} READY`;
+    });
   }
 
   function setViewerState(state, details) {

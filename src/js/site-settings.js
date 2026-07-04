@@ -7,8 +7,10 @@ window.SiteSettings = {
   githubUrl: "https://github.com/iTryKetchup/itryketchup-hub",
   youtube: {
     label: "YouTube",
-    state: "coming-soon",
-    url: ""
+    state: "public-handles",
+    url: "https://www.youtube.com/@iTryKetchupStudio",
+    studioUrl: "https://www.youtube.com/@iTryKetchupStudio",
+    channelUrl: "https://www.youtube.com/@iTryKetchup"
   },
   imageAssignments: {
     defaultMascotId: "default",
