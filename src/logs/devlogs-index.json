@@ -202,5 +202,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "wolf-tale", "youtube", "release-hub", "audio", "script"]
+  },
+  {
+    "session": "047",
+    "date": "2026-07-04",
+    "area": "SITE",
+    "title": "Kitchen Wars: The Door v1.2 Is Live",
+    "version": "Kitchen Wars: The Door v1.2",
+    "summary": "Kitchen Wars: The Door v1.2 is live with the verified sound set, fridge ambience, juice/fridge visual polish, and desktop plus mobile public-page verification.",
+    "filename": "20260704_SITE_Session047_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "kitchen-wars", "canvas", "audio", "polish", "mobile"]
   }
 ]
