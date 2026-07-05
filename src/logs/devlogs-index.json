@@ -250,5 +250,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "devlogs", "ascii", "terminal", "polish"]
+  },
+  {
+    "session": "051",
+    "date": "2026-07-05",
+    "area": "SITE",
+    "title": "SITE v1.10.1 Dev Logs Structural Polish Is Live",
+    "version": "SITE v1.10.1 Dev Logs Structural Polish",
+    "summary": "The public Dev Logs hero received a structural polish pass with a cleaner terminal layout, flush-right text-only ASCII bottle, approved brand splats, blinking cursor, reduced-motion support, and cleaner title spacing.",
+    "filename": "20260705_SITE_Session051_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "devlogs", "ascii", "terminal", "polish", "accessibility"]
   }
 ]
