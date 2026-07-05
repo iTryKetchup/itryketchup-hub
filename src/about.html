@@ -6,7 +6,7 @@
   <title>About - iTryKetchup Studio Hub</title>
   <meta name="description" content="Learn what iTryKetchup Studio is building and how the studio hub keeps projects organized, visible, and ready to grow.">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
+  <link rel="stylesheet" href="css/styles.css?v=1.9-targeted-page-polish">
 </head>
 <body data-page="about">
   <header class="site-header">
@@ -27,95 +27,88 @@
   </header>
 
   <main class="page-shell">
-    <section class="browser-panel about-hero" aria-labelledby="about-title">
-      <div class="browser-panel__bar" aria-hidden="true">
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">studio-lore.txt &mdash; loaded</span>
-      </div>
-      <div class="browser-panel__body hero-grid">
-        <div class="about-hero__floor" aria-hidden="true"></div>
-        <div class="hero-copy">
+    <section class="about-hero about-whiteboard-hero" aria-labelledby="about-title">
+      <div class="about-whiteboard-surface">
+        <span class="about-whiteboard-smudge about-whiteboard-smudge--one" aria-hidden="true"></span>
+        <span class="about-whiteboard-smudge about-whiteboard-smudge--two" aria-hidden="true"></span>
+        <p class="about-whiteboard-ghost-note about-whiteboard-ghost-note--old" aria-hidden="true">old idea: sauce launcher?</p>
+        <p class="about-whiteboard-ghost-note about-whiteboard-ghost-note--messy" aria-hidden="true">too messy -&gt;</p>
+        <div class="about-whiteboard-copy">
           <p class="eyebrow hero-meta">about the studio</p>
           <h1 id="about-title"><span>A Look Inside </span><span>the Bottle!</span></h1>
           <p class="hero-subheadline">A public workshop for small builds with visible fingerprints.</p>
           <p class="hero-support">iTryKetchup Studio is the creative hub for <span class="accent-word">small games</span>, web projects, dev logs, practical software experiments, and the work-in-progress systems that might grow into playable or cinematic things later.</p>
-          <aside class="about-product-tag" aria-label="Mascot product inspection tag">
-            <div class="about-product-tag__header">
-              <p>Product Inspection: <span>Passed</span></p>
-              <p>Serial: ITRY_MASCOT_001</p>
-            </div>
-            <dl class="about-product-tag__facts">
-              <div>
-                <dt>CLASS</dt>
-                <dd>Condiment, Chaotic Good</dd>
-              </div>
-              <div>
-                <dt>BATCH STATUS</dt>
-                <dd>Still Loading</dd>
-              </div>
-            </dl>
-            <div class="about-product-tag__serving" aria-label="Per serving mascot stats">
-              <p>Per Serving:</p>
-              <div class="about-product-tag__stat">
-                <span>Charm</span>
-                <strong>90%</strong>
-              </div>
-              <div class="about-product-tag__stat">
-                <span>Polish</span>
-                <strong>60%</strong>
-              </div>
-              <div class="about-product-tag__stat">
-                <span>Mystery</span>
-                <strong>2% <em>(Suspiciously Low)</em></strong>
-              </div>
-            </div>
-          </aside>
+          <ul class="about-whiteboard-notes" aria-label="Studio whiteboard notes">
+            <li><strong>Build:</strong> small games, web systems, practical experiments.</li>
+            <li><strong>Log:</strong> progress stays visible, even when the sauce splashes.</li>
+            <li><strong>Keep:</strong> public notes honest, scoped, and usable.</li>
+          </ul>
         </div>
-        <div class="hero-visual about-hero__visual">
-          <div class="about-viewport-label" aria-hidden="true">Object Mode / Studio Identity</div>
-          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="iTry Ketchup mascot, the friendly ketchup-bottle-inspired face of iTryKetchup Studio">
-        </div>
-        <div class="hero-axis-gizmo" aria-hidden="true">
-          <span class="hero-axis-gizmo__core"></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
-        </div>
-        <aside class="about-view-layer-widget" aria-hidden="true">
-          <div class="about-view-layer-widget__header">
-            <span>VIEW LAYER</span>
-            <span>Scene</span>
+
+        <figure class="about-whiteboard-mascot" aria-labelledby="about-whiteboard-mascot-title">
+          <svg class="about-whiteboard-mascot__art" viewBox="0 0 360 380" role="img" aria-labelledby="about-whiteboard-mascot-title">
+            <title id="about-whiteboard-mascot-title">Hand-drawn iTryKetchup bottle mascot doodle on a whiteboard</title>
+            <path class="about-marker-line about-marker-line--red" d="M139 81 L222 81 L236 126 L230 298 C227 322 212 336 187 336 L166 336 C140 336 124 322 121 298 L114 126 Z" />
+            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M126 84 C132 61 154 49 181 49 C207 49 227 62 232 84" />
+            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M129 113 C153 124 199 125 225 114" />
+            <path class="about-marker-line about-marker-line--black" d="M152 173 C158 159 174 158 180 174" />
+            <path class="about-marker-line about-marker-line--black" d="M198 174 C204 159 221 160 226 175" />
+            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M162 225 C176 239 204 238 217 224" />
+            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M139 253 C164 263 200 263 225 253" />
+            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M119 210 C82 214 62 230 54 256" />
+            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M232 209 C269 205 292 190 306 162" />
+            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M303 164 L324 149 M302 164 L327 170" />
+            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M55 256 C48 274 58 288 74 281" />
+            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M151 337 L140 368 M198 337 L214 367" />
+            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M130 368 C146 375 159 374 172 366" />
+            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M199 366 C215 374 230 373 242 363" />
+            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M152 288 L213 288" />
+            <text class="about-whiteboard-mascot__label" x="149" y="285">iTry</text>
+            <text class="about-whiteboard-mascot__label about-whiteboard-mascot__label--small" x="151" y="309">KETCHUP</text>
+          </svg>
+          <figcaption>honest chaos / mostly contained</figcaption>
+        </figure>
+
+        <aside class="about-product-tag" aria-label="Mascot product inspection notes">
+          <div class="about-product-tag__header">
+            <p>Product Inspection: <span>Passed</span></p>
+            <p>Serial: ITRY_MASCOT_001</p>
           </div>
-          <div class="about-view-layer-widget__rows">
-            <span>Collection</span>
-            <span>Studio</span>
-            <span>Objects</span>
-            <span>Mascot, Projects, Logs</span>
-            <span>Render</span>
-            <span>Still Loading</span>
+          <dl class="about-product-tag__facts">
+            <div>
+              <dt>CLASS</dt>
+              <dd>Condiment, Chaotic Good</dd>
+            </div>
+            <div>
+              <dt>BATCH STATUS</dt>
+              <dd>Still Loading</dd>
+            </div>
+          </dl>
+          <div class="about-product-tag__serving" aria-label="Per serving mascot stats">
+            <p>Per Serving:</p>
+            <div class="about-product-tag__stat">
+              <span>Charm</span>
+              <strong>90%</strong>
+            </div>
+            <div class="about-product-tag__stat">
+              <span>Polish</span>
+              <strong>60%</strong>
+            </div>
+            <div class="about-product-tag__stat">
+              <span>Mystery</span>
+              <strong>2% <em>(Suspiciously Low)</em></strong>
+            </div>
           </div>
         </aside>
-        <div class="hero-workspace-widget" aria-hidden="true">
-          <div class="hero-workspace-widget__header">
-            <span>Object</span>
-            <span>Studio</span>
-          </div>
-          <div class="hero-workspace-widget__rows">
-            <span>Projects</span>
-            <span>Live</span>
-            <span>Dev Logs</span>
-            <span>Public</span>
-            <span>Scope</span>
-            <span>Honest</span>
-            <span>Condiments</span>
-            <span>Under Control</span>
-            <span>Ambitions</span>
-            <span>Suspiciously Sauce-Shaped</span>
-            <span>Status</span>
-            <span>Technically Spreadable</span>
-          </div>
+
+        <div class="about-whiteboard-diagram" aria-hidden="true">
+          <span class="about-whiteboard-diagram__title">studio loop</span>
+          <span class="about-whiteboard-diagram__bubble about-whiteboard-diagram__bubble--build">build</span>
+          <span class="about-whiteboard-diagram__bubble about-whiteboard-diagram__bubble--ship">ship</span>
+          <span class="about-whiteboard-diagram__bubble about-whiteboard-diagram__bubble--log">log</span>
+          <span class="about-whiteboard-diagram__arrow about-whiteboard-diagram__arrow--one">-&gt;</span>
+          <span class="about-whiteboard-diagram__arrow about-whiteboard-diagram__arrow--two">-&gt;</span>
+          <span class="about-whiteboard-diagram__arrow about-whiteboard-diagram__arrow--three">-&gt;</span>
         </div>
       </div>
     </section>
