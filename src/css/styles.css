@@ -7911,32 +7911,59 @@ body[data-page="contact"] .footer-status-token {
   margin-top: 0;
 }
 
-.devlogs-terminal-frame {
+body[data-page="devlogs"] .devlogs-terminal-frame {
+  --devlogs-terminal-pad: clamp(18px, 4vw, 34px);
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.46fr);
+  grid-template-columns: minmax(0, 1fr) minmax(30ch, 34ch);
   align-items: stretch;
-  gap: clamp(18px, 3vw, 36px);
-  min-height: 560px;
+  gap: clamp(18px, 2.5vw, 34px);
+  min-height: clamp(560px, 67vh, 650px);
+  padding: var(--devlogs-terminal-pad) 0 var(--devlogs-terminal-pad) var(--devlogs-terminal-pad);
 }
 
-.devlogs-terminal-copy {
+body[data-page="devlogs"] .devlogs-terminal-copy {
+  position: relative;
+  z-index: 2;
   align-self: center;
   min-width: 0;
+  max-width: 66ch;
+  padding-right: clamp(8px, 1.4vw, 18px);
 }
 
-.devlogs-ascii-bottle {
+body[data-page="devlogs"] .devlogs-terminal-splat {
+  position: absolute;
+  z-index: 1;
+  left: clamp(30px, 7vw, 118px);
+  bottom: clamp(54px, 8vw, 116px);
+  width: clamp(116px, 17vw, 218px);
+  max-width: 28vw;
+  opacity: 0.14;
+  transform: rotate(-10deg);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: saturate(0.8) blur(0.1px);
+}
+
+body[data-page="devlogs"] .devlogs-ascii-bottle {
+  position: relative;
+  z-index: 2;
   align-self: stretch;
   justify-self: end;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  width: max-content;
   max-width: 100%;
-  margin: 0;
+  min-height: calc(100% + (var(--devlogs-terminal-pad) * 1.35));
+  margin: calc(var(--devlogs-terminal-pad) * -0.675) 0;
+  padding: 0;
   overflow: hidden;
   color: rgba(255, 87, 77, 0.54);
   font-family: Consolas, "Courier New", monospace;
-  font-size: clamp(0.82rem, 1.18vw, 1.08rem);
+  font-size: clamp(0.64rem, 0.95vw, 0.86rem);
   font-weight: 900;
-  line-height: 0.96;
+  line-height: 0.91;
   letter-spacing: 0;
   text-shadow:
     0 0 16px rgba(255, 87, 77, 0.16),
@@ -7979,15 +8006,34 @@ body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
     display: none;
   }
 
-  .devlogs-terminal-frame {
+  body[data-page="devlogs"] .devlogs-terminal-frame {
     grid-template-columns: 1fr;
+    gap: 18px;
     min-height: 0;
+    padding: var(--devlogs-terminal-pad);
   }
 
-  .devlogs-ascii-bottle {
+  body[data-page="devlogs"] .devlogs-terminal-copy {
+    padding-right: 0;
+  }
+
+  body[data-page="devlogs"] .devlogs-terminal-splat {
+    left: auto;
+    right: 22px;
+    bottom: auto;
+    top: 46%;
+    width: clamp(78px, 26vw, 132px);
+    max-width: 34vw;
+    opacity: 0.1;
+  }
+
+  body[data-page="devlogs"] .devlogs-ascii-bottle {
     justify-self: center;
     width: max-content;
-    font-size: clamp(0.56rem, 1.7vw, 0.78rem);
+    min-height: 0;
+    margin: 0 auto;
+    font-size: clamp(0.48rem, 1.56vw, 0.66rem);
+    line-height: 0.88;
   }
 }
 
@@ -8073,13 +8119,18 @@ body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
     padding: 0;
   }
 
-  .devlogs-terminal-frame {
+  body[data-page="devlogs"] .devlogs-terminal-frame {
     gap: 18px;
     padding: 16px;
   }
 
-  .devlogs-ascii-bottle {
-    font-size: 0.54rem;
+  body[data-page="devlogs"] .devlogs-terminal-splat {
+    display: none;
+  }
+
+  body[data-page="devlogs"] .devlogs-ascii-bottle {
+    font-size: 0.43rem;
+    line-height: 0.88;
   }
 }
 
