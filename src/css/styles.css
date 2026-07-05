@@ -7940,18 +7940,46 @@ body[data-page="devlogs"] .devlogs-terminal-copy .hero-support {
   margin-top: 0;
 }
 
-body[data-page="devlogs"] .devlogs-terminal-splat {
+body[data-page="devlogs"] .devlogs-brand-splats {
   position: absolute;
   z-index: 1;
-  left: clamp(600px, 49vw, 700px);
-  top: clamp(318px, 36vw, 390px);
-  width: clamp(132px, 15vw, 190px);
-  max-width: 22vw;
-  opacity: 0.24;
-  transform: rotate(-13deg);
+  inset: 0;
   pointer-events: none;
-  mix-blend-mode: normal;
-  filter: saturate(0.82) blur(0.1px);
+}
+
+body[data-page="devlogs"] .devlogs-brand-splat {
+  position: absolute;
+  width: clamp(72px, 9vw, 132px);
+  height: auto;
+  object-fit: contain;
+  filter: saturate(0.76) brightness(0.84) contrast(1.08);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  user-select: none;
+}
+
+body[data-page="devlogs"] .devlogs-brand-splat--main {
+  left: clamp(610px, 49vw, 690px);
+  top: clamp(326px, 34vw, 372px);
+  width: clamp(124px, 13vw, 178px);
+  opacity: 0.2;
+  transform: rotate(-14deg);
+}
+
+body[data-page="devlogs"] .devlogs-brand-splat--drip {
+  left: clamp(760px, 57vw, 830px);
+  top: clamp(270px, 28vw, 322px);
+  width: clamp(64px, 6.5vw, 92px);
+  opacity: 0.16;
+  transform: rotate(21deg);
+}
+
+body[data-page="devlogs"] .devlogs-brand-splat--smear {
+  left: clamp(720px, 53vw, 770px);
+  top: clamp(268px, 28vw, 314px);
+  width: clamp(62px, 6.2vw, 88px);
+  opacity: 0.13;
+  transform: rotate(34deg);
 }
 
 body[data-page="devlogs"] .terminal-cursor {
@@ -8035,14 +8063,8 @@ body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
     padding-right: 0;
   }
 
-  body[data-page="devlogs"] .devlogs-terminal-splat {
-    left: auto;
-    right: 22px;
-    bottom: auto;
-    top: 46%;
-    width: clamp(78px, 26vw, 132px);
-    max-width: 34vw;
-    opacity: 0.14;
+  body[data-page="devlogs"] .devlogs-brand-splats {
+    display: none;
   }
 
   body[data-page="devlogs"] .devlogs-ascii-bottle {
@@ -8140,10 +8162,6 @@ body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
   body[data-page="devlogs"] .devlogs-terminal-frame {
     gap: 18px;
     padding: 16px;
-  }
-
-  body[data-page="devlogs"] .devlogs-terminal-splat {
-    display: none;
   }
 
   body[data-page="devlogs"] .devlogs-ascii-bottle {
