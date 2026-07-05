@@ -226,5 +226,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "website", "public-pages", "polish", "wolf-tale", "about"]
+  },
+  {
+    "session": "049",
+    "date": "2026-07-05",
+    "area": "SITE",
+    "title": "SITE v1.9 Targeted Page Polish Is Live",
+    "version": "SITE v1.9 Targeted Page Polish",
+    "summary": "The public site received a focused polish pass for the About whiteboard hero, Projects list cleanup, and Dev Logs terminal hero with ASCII ketchup-bottle art.",
+    "filename": "20260705_SITE_Session049_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "about", "projects", "devlogs", "polish", "whiteboard"]
   }
 ]
