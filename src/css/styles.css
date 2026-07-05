@@ -7913,27 +7913,30 @@ body[data-page="contact"] .footer-status-token {
 
 .devlogs-terminal-frame {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(210px, 0.42fr);
-  align-items: center;
-  gap: 28px;
-  min-height: 486px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.46fr);
+  align-items: stretch;
+  gap: clamp(18px, 3vw, 36px);
+  min-height: 560px;
 }
 
 .devlogs-terminal-copy {
+  align-self: center;
   min-width: 0;
 }
 
 .devlogs-ascii-bottle {
-  align-self: center;
+  align-self: stretch;
   justify-self: end;
+  display: flex;
+  align-items: center;
   max-width: 100%;
   margin: 0;
   overflow: hidden;
   color: rgba(255, 87, 77, 0.54);
   font-family: Consolas, "Courier New", monospace;
-  font-size: 1.02rem;
+  font-size: clamp(0.82rem, 1.18vw, 1.08rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 0.96;
   letter-spacing: 0;
   text-shadow:
     0 0 16px rgba(255, 87, 77, 0.16),
@@ -7942,7 +7945,7 @@ body[data-page="contact"] .footer-status-token {
 }
 
 body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
-  padding: 30px;
+  padding: 0;
 }
 
 @media (max-width: 900px) {
@@ -7982,8 +7985,9 @@ body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
   }
 
   .devlogs-ascii-bottle {
-    justify-self: start;
-    font-size: 0.88rem;
+    justify-self: center;
+    width: max-content;
+    font-size: clamp(0.56rem, 1.7vw, 0.78rem);
   }
 }
 
@@ -8066,7 +8070,7 @@ body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
   }
 
   body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
-    padding: 18px;
+    padding: 0;
   }
 
   .devlogs-terminal-frame {
@@ -8075,7 +8079,7 @@ body[data-page="devlogs"] .devlogs-hero .browser-panel__body {
   }
 
   .devlogs-ascii-bottle {
-    font-size: 0.68rem;
+    font-size: 0.54rem;
   }
 }
 
