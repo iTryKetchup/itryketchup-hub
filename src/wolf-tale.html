@@ -85,15 +85,30 @@
       justify-items: center;
     }
 
-    .wolf-magnet {
+    .wolf-youtube-magnet {
       position: absolute;
-      top: -30px;
+      top: 0;
       left: 50%;
       z-index: 3;
-      width: 120px;
-      height: 72px;
-      transform: translateX(-50%) rotate(1.2deg);
-      filter: drop-shadow(0 12px 12px rgba(35, 35, 35, 0.28));
+      display: inline-grid;
+      width: 50px;
+      height: 50px;
+      place-items: center;
+      overflow: visible;
+      border: 2px solid rgba(250, 248, 245, 0.7);
+      border-radius: 6px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 48%),
+        #1c1b1a;
+      box-shadow:
+        0 16px 26px rgba(24, 22, 20, 0.34),
+        0 3px 0 rgba(250, 248, 245, 0.42) inset,
+        0 -8px 16px rgba(0, 0, 0, 0.18) inset;
+      color: #d62828;
+      text-decoration: none;
+      transform: translate(-50%, -40%) rotate(-3deg);
+      transform-origin: center;
+      transition: box-shadow 140ms ease, transform 140ms ease;
     }
 
     .wolf-flyer {
@@ -109,18 +124,49 @@
       transform-origin: center top;
     }
 
-    .wolf-flyer::before {
+    .wolf-youtube-magnet::before {
       position: absolute;
-      top: -2px;
-      left: 50%;
-      z-index: 2;
-      width: 132px;
-      height: 34px;
-      border-radius: 0 0 999px 999px;
-      background: radial-gradient(ellipse at center top, rgba(33, 28, 24, 0.2), transparent 68%);
+      inset: 0;
+      border-radius: 4px;
+      background:
+        radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.16), transparent 18%),
+        repeating-linear-gradient(135deg, rgba(250, 248, 245, 0.035) 0 1px, transparent 1px 5px);
       content: "";
       pointer-events: none;
-      transform: translateX(-50%);
+    }
+
+    .wolf-youtube-magnet::after {
+      position: absolute;
+      right: 7px;
+      bottom: -7px;
+      left: 7px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(33, 28, 24, 0.2);
+      content: "";
+      filter: blur(3px);
+      pointer-events: none;
+    }
+
+    .wolf-youtube-magnet:hover,
+    .wolf-youtube-magnet:focus-visible {
+      box-shadow:
+        0 18px 30px rgba(24, 22, 20, 0.38),
+        0 3px 0 rgba(250, 248, 245, 0.5) inset,
+        0 -8px 16px rgba(0, 0, 0, 0.16) inset;
+      color: #d62828;
+      transform: translate(-50%, -40%) rotate(-0.4deg) scale(1.035);
+    }
+
+    .wolf-youtube-magnet__play {
+      position: relative;
+      z-index: 1;
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left: 15px solid #d62828;
+      margin-left: 4px;
     }
 
     .wolf-flyer a {
@@ -140,6 +186,7 @@
     }
 
     .wolf-flyer__body {
+      position: relative;
       display: grid;
       gap: clamp(28px, 5vw, 42px);
       padding: clamp(44px, 7vw, 70px) clamp(24px, 5vw, 46px) clamp(24px, 5vw, 46px);
@@ -439,8 +486,14 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .wolf-primary-action {
+      .wolf-primary-action,
+      .wolf-youtube-magnet {
         transition: none;
+      }
+
+      .wolf-youtube-magnet:hover,
+      .wolf-youtube-magnet:focus-visible {
+        transform: translate(-50%, -40%) rotate(-3deg);
       }
     }
 
@@ -454,9 +507,9 @@
         transform: none;
       }
 
-      .wolf-magnet {
-        top: -24px;
-        width: 104px;
+      .wolf-youtube-magnet {
+        width: 48px;
+        height: 48px;
       }
 
       .wolf-flyer__body {
@@ -489,7 +542,12 @@
 
       .wolf-flyer__body {
         gap: 28px;
-        padding: 22px 16px;
+        padding: 46px 16px 22px;
+      }
+
+      .wolf-youtube-magnet {
+        width: 46px;
+        height: 46px;
       }
 
       .wolf-release-line {
@@ -524,24 +582,14 @@
 
   <main class="wolf-fridge-page">
     <div class="wolf-flyer-wrap" aria-labelledby="wolf-title">
-      <svg class="wolf-magnet" viewBox="0 0 150 86" role="img" aria-label="Steel magnet with a ketchup-red play badge holding the flyer">
-        <defs>
-          <linearGradient id="wolf-magnet-steel" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#f4f4f1"></stop>
-            <stop offset="0.42" stop-color="#9d9d97"></stop>
-            <stop offset="1" stop-color="#565652"></stop>
-          </linearGradient>
-        </defs>
-        <path d="M21 49c0-23 22-41 54-41s54 18 54 41v21H99V50c0-10-9-18-24-18s-24 8-24 18v20H21V49z" fill="url(#wolf-magnet-steel)" stroke="#343431" stroke-width="5" stroke-linejoin="round"></path>
-        <path d="M32 61h20v16H32zM98 61h20v16H98z" fill="#4a4a46"></path>
-        <circle cx="75" cy="43" r="18" fill="#d62828" stroke="#faf8f5" stroke-width="4"></circle>
-        <path d="M70 33l16 10-16 10z" fill="#faf8f5" stroke="#faf8f5" stroke-linejoin="round"></path>
-      </svg>
-
       <article class="wolf-flyer">
         <img class="wolf-hero-art" src="assets/wolf-tale/wolf-tale-playlist-hero.webp" alt="The Wolf Tale hero art showing a prehistoric campfire scene with wolves and hunters.">
 
         <div class="wolf-flyer__body">
+          <a class="wolf-youtube-magnet" href="https://youtu.be/_527RIXbQjk" aria-label="Watch The Wolf Tale EP01 on YouTube" data-track="watch" data-track-label="The Wolf Tale square magnet EP01">
+            <span class="wolf-youtube-magnet__play" aria-hidden="true"></span>
+          </a>
+
           <section class="wolf-intro" aria-labelledby="wolf-title">
             <h1 id="wolf-title">THE WOLF TALE</h1>
             <p class="wolf-tagline">Two campfire legends from the test kitchen.</p>
