@@ -1,16 +1,670 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>iTryKetchup Studio Hub</title>
-  <meta name="description" content="The public hub for iTryKetchup Studio projects, dev logs, contact information, and future creative work.">
-  <meta property="og:title" content="iTryKetchup Studio Hub">
-  <meta property="og:description" content="Projects, dev logs, and creative experiments from iTryKetchup Studio.">
-  <meta property="og:image" content="https://www.itryketchup.com/assets/social/social-preview.png">
-  <meta property="og:url" content="https://www.itryketchup.com/">
-  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="iTryKetchup Studio serves small games, audio stories, and honest patch notes from a grayscale test kitchen.">
+  <meta property="og:title" content="iTryKetchup Studio">
+  <meta property="og:description" content="Small games, audio stories, and honest patch notes from the test kitchen.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://itryketchup.com/">
+  <meta property="og:image" content="https://itryketchup.com/assets/brand/itryketchup-social-card.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="iTryKetchup Studio">
+  <meta name="twitter:description" content="Small games, audio stories, and honest patch notes from the test kitchen.">
+  <meta name="twitter:image" content="https://itryketchup.com/assets/brand/itryketchup-social-card.jpg">
+  <title>iTryKetchup Studio | Test Kitchen</title>
+  <link rel="icon" type="image/svg+xml" href="assets/brand/itryketchup-logo.svg">
   <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
+  <style>
+    body[data-page="home"] {
+      --home-paper: #f7f5f0;
+      --home-paper-warm: #ebe7df;
+      --home-ink: #1c1b1a;
+      --home-muted: #6e6a63;
+      --home-line: #cbc6bb;
+      --home-steel: #b9b6ae;
+      --home-deep: #34322f;
+      --home-red: #d62828;
+      --home-red-dark: #8f1d1d;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.78), transparent 34rem),
+        linear-gradient(180deg, #f2f0eb 0%, #e3dfd7 100%);
+      color: var(--home-ink);
+    }
+
+    body[data-page="home"] .site-header {
+      background: rgba(247, 245, 240, 0.96);
+      border-bottom: 1px solid var(--home-line);
+      color: var(--home-ink);
+    }
+
+    body[data-page="home"] .brand-link strong,
+    body[data-page="home"] .site-nav a,
+    body[data-page="home"] .nav-toggle {
+      color: var(--home-ink);
+    }
+
+    body[data-page="home"] .nav-toggle {
+      border: 1px solid var(--home-line);
+      background: rgba(28, 27, 26, 0.08);
+      color: var(--home-ink) !important;
+      -webkit-text-fill-color: var(--home-ink);
+    }
+
+    body[data-page="home"] .brand-link span {
+      color: var(--home-muted);
+    }
+
+    body[data-page="home"] .site-nav a[aria-current="page"],
+    body[data-page="home"] .site-nav a.is-active {
+      background: rgba(28, 27, 26, 0.08);
+      color: var(--home-ink);
+      -webkit-text-fill-color: var(--home-ink);
+    }
+
+    .home-kitchen-shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: clamp(34px, 7vw, 78px) 0 36px;
+    }
+
+    .home-kitchen-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: clamp(24px, 5vw, 54px);
+      align-items: center;
+      min-height: min(680px, calc(100vh - 170px));
+    }
+
+    .home-kitchen-hero__scene {
+      position: relative;
+      isolation: isolate;
+      min-height: 440px;
+      aspect-ratio: 1.05;
+      overflow: hidden;
+      border: 1px solid var(--home-line);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.32) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.32) 1px, transparent 1px),
+        linear-gradient(180deg, #dedbd4 0%, #cfcac0 52%, #b8b2a7 100%);
+      background-size: 48px 48px, 48px 48px, 100% 100%;
+      box-shadow: 0 24px 54px rgba(28, 27, 26, 0.16);
+    }
+
+    .home-kitchen-hero__scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 36%),
+        radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.68), transparent 16rem);
+      pointer-events: none;
+    }
+
+    .home-kitchen-window {
+      position: absolute;
+      top: 8%;
+      left: 10%;
+      z-index: 1;
+      width: 27%;
+      height: 24%;
+      border: 8px solid #f3f1ec;
+      border-radius: 4px;
+      background:
+        linear-gradient(90deg, transparent 48%, rgba(62, 61, 58, 0.34) 49%, rgba(62, 61, 58, 0.34) 51%, transparent 52%),
+        linear-gradient(180deg, transparent 48%, rgba(62, 61, 58, 0.34) 49%, rgba(62, 61, 58, 0.34) 51%, transparent 52%),
+        linear-gradient(135deg, #d8d6cf, #9f9b92);
+      box-shadow: inset 0 0 0 1px rgba(28, 27, 26, 0.16), 0 12px 22px rgba(28, 27, 26, 0.1);
+    }
+
+    .home-kitchen-cabinets {
+      position: absolute;
+      top: 7%;
+      right: 8%;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: 40%;
+      height: 21%;
+    }
+
+    .home-kitchen-cabinets span {
+      border: 1px solid rgba(28, 27, 26, 0.18);
+      border-radius: 4px;
+      background: linear-gradient(180deg, #f0eee9, #c9c4ba);
+      box-shadow: inset 0 -12px 20px rgba(28, 27, 26, 0.08);
+    }
+
+    .home-kitchen-fridge {
+      position: absolute;
+      right: 7%;
+      bottom: 13%;
+      z-index: 2;
+      width: 25%;
+      height: 58%;
+      border: 1px solid rgba(28, 27, 26, 0.2);
+      border-radius: 8px 8px 5px 5px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 34%),
+        linear-gradient(180deg, #f3f1ec 0%, #d8d4cb 52%, #c1bbb0 100%);
+      box-shadow: -16px 18px 28px rgba(28, 27, 26, 0.18);
+    }
+
+    .home-kitchen-fridge::before,
+    .home-kitchen-fridge::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      background: rgba(28, 27, 26, 0.16);
+    }
+
+    .home-kitchen-fridge::before {
+      top: 35%;
+      height: 1px;
+    }
+
+    .home-kitchen-fridge::after {
+      top: 13%;
+      right: 12%;
+      left: auto;
+      width: 5px;
+      height: 18%;
+      border-radius: 999px;
+      background: #8b877f;
+    }
+
+    .home-kitchen-counter {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      height: 22%;
+      background:
+        linear-gradient(180deg, #77736c 0 9px, transparent 9px),
+        linear-gradient(90deg, #c6c0b6 0 18%, #b5afa4 18% 36%, #c9c4ba 36% 55%, #aaa398 55% 72%, #c5bfb5 72% 100%);
+      border-top: 1px solid rgba(28, 27, 26, 0.28);
+    }
+
+    .home-kitchen-stove,
+    .home-kitchen-sink {
+      position: absolute;
+      bottom: 7%;
+      z-index: 2;
+      border: 1px solid rgba(28, 27, 26, 0.24);
+      background: linear-gradient(180deg, #e4e1da, #b5afa4);
+    }
+
+    .home-kitchen-stove {
+      left: 9%;
+      width: 22%;
+      height: 22%;
+      border-radius: 5px;
+    }
+
+    .home-kitchen-stove::before {
+      content: "";
+      position: absolute;
+      inset: 13% 12% auto;
+      height: 28%;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 20% 50%, #3a3835 0 7px, transparent 8px),
+        radial-gradient(circle at 50% 50%, #3a3835 0 7px, transparent 8px),
+        radial-gradient(circle at 80% 50%, #3a3835 0 7px, transparent 8px);
+    }
+
+    .home-kitchen-sink {
+      left: 35%;
+      width: 20%;
+      height: 16%;
+      border-radius: 6px 6px 16px 16px;
+    }
+
+    .home-kitchen-sink::before {
+      content: "";
+      position: absolute;
+      left: 48%;
+      bottom: 92%;
+      width: 24%;
+      height: 48%;
+      border: 4px solid #6f6b63;
+      border-bottom: 0;
+      border-radius: 999px 999px 0 0;
+    }
+
+    .home-kitchen-floor {
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      bottom: -14%;
+      z-index: 0;
+      height: 24%;
+      transform: skewY(-3deg);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+        linear-gradient(180deg, #aaa49a, #837e76);
+      background-size: 64px 100%, 100% 100%;
+    }
+
+    .home-kitchen-hero__mascot {
+      position: absolute;
+      left: 51%;
+      bottom: 4%;
+      z-index: 4;
+      width: min(45%, 330px);
+      max-height: 83%;
+      object-fit: contain;
+      transform: translateX(-50%);
+      filter: drop-shadow(0 22px 24px rgba(28, 27, 26, 0.35));
+    }
+
+    .home-kitchen-hero__copy {
+      display: grid;
+      gap: 18px;
+      align-content: center;
+      min-width: 0;
+    }
+
+    .home-kitchen-eyebrow {
+      margin: 0;
+      color: var(--home-muted);
+      font-family: "Jost", system-ui, sans-serif;
+      font-size: clamp(0.78rem, 1vw, 0.94rem);
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .home-kitchen-hero h1 {
+      margin: 0;
+      max-width: 10ch;
+      background: none;
+      color: var(--home-ink) !important;
+      font-family: "Alfa Slab One", Georgia, serif;
+      font-size: clamp(3.1rem, 7vw, 6.6rem);
+      font-weight: 900;
+      line-height: 0.98;
+      letter-spacing: 0;
+      text-shadow: none;
+      text-wrap: balance;
+      -webkit-text-fill-color: var(--home-ink) !important;
+    }
+
+    .home-kitchen-thesis {
+      margin: 0;
+      max-width: 33rem;
+      color: var(--home-deep);
+      font-family: "Jost", system-ui, sans-serif;
+      font-size: clamp(1.1rem, 2.1vw, 1.45rem);
+      font-weight: 650;
+      line-height: 1.42;
+    }
+
+    .home-kitchen-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-top: clamp(20px, 4vw, 42px);
+    }
+
+    .home-kitchen-special,
+    .home-kitchen-door {
+      border: 1px solid var(--home-line);
+      border-radius: 8px;
+      background: rgba(247, 245, 240, 0.92);
+      box-shadow: 0 16px 34px rgba(28, 27, 26, 0.11);
+    }
+
+    .home-kitchen-special {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.68fr) minmax(0, 1fr);
+      overflow: hidden;
+      min-height: 250px;
+    }
+
+    .home-kitchen-special__art {
+      position: relative;
+      min-height: 220px;
+      background: #c9c4ba;
+    }
+
+    .home-kitchen-special__art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.05);
+    }
+
+    .home-kitchen-special__art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 45%, rgba(28, 27, 26, 0.16));
+      pointer-events: none;
+    }
+
+    .home-kitchen-special__copy {
+      display: grid;
+      align-content: center;
+      gap: 12px;
+      padding: clamp(22px, 4vw, 34px);
+    }
+
+    .home-kitchen-kicker,
+    .home-kitchen-door__label {
+      margin: 0;
+      color: var(--home-muted);
+      font-family: "Jost", system-ui, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .home-kitchen-special h2,
+    .home-kitchen-door h2 {
+      margin: 0;
+      background: none;
+      color: var(--home-ink) !important;
+      font-family: "Alfa Slab One", Georgia, serif;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+      text-shadow: none;
+      -webkit-text-fill-color: var(--home-ink) !important;
+    }
+
+    .home-kitchen-special p,
+    .home-kitchen-door p {
+      margin: 0;
+      color: var(--home-deep);
+      font-family: "Jost", system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .home-kitchen-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: start;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--home-red-dark);
+      border-radius: 8px;
+      background: var(--home-red);
+      color: #fffaf5;
+      font-family: "Jost", system-ui, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 850;
+      line-height: 1;
+      text-decoration: none;
+      box-shadow: 0 10px 18px rgba(143, 29, 29, 0.2);
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .home-kitchen-button:hover,
+    .home-kitchen-button:focus-visible {
+      background: var(--home-red-dark);
+      box-shadow: 0 14px 24px rgba(143, 29, 29, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .home-kitchen-door-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .home-kitchen-door {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+      min-height: 116px;
+      padding: 20px;
+      color: inherit;
+      text-decoration: none;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .home-kitchen-door:hover,
+    .home-kitchen-door:focus-visible {
+      border-color: #979188;
+      box-shadow: 0 20px 38px rgba(28, 27, 26, 0.16);
+      transform: translateY(-2px);
+    }
+
+    .home-kitchen-door__mark {
+      position: relative;
+      width: 54px;
+      height: 54px;
+      border: 1px solid #77736c;
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent),
+        #d8d4cb;
+      box-shadow: inset 0 -10px 16px rgba(28, 27, 26, 0.09);
+    }
+
+    .home-kitchen-door__mark::before,
+    .home-kitchen-door__mark::after {
+      content: "";
+      position: absolute;
+      background: #504d48;
+    }
+
+    .home-kitchen-door__mark--projects::before {
+      inset: 13px 11px auto;
+      height: 7px;
+      border-radius: 999px;
+    }
+
+    .home-kitchen-door__mark--projects::after {
+      left: 11px;
+      right: 11px;
+      bottom: 13px;
+      height: 14px;
+      border-radius: 3px;
+      box-shadow: 0 -11px 0 rgba(80, 77, 72, 0.75);
+    }
+
+    .home-kitchen-door__mark--logs::before {
+      left: 14px;
+      top: 11px;
+      width: 25px;
+      height: 32px;
+      border-radius: 3px;
+    }
+
+    .home-kitchen-door__mark--logs::after {
+      left: 19px;
+      right: 19px;
+      top: 18px;
+      height: 3px;
+      border-radius: 999px;
+      box-shadow: 0 8px 0 #d8d4cb, 0 16px 0 #d8d4cb;
+      background: #d8d4cb;
+    }
+
+    .home-kitchen-door__text {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .home-kitchen-door h2 {
+      font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+    }
+
+    body[data-page="home"] .site-footer {
+      margin-top: 28px;
+      background: rgba(36, 34, 31, 0.96);
+      color: #f7f5f0;
+    }
+
+    body[data-page="home"] .site-footer__inner {
+      gap: 18px;
+      padding-top: 26px;
+      padding-bottom: 26px;
+    }
+
+    body[data-page="home"] .site-footer a {
+      color: #f7f5f0;
+    }
+
+    body[data-page="home"] .footer-links {
+      gap: 8px;
+    }
+
+    body[data-page="home"] .footer-code-comment {
+      margin-top: 10px;
+      padding: 8px 10px;
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+
+    body[data-page="home"] .footer-status-token,
+    body[data-page="home"] .site-footer .small {
+      color: #d6d1c8;
+    }
+
+    @media (max-width: 920px) {
+      .home-kitchen-hero,
+      .home-kitchen-grid,
+      .home-kitchen-special {
+        grid-template-columns: 1fr;
+      }
+
+      .home-kitchen-hero {
+        min-height: 0;
+      }
+
+      .home-kitchen-hero__copy {
+        order: -1;
+      }
+
+      .home-kitchen-hero h1 {
+        max-width: 11ch;
+      }
+
+      .home-kitchen-hero__scene {
+        min-height: 390px;
+        aspect-ratio: 4 / 3;
+      }
+
+      .home-kitchen-special__art {
+        min-height: 210px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .home-kitchen-shell {
+        width: min(100% - 22px, 420px);
+        padding-top: 26px;
+      }
+
+      .home-kitchen-hero {
+        gap: 22px;
+      }
+
+      .home-kitchen-hero__scene {
+        min-height: 315px;
+        aspect-ratio: 1;
+      }
+
+      .home-kitchen-cabinets {
+        width: 48%;
+        right: 5%;
+      }
+
+      .home-kitchen-window {
+        width: 31%;
+        left: 6%;
+      }
+
+      .home-kitchen-fridge {
+        right: 4%;
+        width: 29%;
+        height: 55%;
+      }
+
+      .home-kitchen-hero__mascot {
+        left: 49%;
+        width: min(58%, 255px);
+        max-height: 75%;
+      }
+
+      .home-kitchen-hero h1 {
+        max-width: 9ch;
+        font-size: clamp(2.85rem, 17vw, 4.4rem);
+      }
+
+      .home-kitchen-thesis {
+        font-size: 1.08rem;
+      }
+
+      .home-kitchen-grid,
+      .home-kitchen-door-stack {
+        gap: 12px;
+      }
+
+      .home-kitchen-special__copy,
+      .home-kitchen-door {
+        padding: 18px;
+      }
+
+      .home-kitchen-special__art {
+        min-height: 172px;
+      }
+
+      .home-kitchen-door {
+        grid-template-columns: 46px minmax(0, 1fr);
+        min-height: 108px;
+        gap: 12px;
+      }
+
+      .home-kitchen-door__mark {
+        width: 46px;
+        height: 46px;
+      }
+
+      .home-kitchen-button {
+        justify-self: stretch;
+        min-height: 48px;
+      }
+
+      body[data-page="home"] .site-footer__inner {
+        gap: 12px;
+        padding-top: 22px;
+        padding-bottom: 22px;
+      }
+
+      body[data-page="home"] .footer-code-comment {
+        display: none;
+      }
+
+      body[data-page="home"] .footer-links {
+        flex-flow: row wrap;
+        gap: 8px 12px;
+      }
+
+      body[data-page="home"] .footer-links a,
+      body[data-page="home"] .footer-status-token,
+      body[data-page="home"] .site-footer .small {
+        font-size: 0.82rem;
+        line-height: 1.3;
+      }
+    }
+  </style>
 </head>
 <body data-page="home">
   <header class="site-header">
@@ -19,8 +673,8 @@
         <strong>iTryKetchup Studio</strong>
         <span>Build it. Ship it. Log it.</span>
       </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
-      <nav class="site-nav" id="site-nav" aria-label="Primary navigation" data-site-nav>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
         <a href="index.html" data-nav-link="home">Home</a>
         <a href="about.html" data-nav-link="about">About</a>
         <a href="projects.html" data-nav-link="projects">Projects</a>
@@ -30,354 +684,60 @@
     </div>
   </header>
 
-  <main class="page-shell">
-    <section class="browser-panel home-hero" aria-labelledby="home-title">
-      <div class="browser-panel__bar" aria-hidden="true">
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">itryketchup-studio.blend / layout</span>
+  <main class="home-kitchen-shell">
+    <section class="home-kitchen-hero" aria-labelledby="home-title">
+      <div class="home-kitchen-hero__scene" aria-hidden="true">
+        <div class="home-kitchen-window"></div>
+        <div class="home-kitchen-cabinets">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="home-kitchen-fridge"></div>
+        <div class="home-kitchen-stove"></div>
+        <div class="home-kitchen-sink"></div>
+        <div class="home-kitchen-counter"></div>
+        <div class="home-kitchen-floor"></div>
+        <img class="home-kitchen-hero__mascot" src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="">
       </div>
-      <div class="browser-panel__body hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow hero-meta">tiny studio, real projects</p>
-          <h1 id="home-title"><span>iTryKetchup</span><span>Studio</span></h1>
-          <p class="hero-subheadline">We do... things?</p>
-          <p class="hero-punchline">coming to your fridge soon!</p>
-          <p class="hero-support">A small creative studio hub for <span class="accent-word">projects</span>, dev logs, experiments, and work-in-progress systems as they get built in public.</p>
-          <div class="home-workbench-inline" aria-hidden="true">
-            <div class="home-workbench-inline__bar">
-              <span>Viewport</span>
-              <span>Object Mode</span>
-            </div>
-            <div class="home-workbench-inline__stage">
-              <span class="home-workbench-inline__cube"></span>
-              <span class="home-workbench-inline__label">KETCHUP_CUBE_001</span>
-              <span class="home-workbench-inline__axis home-workbench-inline__axis--x">X</span>
-              <span class="home-workbench-inline__axis home-workbench-inline__axis--y">Y</span>
-              <span class="home-workbench-inline__axis home-workbench-inline__axis--z">Z</span>
-            </div>
-            <div class="home-workbench-inline__tools">
-              <span>shade: tiny-studio</span>
-              <span>render: honest-chaos</span>
-            </div>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <img src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="iTry Ketchup mascot, the friendly ketchup-bottle-inspired face of iTryKetchup Studio">
-        </div>
-        <div class="hero-axis-gizmo" aria-hidden="true">
-          <span class="hero-axis-gizmo__core"></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--x"><span>X</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--y"><span>Y</span></span>
-          <span class="hero-axis-gizmo__axis hero-axis-gizmo__axis--z"><span>Z</span></span>
-        </div>
-        <div class="hero-workspace-widget" aria-hidden="true">
-          <div class="hero-workspace-widget__header">
-            <span>Transform</span>
-            <span>Object</span>
-          </div>
-          <div class="hero-workspace-widget__rows">
-            <span>Loc X</span>
-            <span>0.00</span>
-            <span>Loc Y</span>
-            <span>1.20</span>
-            <span>Loc Z</span>
-            <span>0.00</span>
-            <span>Rot Z</span>
-            <span>0 deg</span>
-            <span>Scale</span>
-            <span>1.00</span>
-          </div>
-        </div>
+      <div class="home-kitchen-hero__copy">
+        <p class="home-kitchen-eyebrow">The grayscale kitchen</p>
+        <h1 id="home-title">iTryKetchup Studio</h1>
+        <p class="home-kitchen-thesis">Small games, audio stories, and honest patch notes &mdash; served fresh from the test kitchen.</p>
       </div>
     </section>
 
-    <section class="section intro-section" aria-labelledby="who-title">
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">who is itry</span>
+    <section class="home-kitchen-grid" aria-label="Studio shortcuts">
+      <article class="home-kitchen-special" aria-labelledby="home-special-title">
+        <div class="home-kitchen-special__art" aria-hidden="true">
+          <img src="assets/wolf-tale/wolf-tale-playlist-hero.webp" alt="">
         </div>
-        <h2 id="who-title">A Small Studio In a Big Bottle</h2>
-      </div>
-      <div class="split-grid split-grid--top">
-        <p class="lede">We don't do mystery meat roadmaps. The cap is off, the workshop is open, and everything is being built live. The work can be playful, but the goal is to make it easy to see exactly what exists today and what's coming next.</p>
-        <img class="ketchup-splotch" src="assets/brand/ketchup-splotch.webp" alt="" aria-hidden="true">
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="focus-title">
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">current focus</span>
+        <div class="home-kitchen-special__copy">
+          <p class="home-kitchen-kicker">This week</p>
+          <h2 id="home-special-title">The Wolf Tale</h2>
+          <p>EP01 July 7 &middot; EP02 July 10</p>
+          <a class="home-kitchen-button" href="wolf-tale.html">Watch The Wolf Tale</a>
         </div>
-        <h2 id="focus-title">Polish the Hub, Keep the Scope Honest</h2>
-      </div>
-      <div class="terminal-panel" aria-label="PowerShell current focus output">
-        <div class="terminal-panel__bar" aria-hidden="true">
-          <span class="terminal-panel__dot"></span>
-          <span class="terminal-panel__dot"></span>
-          <span class="terminal-panel__dot"></span>
-          <span class="terminal-panel__title">PowerShell</span>
-          <span class="terminal-panel__path">C:\itryketchup-studio</span>
-        </div>
-        <div class="terminal-panel__body">
-          <p><span class="terminal-prompt">PS C:\itryketchup-studio&gt;</span> ./focus.ps1 --now</p>
-          <p><span class="terminal-tag terminal-tag--running">[RUNNING]</span> Task 1: Polish the Hub<br><span class="terminal-indent">├── STATUS: Function first, then polish.</span><br><span class="terminal-indent">└── NOTE: Public pages must explain what exists today.</span></p>
-          <p><span class="terminal-tag terminal-tag--success">[SUCCESS]</span> Task 2: Replaced generic text with raw condiment facts.</p>
-          <p><span class="terminal-tag terminal-tag--queued">[QUEUED]</span> Task 3: Add mascot polish without mascot overload.</p>
-          <p><span class="terminal-tag terminal-tag--blocked">[BLOCKED]</span> Task 4: Full mascot animation is still locked in the asset pipeline.</p>
-          <p><span class="terminal-tag terminal-tag--warning">[WARNING]</span> No mystery blank pages, fake launches, or dramatic corporate fog machines allowed in this directory.</p>
-          <p>Memory Allocated: 90% Code, 10% Pure Chaos, 0% Corporate Fog.</p>
-          <p><span class="terminal-prompt">PS C:\itryketchup-studio&gt;</span> <span class="terminal-cursor">_</span></p>
-          <div class="terminal-easter-egg" data-terminal-widget>
-            <p class="terminal-hint">type <kbd>help</kbd></p>
-            <div class="terminal-output" aria-live="polite" data-terminal-output></div>
-            <form class="terminal-command" data-terminal-form>
-              <label class="sr-only" for="terminal-command-input">PowerShell command</label>
-              <span class="terminal-prompt" aria-hidden="true">PS C:\itryketchup-studio&gt;</span>
-              <input id="terminal-command-input" class="terminal-command__input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" data-terminal-input>
-              <button class="terminal-command__submit" type="submit">Run</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section studio-roadmap-section" aria-labelledby="studio-roadmap-title">
-      <div class="section-divider">
-        <span class="section-divider__label">studio roadmap</span>
-      </div>
-      <div class="split-grid split-grid--header">
-        <div>
-          <h2 id="studio-roadmap-title">Shipped Hub, Live Door, Scheduled Wolves</h2>
-          <p class="lede">The roadmap is the public status board: what is live now, what is scheduled but not public yet, and what stays parked until it has a real scope.</p>
-        </div>
-        <div class="button-row">
-          <a class="button-secondary buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Curiosity">Browse Projects</a>
-        </div>
-      </div>
-      <div class="roadmap-list" aria-label="Studio roadmap">
-        <article class="roadmap-item">
-          <div class="roadmap-node" aria-hidden="true"></div>
-          <div class="roadmap-copy">
-            <p class="roadmap-kicker">01 / Live now</p>
-            <h3>Website Maintenance + Door v1.2</h3>
-            <p>The public hub is shipped and in maintenance/polish mode. Kitchen Wars: The Door is live on the website, including the v1.2 sound, juice, and fridge visual polish pass.</p>
-            <ul class="roadmap-points" aria-label="Current roadmap focus">
-              <li>Website shipped and being polished</li>
-              <li>Door playable in the browser</li>
-              <li>Door v1.2 polish is live</li>
-            </ul>
-          </div>
-          <aside class="roadmap-hud roadmap-hud--status" aria-label="Build status">
-            <p class="roadmap-hud__title">Build Status</p>
-            <div class="roadmap-meter" style="--meter: 100%">
-              <span class="roadmap-meter__label">Website Hub</span>
-              <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">Shipped</span>
-            </div>
-            <div class="roadmap-meter" style="--meter: 100%">
-              <span class="roadmap-meter__label">Door v1.2</span>
-              <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">Live</span>
-            </div>
-            <div class="roadmap-meter" style="--meter: 100%">
-              <span class="roadmap-meter__label">Wolf Tale Hub</span>
-              <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">Live</span>
-            </div>
-            <div class="roadmap-meter" style="--meter: 50%">
-              <span class="roadmap-meter__label">Episodes</span>
-              <span class="roadmap-meter__bar" aria-hidden="true"></span>
-              <span class="roadmap-meter__value">Scheduled</span>
-            </div>
-          </aside>
-        </article>
-
-        <article class="roadmap-item roadmap-item--flipped">
-          <div class="roadmap-node" aria-hidden="true"></div>
-          <div class="roadmap-copy">
-            <p class="roadmap-kicker">02 / Scheduled</p>
-            <h3>The Wolf Tale Release Window</h3>
-            <p>The Wolf Tale release hub exists now with current episode links, the official script PDF, playlist, and native audio player. The scheduled YouTube releases are still scheduled, not claimed as public early.</p>
-            <ul class="roadmap-points" aria-label="Next roadmap focus">
-              <li>EP01 scheduled for 2026-07-07</li>
-              <li>EP02 scheduled for 2026-07-10</li>
-              <li>Release hub is public-safe and ready</li>
-            </ul>
-          </div>
-          <aside class="roadmap-hud roadmap-hud--buffs" aria-label="System buffs">
-            <p class="roadmap-hud__title">System Buffs</p>
-            <dl class="roadmap-stat-list">
-              <div>
-                <dt>Release Hub</dt>
-                <dd>Live</dd>
-              </div>
-              <div>
-                <dt>Public Claims</dt>
-                <dd>Honest</dd>
-              </div>
-              <div>
-                <dt>Scheduled Episodes</dt>
-                <dd>2</dd>
-              </div>
-              <div>
-                <dt>Corporate Fog</dt>
-                <dd>0%</dd>
-              </div>
-            </dl>
-          </aside>
-        </article>
-
-        <article class="roadmap-item">
-          <div class="roadmap-node" aria-hidden="true"></div>
-          <div class="roadmap-copy">
-            <p class="roadmap-kicker">03 / Later</p>
-            <h3>Future Game / Cinematic Projects</h3>
-            <p>Kitchen Wars expansion ideas, vampire cinematic planning, Unreal/Blender skill-building, and future playable experiments stay on the horizon until they have their own approved scope.</p>
-            <ul class="roadmap-points" aria-label="Later roadmap focus">
-              <li>New games after a new scope exists</li>
-              <li>Cinematics after the pipeline is ready</li>
-            </ul>
-            <div class="asset-loading asset-loading--compact" aria-label="Pipeline locked status">
-              <p class="asset-loading__label">Pipeline Locked</p>
-              <p class="asset-loading__title">Future builds are not promised early</p>
-              <div class="asset-loading__bar" style="--asset-progress: 20%" aria-hidden="true"></div>
-              <p class="asset-loading__meta">Foundation work in progress · 20%</p>
-            </div>
-          </div>
-          <aside class="roadmap-hud roadmap-hud--quests" aria-label="Roadmap status readouts">
-            <p class="roadmap-hud__title">Quest Log</p>
-            <ul class="roadmap-pulse-list">
-              <li><span>Live</span> Door v1.2 verified</li>
-              <li><span>Live</span> Wolf Tale hub exists</li>
-              <li><span>Pending</span> Future scopes stay parked</li>
-            </ul>
-          </aside>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="testimonials-title">
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">testimonials</span>
-        </div>
-        <h2 id="testimonials-title">Early Studio Notes</h2>
-        <p class="lede">Open-source feedback from competing condiments who reluctantly admit the repository doesn't completely suck.</p>
-      </div>
-      <div class="review-feed" role="list" aria-label="Studio review feed">
-        <figure class="review-note review-note--featured" role="listitem">
-          <figcaption class="review-note__header">
-            <img class="review-avatar" src="assets/mascots/reviewers/dejon-mustard-reviewer.webp" alt="De-Jon Mustard reviewer mascot with a magnifying glass">
-            <span class="review-note__identity">
-              <span class="testimonial-name">De-Jon Mustard</span>
-              <span class="review-note__meta">reviewed homepage-pr-006 · 2 unresolved condiments</span>
-            </span>
-            <span class="review-note__status review-note__status--approved">Approved</span>
-          </figcaption>
-          <div class="star-rating" aria-label="Five stars plus one extra sketch star">
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-            <span class="star-rating__bonus" aria-hidden="true">☆</span>
-          </div>
-          <blockquote class="speech-bubble">iTry didn’t just raise the bar. He launched it into the stratosphere. Frankly, five stars felt dishonest, so I added a sixth.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
-        </figure>
-        <figure class="review-note review-note--offset" role="listitem">
-          <figcaption class="review-note__header">
-            <img class="review-avatar" src="assets/mascots/reviewers/mister-mayo-reviewer.webp" alt="Mister Mayo reviewer mascot thinking through a polish note">
-            <span class="review-note__identity">
-              <span class="testimonial-name">Mister Mayo</span>
-              <span class="review-note__meta">left a code review note · hierarchy pass</span>
-            </span>
-            <span class="review-note__status">Needs polish</span>
-          </figcaption>
-          <div class="star-rating" aria-label="Four stars">
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-          </div>
-          <blockquote class="speech-bubble">Clear structure. Better hierarchy. The work is still in progress, but now it reads like it knows where it is going.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
-        </figure>
-        <figure class="review-note review-note--compact" role="listitem">
-          <figcaption class="review-note__header">
-            <img class="review-avatar" src="assets/mascots/reviewers/jenairic-relish-reviewer.webp" alt="Jenairic Relish reviewer mascot giving two thumbs up">
-            <span class="review-note__identity">
-              <span class="testimonial-name">Jenairic Relish</span>
-              <span class="review-note__meta">commented from staging · quick sanity check</span>
-            </span>
-            <span class="review-note__status review-note__status--lgtm">LGTM</span>
-          </figcaption>
-          <div class="star-rating" aria-label="Three stars">
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-            <span aria-hidden="true">★</span>
-          </div>
-          <blockquote class="speech-bubble">Looks good. Reads clean. I’m happy.<span class="speech-bubble__close" aria-hidden="true">”</span></blockquote>
-        </figure>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="devlog-preview-title">
-      <div class="section-divider">
-        <span class="section-divider__label">latest dev log</span>
-      </div>
-      <div class="split-grid split-grid--header">
-        <div>
-          <h2 id="devlog-preview-title">Latest Patch Notes</h2>
-          <p class="lede">Recent site changes, balance tweaks, shipped work, and known bugs from the iTryKetchup Studio pipeline.</p>
-        </div>
-        <div class="button-row">
-          <a class="button-secondary buff-link" href="dev-logs/" data-buff="+10 Wisdom | +5 Condiment Spite">Read Dev Logs</a>
-        </div>
-      </div>
-      <article class="patch-notes-card" aria-label="Latest patch notes preview">
-        <div class="patch-notes-card__header">
-          <p class="patch-notes-card__meta">Site Update / Public Preview</p>
-          <h3>🛠️ Patch 1.0.3: Hub World Optimization</h3>
-        </div>
-        <ul class="patch-notes-list">
-          <li>
-            <span class="patch-tag patch-tag--buffed">[BUFFED]</span>
-            <span>Website contrast. White text on dark charcoal is now easier on the eyes.</span>
-          </li>
-          <li>
-            <span class="patch-tag patch-tag--nerfed">[NERFED]</span>
-            <span>Generic placeholder text. Replaced with raw condiment facts.</span>
-          </li>
-          <li>
-            <span class="patch-tag patch-tag--deleted">[DELETED]</span>
-            <span>The small uppercase “TESTIMONIALS” tag because visual clutter is the enemy.</span>
-          </li>
-          <li>
-            <span class="patch-tag patch-tag--bug">[KNOWN BUG]</span>
-            <span>iTry mascot is currently a drawing; full animation is still locked in the pipeline.</span>
-          </li>
-        </ul>
       </article>
-    </section>
 
-    <section class="section about-studio-section" aria-labelledby="about-studio-title">
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">about studio</span>
-        </div>
-        <h2 id="about-studio-title">A Note From the Workshop</h2>
-      </div>
-      <div class="split-grid split-grid--top">
-        <figure class="closing-note">
-          <blockquote>Thanks for stopping by the workshop. Building things in public takes time, and I appreciate you checking out the journey. Stay tuned.</blockquote>
-          <figcaption>— iTry Ketchup</figcaption>
-        </figure>
-        <div class="button-row">
-          <a class="button buff-link" href="about.html" data-buff="+7 Studio Context | +4 Lore">About the Studio</a>
-          <a class="button-secondary buff-link" href="contact.html" data-buff="+8 Signal Sent | +2 Networking">Get in Touch</a>
-        </div>
+      <div class="home-kitchen-door-stack" aria-label="Studio doors">
+        <a class="home-kitchen-door" href="projects.html">
+          <span class="home-kitchen-door__mark home-kitchen-door__mark--projects" aria-hidden="true"></span>
+          <span class="home-kitchen-door__text">
+            <span class="home-kitchen-door__label">Projects</span>
+            <h2>Open the pantry</h2>
+            <p>Playable builds, story releases, and studio experiments.</p>
+          </span>
+        </a>
+
+        <a class="home-kitchen-door" href="dev-logs/">
+          <span class="home-kitchen-door__mark home-kitchen-door__mark--logs" aria-hidden="true"></span>
+          <span class="home-kitchen-door__text">
+            <span class="home-kitchen-door__label">Dev Logs</span>
+            <h2>Read the notes</h2>
+            <p>Short, plain-spoken updates from each release pass.</p>
+          </span>
+        </a>
       </div>
     </section>
   </main>
@@ -386,7 +746,7 @@
     <div class="site-footer__inner">
       <div>
         <strong>iTryKetchup Studio</strong>
-        <p class="small">Static hub foundation. Door is live. Wolf Tale release hub is open.</p>
+        <p class="small">Grayscale kitchen is warming up. Door is live. Wolf Tale release hub is open.</p>
         <pre class="footer-code-comment"><code>// public channels: connected
 // no corporate fog machines detected</code></pre>
       </div>
@@ -399,6 +759,7 @@
       </div>
     </div>
   </footer>
+
   <script src="js/site-settings.js" defer></script>
   <script src="js/mascots-data.js" defer></script>
   <script src="js/projects-data.js" defer></script>
