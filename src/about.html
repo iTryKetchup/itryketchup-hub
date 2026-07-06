@@ -4,9 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About - iTryKetchup Studio Hub</title>
-  <meta name="description" content="Learn what iTryKetchup Studio is building and how the studio hub keeps projects organized, visible, and ready to grow.">
+  <meta name="description" content="About iTryKetchup Studio: small games, audio stories, honest dev logs, public project notes, and the best ways to contact the studio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.9-targeted-page-polish">
+  <link rel="stylesheet" href="css/styles.css?v=2.3-about-contact-nav">
 </head>
 <body data-page="about">
   <header class="site-header">
@@ -18,270 +21,158 @@
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation" data-site-nav>
         <a href="index.html" data-nav-link="home">Home</a>
-        <a href="about.html" data-nav-link="about">About</a>
         <a href="projects.html" data-nav-link="projects">Projects</a>
         <a href="dev-logs/" data-nav-link="devlogs">Dev Logs</a>
-        <a href="contact.html" data-nav-link="contact">Contact</a>
+        <a href="about.html" data-nav-link="about">About</a>
       </nav>
     </div>
   </header>
 
-  <main class="page-shell">
-    <section class="about-hero about-whiteboard-hero" aria-labelledby="about-title">
-      <div class="about-whiteboard-surface">
-        <span class="about-whiteboard-smudge about-whiteboard-smudge--one" aria-hidden="true"></span>
-        <span class="about-whiteboard-smudge about-whiteboard-smudge--two" aria-hidden="true"></span>
-        <p class="about-whiteboard-ghost-note about-whiteboard-ghost-note--old" aria-hidden="true">old idea: sauce launcher?</p>
-        <p class="about-whiteboard-ghost-note about-whiteboard-ghost-note--messy" aria-hidden="true">too messy -&gt;</p>
-        <div class="about-whiteboard-copy">
-          <p class="eyebrow hero-meta">about the studio</p>
-          <h1 id="about-title"><span>A Look Inside </span><span>the Bottle!</span></h1>
-          <p class="hero-subheadline">A public workshop for small builds with visible fingerprints.</p>
-          <p class="hero-support">iTryKetchup Studio is the creative hub for <span class="accent-word">small games</span>, web projects, dev logs, practical software experiments, and the work-in-progress systems that might grow into playable or cinematic things later.</p>
-          <ul class="about-whiteboard-notes" aria-label="Studio whiteboard notes">
-            <li><strong>Build:</strong> small games, web systems, practical experiments.</li>
-            <li><strong>Log:</strong> progress stays visible, even when the sauce splashes.</li>
-            <li><strong>Keep:</strong> public notes honest, scoped, and usable.</li>
+  <main class="page-shell about-fridge-page">
+    <section class="about-fridge-hero" aria-labelledby="about-title">
+      <div class="about-fridge-hero__panel">
+        <div class="about-fridge-hero__paper">
+          <span class="about-magnet about-magnet--red" aria-hidden="true"></span>
+          <p class="about-fridge-kicker">about the studio</p>
+          <h1 id="about-title">About iTryKetchup Studio</h1>
+          <p class="about-fridge-lede">A one-bottle studio for small games, audio stories, web experiments, and honest patch notes - served from the test kitchen without pretending the whole place is a giant company.</p>
+          <ul class="about-fridge-notes" aria-label="Studio operating notes">
+            <li><strong>Build:</strong> small, practical, playable or public things.</li>
+            <li><strong>Ship:</strong> real pages and working releases before big promises.</li>
+            <li><strong>Log:</strong> the useful decisions, not just the shiny screenshots.</li>
           </ul>
         </div>
-
-        <figure class="about-whiteboard-mascot" aria-labelledby="about-whiteboard-mascot-title">
-          <svg class="about-whiteboard-mascot__art" viewBox="0 0 360 380" role="img" aria-labelledby="about-whiteboard-mascot-title">
-            <title id="about-whiteboard-mascot-title">Hand-drawn iTryKetchup bottle mascot doodle on a whiteboard</title>
-            <path class="about-marker-line about-marker-line--red" d="M139 81 L222 81 L236 126 L230 298 C227 322 212 336 187 336 L166 336 C140 336 124 322 121 298 L114 126 Z" />
-            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M126 84 C132 61 154 49 181 49 C207 49 227 62 232 84" />
-            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M129 113 C153 124 199 125 225 114" />
-            <path class="about-marker-line about-marker-line--black" d="M152 173 C158 159 174 158 180 174" />
-            <path class="about-marker-line about-marker-line--black" d="M198 174 C204 159 221 160 226 175" />
-            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M162 225 C176 239 204 238 217 224" />
-            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M139 253 C164 263 200 263 225 253" />
-            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M119 210 C82 214 62 230 54 256" />
-            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M232 209 C269 205 292 190 306 162" />
-            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M303 164 L324 149 M302 164 L327 170" />
-            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M55 256 C48 274 58 288 74 281" />
-            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M151 337 L140 368 M198 337 L214 367" />
-            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M130 368 C146 375 159 374 172 366" />
-            <path class="about-marker-line about-marker-line--black about-marker-line--thin" d="M199 366 C215 374 230 373 242 363" />
-            <path class="about-marker-line about-marker-line--red about-marker-line--thin" d="M152 288 L213 288" />
-            <text class="about-whiteboard-mascot__label" x="149" y="285">iTry</text>
-            <text class="about-whiteboard-mascot__label about-whiteboard-mascot__label--small" x="151" y="309">KETCHUP</text>
-          </svg>
-          <figcaption>honest chaos / mostly contained</figcaption>
+        <figure class="about-fridge-mascot">
+          <img src="assets/mascots/itry/ITRY-MASCOT-005-ANNOUNCE_CandidateA.webp" alt="iTry Ketchup mascot celebrating near the studio fridge-door notes" width="768" height="768" decoding="async" fetchpriority="high">
+          <figcaption>current status: contained enough for public viewing</figcaption>
         </figure>
-
-        <aside class="about-product-tag" aria-label="Mascot product inspection notes">
-          <div class="about-product-tag__header">
-            <p>Product Inspection: <span>Passed</span></p>
-            <p>Serial: ITRY_MASCOT_001</p>
-          </div>
-          <dl class="about-product-tag__facts">
-            <div>
-              <dt>CLASS</dt>
-              <dd>Condiment, Chaotic Good</dd>
-            </div>
-            <div>
-              <dt>BATCH STATUS</dt>
-              <dd>Still Loading</dd>
-            </div>
-          </dl>
-          <div class="about-product-tag__serving" aria-label="Per serving mascot stats">
-            <p>Per Serving:</p>
-            <div class="about-product-tag__stat">
-              <span>Charm</span>
-              <strong>90%</strong>
-            </div>
-            <div class="about-product-tag__stat">
-              <span>Polish</span>
-              <strong>60%</strong>
-            </div>
-            <div class="about-product-tag__stat">
-              <span>Mystery</span>
-              <strong>2% <em>(Suspiciously Low)</em></strong>
-            </div>
-          </div>
-        </aside>
-
-        <div class="about-whiteboard-diagram" aria-hidden="true">
-          <span class="about-whiteboard-diagram__title">studio loop</span>
-          <span class="about-whiteboard-diagram__bubble about-whiteboard-diagram__bubble--build">build</span>
-          <span class="about-whiteboard-diagram__bubble about-whiteboard-diagram__bubble--ship">ship</span>
-          <span class="about-whiteboard-diagram__bubble about-whiteboard-diagram__bubble--log">log</span>
-          <span class="about-whiteboard-diagram__arrow about-whiteboard-diagram__arrow--one">-&gt;</span>
-          <span class="about-whiteboard-diagram__arrow about-whiteboard-diagram__arrow--two">-&gt;</span>
-          <span class="about-whiteboard-diagram__arrow about-whiteboard-diagram__arrow--three">-&gt;</span>
-        </div>
       </div>
     </section>
 
-    <section class="section about-intro-section" aria-labelledby="builds-title">
-      <div class="about-sauce-trail" aria-hidden="true">
-        <span class="about-sauce-trail__drop about-sauce-trail__drop--1"></span>
-        <span class="about-sauce-trail__drop about-sauce-trail__drop--2"></span>
-        <span class="about-sauce-trail__drop about-sauce-trail__drop--3"></span>
-        <span class="about-sauce-trail__drop about-sauce-trail__drop--4"></span>
-      </div>
+    <section class="section about-fridge-section" aria-labelledby="direction-title">
+      <article class="about-paper-card about-current-card">
+        <span class="about-magnet about-magnet--steel" aria-hidden="true"></span>
+        <div class="section-divider">
+          <span class="section-divider__label">current direction</span>
+        </div>
+        <h2 id="direction-title">Current Focus</h2>
+        <p>The hub is here to keep public work findable: the Home kitchen, the Projects shelf, Dev Logs, The Door, and The Wolf Tale release page. The rule is simple: if something is live, label it live; if it is planned, say it is planned.</p>
+        <dl class="about-status-board">
+          <div>
+            <dt>Live</dt>
+            <dd>Home kitchen, Projects, Dev Logs, The Door, and The Wolf Tale hub.</dd>
+          </div>
+          <div>
+            <dt>Scheduled</dt>
+            <dd>Story releases and site polish move only after they are actually ready.</dd>
+          </div>
+          <div>
+            <dt>Later</dt>
+            <dd>Projects and Dev Logs can get their own kitchen treatment under separate scopes.</dd>
+          </div>
+        </dl>
+      </article>
+    </section>
+
+    <section class="section about-fridge-section" aria-labelledby="roadmap-title">
       <div class="section-header">
         <div class="section-divider">
-          <span class="section-divider__label">studio library</span>
+          <span class="section-divider__label">roadmap</span>
         </div>
-        <h2 id="builds-title">Studio Library: Operational Standards</h2>
+        <h2 id="roadmap-title">Fridge-Door Grocery List</h2>
+        <p class="lede">A short, honest list. No eternal coming-soon fog, no mystery departments, no roadmap confetti.</p>
       </div>
-      <div class="split-grid split-grid--top">
-        <p class="lede">We don't do corporate mystique or fake departments. This is a practical public home for live systems, raw notes, experimental prototypes, and the occasional chaotic idea that survives first contact with code.</p>
-        <div class="about-signal-panel about-tech-stack-card" aria-labelledby="studio-hub-title">
-          <p class="about-panel-kicker">studio hub</p>
-          <h3 id="studio-hub-title">iTryKetchup Studio Hub</h3>
-          <p class="about-tech-stack-card__summary">A static public base for projects, notes, experiments, and the occasional suspiciously organized sauce packet.</p>
-          <dl class="about-signal-list">
-            <div>
-              <dt>Operations Hub</dt>
-              <dd>Live console for project modules, development logs, and transmission protocols.</dd>
-            </div>
-            <div>
-              <dt>Production Philosophy</dt>
-              <dd>Function comes first. Technical debt is purged immediately. Viscosity matters.</dd>
-            </div>
-            <div>
-              <dt>System Report</dt>
-              <dd>Studio deployment of v1.0 complete. Honest labeling on all modules is enforced.</dd>
-            </div>
-          </dl>
-          <div class="about-tech-stack-reveal" data-tech-stack-reveal>
-            <button class="about-tech-stack-trigger" type="button" aria-expanded="false" aria-controls="about-tech-stack-panel" data-tech-stack-toggle>
-              <span>Tech Stack</span>
-              <span class="about-tech-stack-trigger__status" aria-hidden="true">peek</span>
-            </button>
-            <div class="about-tech-stack-panel" id="about-tech-stack-panel" data-tech-stack-panel>
-              <ul class="about-tech-stack-list" aria-label="Website tech stack">
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-                <li>GitHub Pages</li>
-                <li>Supabase analytics</li>
-                <li>Git / GitHub workflow</li>
-              </ul>
-              <p>Static pages, public analytics wiring, and a GitHub Pages deployment path. No private project files in the pour.</p>
-            </div>
-          </div>
-        </div>
+      <div class="about-roadmap-list" aria-label="Studio roadmap grocery list">
+        <article class="about-grocery-card">
+          <span class="about-magnet about-magnet--red" aria-hidden="true"></span>
+          <p class="about-card-label">Live</p>
+          <h3>Keep the counter clean</h3>
+          <p>Home, Projects, Dev Logs, Wolf Tale, and Door should stay easy to reach and honestly labeled.</p>
+        </article>
+        <article class="about-grocery-card">
+          <span class="about-magnet about-magnet--steel" aria-hidden="true"></span>
+          <p class="about-card-label">Scheduled</p>
+          <h3>Ship only after checking the lid</h3>
+          <p>Release notes and public changes wait for local verification, Nicholas review, and live checks.</p>
+        </article>
+        <article class="about-grocery-card">
+          <span class="about-magnet about-magnet--red" aria-hidden="true"></span>
+          <p class="about-card-label">Later</p>
+          <h3>More fridge labels</h3>
+          <p>Projects fridge cards and a Dev Logs tablet are good future ideas, but they are not hiding inside this page.</p>
+        </article>
       </div>
-      <figure class="about-library-mascot">
-        <div class="about-library-mascot__effect" aria-hidden="true">
-          <span class="about-library-mascot__splotch about-library-mascot__splotch--one"></span>
-          <span class="about-library-mascot__splotch about-library-mascot__splotch--two"></span>
-          <span class="about-library-mascot__laser"></span>
-          <span class="about-library-mascot__spark about-library-mascot__spark--one"></span>
-          <span class="about-library-mascot__spark about-library-mascot__spark--two"></span>
-        </div>
-        <img src="assets/mascots/itry/ITRY-MASCOT-005-ANNOUNCE_CandidateA.webp" alt="iTry Ketchup mascot celebrating inside the Studio Library visual">
-        <figcaption>Studio Library scan: ketchup splotches, one suspiciously precise space laser, zero enterprise slide decks.</figcaption>
-      </figure>
     </section>
 
-    <section class="section" aria-labelledby="why-title">
+    <section class="section about-fridge-section" aria-labelledby="review-title">
       <div class="section-header">
         <div class="section-divider">
-          <span class="section-divider__label">why it exists</span>
+          <span class="section-divider__label">review desk</span>
         </div>
-        <h2 id="why-title">One Bottle, One Home, No Scattered Tabs</h2>
-        <p class="lede">The hub keeps the studio from turning into forty open tabs, a Discord nobody checks, and a folder called projects_REAL_v3. If something exists, it's findable. If something's planned, it says so &mdash; no vague "coming soon" forever.</p>
+        <h2 id="review-title">Condiment Quality Control</h2>
+        <p class="lede">The reviewer crew keeps the studio from publishing soup in a ketchup bottle.</p>
       </div>
-      <div class="about-recipe-card-grid about-recipe-card-grid--why">
-        <article class="about-recipe-card">
-          <p class="about-recipe-card__number">01</p>
-          <h3>Projects</h3>
-          <p>Small games, web builds, fan projects, and practical experiments &mdash; described honestly, not dressed up as finished.</p>
+      <div class="about-review-grid" aria-label="Reviewer notes">
+        <article class="about-review-card">
+          <img src="assets/mascots/reviewers/dejon-mustard-reviewer.webp" alt="De-Jon Mustard reviewer mascot" loading="lazy" decoding="async">
+          <div>
+            <p class="about-card-label">De-Jon Mustard</p>
+            <h3>Review and critique</h3>
+            <p>Checks whether the label says what the page actually does.</p>
+          </div>
         </article>
-        <article class="about-recipe-card">
-          <p class="about-recipe-card__number">02</p>
-          <h3>Dev Logs</h3>
-          <p>Progress notes, patch notes, and the weird lessons that come with them, kept visible instead of buried in final-final-maybe.</p>
+        <article class="about-review-card">
+          <img src="assets/mascots/reviewers/mister-mayo-reviewer.webp" alt="Mister Mayo reviewer mascot" loading="lazy" decoding="async">
+          <div>
+            <p class="about-card-label">Mister Mayo</p>
+            <h3>Polish and cleanup</h3>
+            <p>Looks for sticky edges, broken spacing, and fake buttons pretending to be systems.</p>
+          </div>
         </article>
-        <article class="about-recipe-card">
-          <p class="about-recipe-card__number">03</p>
-          <h3>Experiments</h3>
-          <p>Tools, layout systems, Blender and Unreal practice, media pipeline tests &mdash; letting future cinematic ambitions grow at a sane pace.</p>
+        <article class="about-review-card">
+          <img src="assets/mascots/reviewers/jenairic-relish-reviewer.webp" alt="Jenairic Relish reviewer mascot" loading="lazy" decoding="async">
+          <div>
+            <p class="about-card-label">Jenairic Relish</p>
+            <h3>Lookout and approval</h3>
+            <p>Makes sure the next move is visible, scoped, and not sliding off the fridge.</p>
+          </div>
         </article>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="direction-title">
-      <div class="section-divider">
-        <span class="section-divider__label">current direction</span>
-      </div>
-      <div class="terminal-panel about-terminal" aria-label="About page current direction output">
+    <section class="section about-fridge-section" aria-labelledby="terminal-title">
+      <article class="about-terminal-note">
         <div class="terminal-panel__bar" aria-hidden="true">
           <span class="terminal-panel__dot"></span>
           <span class="terminal-panel__dot"></span>
           <span class="terminal-panel__dot"></span>
-          <span class="terminal-panel__title">PowerShell</span>
-          <span class="terminal-panel__path">C:\itryketchup-studio\about</span>
+          <span class="terminal-panel__title">ticket-intake-daemon</span>
         </div>
-        <div class="terminal-panel__body">
-          <p><span class="terminal-prompt">PS C:\itryketchup-studio\about&gt;</span> ./explain-studio.ps1 --public</p>
-          <p><span class="terminal-tag terminal-tag--running">[ACTIVE]</span> Build a clear public hub for projects, logs, and experiments.</p>
-          <p><span class="terminal-tag terminal-tag--success">[VISIBLE]</span> Show finished work honestly and label planned work clearly.</p>
-          <p><span class="terminal-tag terminal-tag--queued">[NEXT]</span> Keep improving the pipeline for future playable and cinematic ideas.</p>
-          <p><span class="terminal-tag terminal-tag--warning">[RULE]</span> No broken promises disguised as launch strategy.</p>
-          <div class="terminal-easter-egg about-terminal-command" data-terminal-widget data-terminal-mode="about" data-terminal-prompt="PS C:\itryketchup-studio\about&gt;" data-terminal-max-entries="5">
-            <p class="terminal-hint">type any suspicious command</p>
-            <div class="terminal-output" aria-live="polite" data-terminal-output></div>
-            <form class="terminal-command" data-terminal-form>
-              <label class="sr-only" for="about-terminal-command-input">Fake PowerShell command</label>
-              <span class="terminal-prompt" aria-hidden="true">PS C:\itryketchup-studio\about&gt;</span>
-              <input id="about-terminal-command-input" class="terminal-command__input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" data-terminal-input>
-              <button class="terminal-command__submit" type="submit">Run</button>
-            </form>
-          </div>
+        <div class="about-terminal-note__body">
+          <p class="about-card-label">one terminal joke, contained</p>
+          <h2 id="terminal-title">Signal Routing Is Open</h2>
+          <p><span class="terminal-tag terminal-tag--success">[OK]</span> Email channel monitored.</p>
+          <p><span class="terminal-tag terminal-tag--warning">[NOTE]</span> No imaginary form backend is pretending to exist.</p>
+          <p><span class="terminal-tag terminal-tag--queued">[QUEUE]</span> Human-scale replies, usually within 7 days when the studio queue behaves.</p>
         </div>
-      </div>
+      </article>
     </section>
 
-    <section class="section about-philosophy-section" aria-labelledby="philosophy-title">
-      <span class="about-decor-splatter about-decor-splatter--philosophy-left" aria-hidden="true"></span>
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">build philosophy</span>
+    <section class="section about-fridge-section about-contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="about-contact-card">
+        <span class="about-magnet about-magnet--red" aria-hidden="true"></span>
+        <div>
+          <p class="about-fridge-kicker">contact</p>
+          <h2 id="contact-title">Contact the Studio</h2>
+          <p>For project questions, website feedback, dev log notes, or general studio contact, email is the working route. Short subjects and useful details help the message survive the inbox weather.</p>
+          <p class="about-contact-email"><a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a></p>
+          <p class="about-contact-note">This is a static site, so there is no public contact form and no hidden ticket backend. Messages are reviewed on a human schedule.</p>
         </div>
-        <h2 id="philosophy-title">The Secret Recipe (Mostly Tomatoes &amp; Syntax Errors)</h2>
-      </div>
-      <div class="about-recipe-board">
-        <div class="about-recipe-card-grid" aria-label="Secret recipe lab principles">
-          <article class="about-recipe-card">
-            <p class="about-recipe-card__number">01</p>
-            <h3>Runtime Viscosity</h3>
-            <p>Pretty is just the glass bottle. Working is the actual sauce. If it doesn't pour, it's useless.</p>
-          </article>
-          <article class="about-recipe-card">
-            <p class="about-recipe-card__number">02</p>
-            <h3>Freshness Check</h3>
-            <p>It's either fresh, fermenting on purpose, or tossed out. No vague "coming soon" mystery meat allowed.</p>
-          </article>
-          <article class="about-recipe-card">
-            <p class="about-recipe-card__number">03</p>
-            <h3>Cap Maintenance Protocol</h3>
-            <p>Technical debt is the crusty ketchup at the top of the bottle. Future me deserves a clean pour.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section about-closing-section" aria-labelledby="public-title">
-      <span class="about-decor-splatter about-decor-splatter--public-right" aria-hidden="true"></span>
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">building in public</span>
-        </div>
-        <h2 id="public-title">Slow Pour, Steady Tap. Nothing's Forced.</h2>
-      </div>
-      <div class="split-grid split-grid--top">
-        <figure class="closing-note">
-          <blockquote>Some days you pour smoothly. Some days you sputter. Both days you're still ketchup.</blockquote>
-          <figcaption>- iTryKetchup</figcaption>
-        </figure>
-        <div class="button-row">
-          <a class="button buff-link" href="projects.html" data-buff="+10 Build Awareness | +5 Curiosity">Browse Projects</a>
-          <a class="button-secondary buff-link" href="dev-logs/" data-buff="+10 Wisdom | +5 Patch Notes">Latest Dev Logs</a>
+        <div class="about-contact-links" aria-label="Public studio links">
+          <a class="button" href="mailto:itryketchup@gmail.com">Email the Studio</a>
+          <a class="button-secondary" href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
+          <a class="button-secondary" href="https://www.youtube.com/@iTryKetchupStudio">YouTube Studio</a>
+          <a class="button-secondary" href="https://www.youtube.com/@iTryKetchup">YouTube Channel</a>
         </div>
       </div>
     </section>

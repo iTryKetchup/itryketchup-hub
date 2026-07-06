@@ -3,12 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact - iTryKetchup Studio Hub</title>
-  <meta name="description" content="Contact iTryKetchup Studio by email and find current GitHub and YouTube status.">
+  <title>Contact Has Moved - iTryKetchup Studio Hub</title>
+  <meta name="description" content="Contact for iTryKetchup Studio now lives on the About page. Use the About contact section or email the studio directly.">
+  <link rel="canonical" href="about.html#contact">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
+  <link rel="stylesheet" href="css/styles.css?v=2.3-about-contact-nav">
 </head>
-<body data-page="contact">
+<body data-page="about" class="contact-forward-page">
   <header class="site-header">
     <div class="site-header__inner">
       <a class="brand-link" href="index.html">
@@ -18,106 +22,24 @@
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>Menu</button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation" data-site-nav>
         <a href="index.html" data-nav-link="home">Home</a>
-        <a href="about.html" data-nav-link="about">About</a>
         <a href="projects.html" data-nav-link="projects">Projects</a>
         <a href="dev-logs/" data-nav-link="devlogs">Dev Logs</a>
-        <a href="contact.html" data-nav-link="contact">Contact</a>
+        <a href="about.html" data-nav-link="about">About</a>
       </nav>
     </div>
   </header>
 
-  <main class="page-shell">
-    <section class="browser-panel contact-hero" aria-labelledby="contact-title">
-      <div class="browser-panel__bar" aria-hidden="true">
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">ticket-intake-daemon / listening</span>
+  <main class="page-shell contact-forward-shell">
+    <section class="contact-forward-card" aria-labelledby="contact-forward-title">
+      <span class="about-magnet about-magnet--red" aria-hidden="true"></span>
+      <p class="about-fridge-kicker">contact route update</p>
+      <h1 id="contact-forward-title">Contact moved to About.</h1>
+      <p>The email address still works. The public contact details now live on the About page so the studio information and contact route stay in one place.</p>
+      <div class="button-row">
+        <a class="button" href="about.html#contact">Open About Contact</a>
+        <a class="button-secondary" href="mailto:itryketchup@gmail.com">Email iTryKetchup</a>
       </div>
-      <div class="browser-panel__body contact-ticket-hero">
-        <div class="terminal-window terminal-window--ticket">
-          <div class="terminal-window__line">itryketchup@studio:~$ ./ticket_intake_daemon --listen</div>
-          <div class="terminal-window__line">&gt; Establishing signal routing protocol... [OK]</div>
-          <div class="terminal-window__line">&gt; Bypassing corporate enterprise fog machines... [OK]</div>
-          <div class="terminal-window__line">&gt; [READY] Awaiting user submission data.</div>
-          <div class="terminal-window__block" aria-label="Ticket metadata template">
-            <span>[TICKET_METADATA_TEMPLATE]</span>
-            <span>------------------------------------------------------</span>
-            <span>TICKET_ID       = #TK-0000 (Pending Input)</span>
-            <span>PRIORITY        = "Human Scale"</span>
-            <span>ROUTING_TARGET  = "Actual Human Inbox"</span>
-            <span>ETA             = "Within 7 days (If queue behaves)"</span>
-            <span>COFFEE_REQUIRED = TRUE</span>
-            <span>ANTICIPATED_BUGS = "Several"</span>
-            <span>------------------------------------------------------</span>
-          </div>
-          <h1 id="contact-title">Contact</h1>
-          <p class="terminal-window__warning">WARNING: Submitting enterprise buzzwords or AI-generated synergy pitches may result in automated packet drop.</p>
-          <p class="terminal-window__prompt">itryketchup@studio:~$ Scroll down to fill out parameters... <span class="terminal-window__cursor" aria-hidden="true"></span></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section contact-details-section" aria-labelledby="contact-details-title">
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">signal channels</span>
-        </div>
-        <h2 id="contact-details-title">System Routing Tables</h2>
-        <p class="lede">Useful first, dramatic second. Email is the current working route for studio questions, site feedback, project notes, and anything that should not be lost in a comment thread.</p>
-      </div>
-      <div class="contact-status-strip" aria-label="Contact signal status">
-        <span class="contact-chip">INBOX MONITORED</span>
-        <span class="contact-chip">STATIC PAGE</span>
-        <span class="contact-chip">COFFEE_REQUIRED = TRUE</span>
-        <span class="contact-chip">NO FORM BACKEND</span>
-      </div>
-      <div class="contact-card-grid">
-        <article class="contact-info-card contact-info-card--primary">
-          <p class="contact-card-kicker">primary channel</p>
-          <h3>Primary Transport Layer (SMTP)</h3>
-          <p class="contact-email"><a href="mailto:itryketchup@gmail.com">itryketchup@gmail.com</a></p>
-          <p>Best for project questions, website feedback, dev log or studio questions, and general contact. A short subject line and a few useful details help the signal survive the inbox weather.</p>
-          <a class="text-action" href="mailto:itryketchup@gmail.com">Open Email Client</a>
-        </article>
-        <article class="contact-info-card">
-          <p class="contact-card-kicker">response notes</p>
-          <h3>Queue Latency &amp; SLA Notes</h3>
-          <p>Replies are not instant, but messages will be reviewed when possible. A reasonable expectation is within 7 days when the studio queue is behaving itself.</p>
-          <dl class="contact-mini-list">
-            <div>
-              <dt>Best for</dt>
-              <dd>Projects, site feedback, studio inquiries</dd>
-            </div>
-            <div>
-              <dt>Not a fit</dt>
-              <dd>Fake support tickets or enterprise fog machine rituals</dd>
-            </div>
-          </dl>
-        </article>
-      </div>
-    </section>
-
-    <section class="section contact-status-section" aria-labelledby="status-title">
-      <div class="section-divider">
-        <span class="section-divider__label">signal status</span>
-      </div>
-      <div class="split-grid split-grid--top">
-        <article class="contact-status-panel" aria-labelledby="status-title">
-          <p class="contact-card-kicker">contact status</p>
-          <h2 id="status-title">Inbox Monitored</h2>
-          <div class="contact-meter" aria-label="Inbox monitoring level 70 percent">
-            <span></span>
-          </div>
-          <p>Response time: human-scale. The current Contact page is intentionally static, which means the email link is real and the imaginary form backend is politely not pretending to exist.</p>
-        </article>
-        <article class="contact-info-card">
-          <p class="contact-card-kicker">public links</p>
-          <h3>Source and Public Media</h3>
-          <p><a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub repository</a></p>
-          <p>Public YouTube handles are live in the footer for studio and channel browsing. Video release timing still follows the actual public schedule.</p>
-        </article>
-      </div>
+      <p class="small">No form backend is hiding here. Just a clean forwarding page and a real email link.</p>
     </section>
   </main>
 

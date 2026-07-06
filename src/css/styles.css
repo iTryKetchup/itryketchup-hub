@@ -9439,3 +9439,453 @@ body[data-page="wolf-tale"] .wolf-hero {
     min-height: 520px;
   }
 }
+
+/* SITE v2.3 About + Contact merge */
+body[data-page="about"] {
+  --canvas: #faf8f5;
+  --panel: #fffdfa;
+  --panel-cool: #eceae6;
+  --ink: #1c1b1a;
+  --muted: #6e6c68;
+  --line: #b9b7b2;
+  --red: #d62828;
+  --red-dark: #8e1b1b;
+  --shadow: 0 22px 54px rgba(28, 27, 26, 0.14);
+  font-family: "Jost", "Trebuchet MS", Arial, sans-serif;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(28, 27, 26, 0.045) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(28, 27, 26, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 14% 12%, rgba(214, 40, 40, 0.08), transparent 25%),
+    linear-gradient(180deg, #f7f5f0 0%, #eceae6 44%, #faf8f5 100%);
+  background-size: 42px 42px, 42px 42px, auto, auto;
+}
+
+body[data-page="about"] .site-header,
+body[data-page="about"] .site-footer {
+  background: rgba(250, 248, 245, 0.95);
+  border-color: rgba(28, 27, 26, 0.18);
+}
+
+body[data-page="about"] .brand-link strong,
+body[data-page="about"] h1,
+body[data-page="about"] h2,
+body[data-page="about"] h3 {
+  font-family: "Alfa Slab One", Georgia, serif;
+  letter-spacing: 0;
+}
+
+body[data-page="about"] .site-nav a,
+body[data-page="about"] .brand-link span,
+body[data-page="about"] .nav-toggle,
+body[data-page="about"] .button,
+body[data-page="about"] .button-secondary {
+  font-family: "Jost", "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+body[data-page="about"] .site-nav a[aria-current="page"] {
+  color: var(--red-dark);
+}
+
+.about-fridge-page,
+.contact-forward-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding-top: clamp(34px, 6vw, 76px);
+  padding-bottom: clamp(42px, 7vw, 86px);
+}
+
+.about-fridge-hero {
+  margin-bottom: clamp(34px, 5vw, 58px);
+}
+
+.about-fridge-hero__panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(250px, 0.72fr);
+  gap: clamp(24px, 4vw, 54px);
+  align-items: center;
+  overflow: hidden;
+  min-height: clamp(520px, 66vh, 720px);
+  border: 1px solid rgba(28, 27, 26, 0.2);
+  border-radius: 8px;
+  padding: clamp(24px, 4.8vw, 58px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(0deg, rgba(28, 27, 26, 0.035) 0 1px, transparent 1px 32px),
+    linear-gradient(135deg, #f7f6f2 0%, #eceae6 54%, #d7d5cf 100%);
+  box-shadow: var(--shadow);
+}
+
+.about-fridge-hero__panel::before {
+  position: absolute;
+  inset: 18px auto 18px 52%;
+  width: 1px;
+  content: "";
+  background: linear-gradient(180deg, transparent, rgba(28, 27, 26, 0.24), transparent);
+}
+
+.about-fridge-hero__paper,
+.about-paper-card,
+.about-grocery-card,
+.about-review-card,
+.about-contact-card,
+.contact-forward-card {
+  position: relative;
+  border: 1px solid rgba(28, 27, 26, 0.18);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(0deg, rgba(185, 183, 178, 0.16) 0 1px, transparent 1px 34px),
+    #faf8f5;
+  box-shadow: 0 18px 34px rgba(28, 27, 26, 0.12);
+}
+
+.about-fridge-hero__paper {
+  z-index: 1;
+  max-width: 720px;
+  padding: clamp(24px, 4vw, 44px);
+}
+
+.about-fridge-kicker,
+.about-card-label {
+  margin: 0 0 10px;
+  color: var(--red-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body[data-page="about"] h1 {
+  max-width: 11ch;
+  margin: 0;
+  font-size: clamp(2.55rem, 6vw, 4.9rem);
+  line-height: 0.98;
+}
+
+body[data-page="about"] h2 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 5vw, 4.1rem);
+  line-height: 1;
+}
+
+body[data-page="about"] h3 {
+  margin: 0 0 8px;
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  line-height: 1.14;
+}
+
+.about-fridge-lede {
+  max-width: 58ch;
+  margin: 22px 0 0;
+  font-size: clamp(1.08rem, 2vw, 1.32rem);
+  line-height: 1.5;
+}
+
+.about-fridge-notes,
+.about-status-board {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+}
+
+.about-fridge-notes li,
+.about-status-board div {
+  display: block;
+  border-left: 4px solid var(--red);
+  padding: 8px 0 8px 14px;
+}
+
+.about-fridge-notes {
+  list-style: none;
+}
+
+.about-status-board {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.about-status-board dt {
+  color: var(--red-dark);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.about-status-board dd {
+  margin: 3px 0 0;
+  color: var(--muted);
+}
+
+.about-fridge-mascot {
+  z-index: 1;
+  justify-self: center;
+  margin: 0;
+  text-align: center;
+}
+
+.about-fridge-mascot img {
+  width: min(360px, 72vw);
+  margin: 0 auto;
+  filter: drop-shadow(0 18px 24px rgba(28, 27, 26, 0.24));
+}
+
+.about-fridge-mascot figcaption {
+  max-width: 28ch;
+  margin: 12px auto 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.about-magnet {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(28, 27, 26, 0.22);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 4px 9px rgba(255, 255, 255, 0.42),
+    0 5px 10px rgba(28, 27, 26, 0.16);
+}
+
+.about-magnet--red {
+  background: var(--red);
+}
+
+.about-magnet--steel {
+  background: linear-gradient(135deg, #faf8f5, #b9b7b2);
+}
+
+.about-fridge-section {
+  margin-top: clamp(28px, 5vw, 56px);
+}
+
+.about-paper-card,
+.about-terminal-note,
+.about-contact-card,
+.contact-forward-card {
+  padding: clamp(22px, 4vw, 42px);
+}
+
+.about-terminal-note {
+  padding: 0;
+}
+
+.about-current-card {
+  max-width: none;
+}
+
+.about-roadmap-list,
+.about-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.6vw, 26px);
+}
+
+.about-grocery-card {
+  min-height: 240px;
+  padding: 32px 22px 24px;
+}
+
+.about-grocery-card p:last-child,
+.about-review-card p:last-child,
+.about-contact-card p:last-child,
+.contact-forward-card p:last-child {
+  margin-bottom: 0;
+}
+
+.about-review-card {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  min-height: 180px;
+  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(236, 234, 230, 0.72), rgba(250, 248, 245, 0.96)),
+    #faf8f5;
+}
+
+.about-review-card img {
+  width: 84px;
+  height: 84px;
+  border: 1px solid rgba(28, 27, 26, 0.16);
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eceae6;
+}
+
+.about-terminal-note {
+  overflow: hidden;
+  border: 1px solid rgba(250, 248, 245, 0.18);
+  border-radius: 8px;
+  color: #f7f5f0;
+  background: #1c1b1a;
+  box-shadow: 0 20px 42px rgba(28, 27, 26, 0.2);
+}
+
+.about-terminal-note .terminal-panel__bar {
+  margin: 0;
+}
+
+.about-terminal-note__body {
+  padding: clamp(22px, 4vw, 42px);
+}
+
+.about-terminal-note h2,
+.about-terminal-note .about-card-label {
+  color: #faf8f5;
+}
+
+.about-terminal-note p {
+  margin: 10px 0;
+}
+
+.about-contact-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.4fr);
+  gap: clamp(22px, 4vw, 46px);
+  align-items: center;
+}
+
+.about-contact-email {
+  margin: 18px 0 0;
+  font-size: clamp(1.4rem, 4vw, 2.7rem);
+  font-weight: 900;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.about-contact-note {
+  color: var(--muted);
+}
+
+.about-contact-links {
+  display: grid;
+  gap: 10px;
+}
+
+body[data-page="about"] .button,
+body[data-page="about"] .button-secondary {
+  justify-content: center;
+  min-height: 46px;
+  white-space: normal;
+  text-align: center;
+}
+
+body[data-page="about"] .button {
+  border-color: var(--red);
+  color: #fffdfa;
+  background: var(--red);
+}
+
+body[data-page="about"] .button:hover {
+  border-color: var(--red-dark);
+  color: #fffdfa;
+  background: var(--red-dark);
+}
+
+body[data-page="about"] .button-secondary {
+  border-color: #1c1b1a;
+  color: #faf8f5;
+  background: #101113;
+}
+
+body[data-page="about"] .button-secondary:hover {
+  border-color: var(--red-dark);
+  color: #fffdfa;
+  background: var(--red-dark);
+}
+
+.about-contact-section {
+  scroll-margin-top: 110px;
+}
+
+.contact-forward-shell {
+  display: grid;
+  min-height: min(620px, calc(100vh - 220px));
+  place-items: center;
+}
+
+.contact-forward-card {
+  width: min(760px, 100%);
+}
+
+.contact-forward-card h1 {
+  max-width: 12ch;
+}
+
+.contact-forward-card .button-row {
+  margin-top: 24px;
+}
+
+@media (max-width: 860px) {
+  .about-fridge-hero__panel,
+  .about-contact-card {
+    grid-template-columns: 1fr;
+  }
+
+  .about-fridge-hero__panel {
+    min-height: auto;
+  }
+
+  .about-fridge-hero__panel::before {
+    display: none;
+  }
+
+  .about-status-board,
+  .about-roadmap-list,
+  .about-review-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .about-fridge-page,
+  .contact-forward-shell {
+    width: min(100% - 20px, 1180px);
+    padding-top: 22px;
+  }
+
+  .about-fridge-hero__panel,
+  .about-fridge-hero__paper,
+  .about-paper-card,
+  .about-grocery-card,
+  .about-contact-card,
+  .contact-forward-card {
+    padding: 18px;
+  }
+
+  body[data-page="about"] h1 {
+    font-size: clamp(2.25rem, 13vw, 3.45rem);
+  }
+
+  body[data-page="about"] h2 {
+    font-size: clamp(1.8rem, 11vw, 2.8rem);
+  }
+
+  .about-review-card {
+    grid-template-columns: 64px minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  .about-review-card img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .about-terminal-note .terminal-panel__bar {
+    margin: 0;
+  }
+
+  .about-terminal-note__body {
+    padding: 18px;
+  }
+
+  .about-contact-links {
+    gap: 8px;
+  }
+}
