@@ -15,6 +15,9 @@
   <meta name="twitter:image" content="https://itryketchup.com/assets/brand/itryketchup-social-card.jpg">
   <title>iTryKetchup Studio | Test Kitchen</title>
   <link rel="icon" type="image/svg+xml" href="assets/brand/itryketchup-logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
   <style>
     body[data-page="home"] {
@@ -31,6 +34,7 @@
         radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.78), transparent 34rem),
         linear-gradient(180deg, #f2f0eb 0%, #e3dfd7 100%);
       color: var(--home-ink);
+      font-family: "Jost", sans-serif;
     }
 
     body[data-page="home"] .site-header {
@@ -43,6 +47,17 @@
     body[data-page="home"] .site-nav a,
     body[data-page="home"] .nav-toggle {
       color: var(--home-ink);
+    }
+
+    body[data-page="home"] .brand-link strong {
+      font-family: "Alfa Slab One", serif;
+      font-weight: 400;
+    }
+
+    body[data-page="home"] .site-nav a,
+    body[data-page="home"] .nav-toggle,
+    body[data-page="home"] .brand-link span {
+      font-family: "Jost", sans-serif;
     }
 
     body[data-page="home"] .nav-toggle {
@@ -71,17 +86,16 @@
 
     .home-kitchen-hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
       gap: clamp(24px, 5vw, 54px);
       align-items: center;
-      min-height: min(680px, calc(100vh - 170px));
+      min-height: min(520px, calc(100vh - 150px));
     }
 
     .home-kitchen-hero__scene {
       position: relative;
       isolation: isolate;
-      min-height: 440px;
-      aspect-ratio: 1.05;
+      aspect-ratio: 16 / 9;
       overflow: hidden;
       border: 1px solid var(--home-line);
       border-radius: 8px;
@@ -104,164 +118,19 @@
       pointer-events: none;
     }
 
-    .home-kitchen-window {
+    .home-kitchen-hero__picture,
+    .home-kitchen-hero__picture img {
       position: absolute;
-      top: 8%;
-      left: 10%;
-      z-index: 1;
-      width: 27%;
-      height: 24%;
-      border: 8px solid #f3f1ec;
-      border-radius: 4px;
-      background:
-        linear-gradient(90deg, transparent 48%, rgba(62, 61, 58, 0.34) 49%, rgba(62, 61, 58, 0.34) 51%, transparent 52%),
-        linear-gradient(180deg, transparent 48%, rgba(62, 61, 58, 0.34) 49%, rgba(62, 61, 58, 0.34) 51%, transparent 52%),
-        linear-gradient(135deg, #d8d6cf, #9f9b92);
-      box-shadow: inset 0 0 0 1px rgba(28, 27, 26, 0.16), 0 12px 22px rgba(28, 27, 26, 0.1);
-    }
-
-    .home-kitchen-cabinets {
-      position: absolute;
-      top: 7%;
-      right: 8%;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      width: 40%;
-      height: 21%;
-    }
-
-    .home-kitchen-cabinets span {
-      border: 1px solid rgba(28, 27, 26, 0.18);
-      border-radius: 4px;
-      background: linear-gradient(180deg, #f0eee9, #c9c4ba);
-      box-shadow: inset 0 -12px 20px rgba(28, 27, 26, 0.08);
-    }
-
-    .home-kitchen-fridge {
-      position: absolute;
-      right: 7%;
-      bottom: 13%;
+      inset: 0;
       z-index: 2;
-      width: 25%;
-      height: 58%;
-      border: 1px solid rgba(28, 27, 26, 0.2);
-      border-radius: 8px 8px 5px 5px;
-      background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 34%),
-        linear-gradient(180deg, #f3f1ec 0%, #d8d4cb 52%, #c1bbb0 100%);
-      box-shadow: -16px 18px 28px rgba(28, 27, 26, 0.18);
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
-    .home-kitchen-fridge::before,
-    .home-kitchen-fridge::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      background: rgba(28, 27, 26, 0.16);
-    }
-
-    .home-kitchen-fridge::before {
-      top: 35%;
-      height: 1px;
-    }
-
-    .home-kitchen-fridge::after {
-      top: 13%;
-      right: 12%;
-      left: auto;
-      width: 5px;
-      height: 18%;
-      border-radius: 999px;
-      background: #8b877f;
-    }
-
-    .home-kitchen-counter {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-      height: 22%;
-      background:
-        linear-gradient(180deg, #77736c 0 9px, transparent 9px),
-        linear-gradient(90deg, #c6c0b6 0 18%, #b5afa4 18% 36%, #c9c4ba 36% 55%, #aaa398 55% 72%, #c5bfb5 72% 100%);
-      border-top: 1px solid rgba(28, 27, 26, 0.28);
-    }
-
-    .home-kitchen-stove,
-    .home-kitchen-sink {
-      position: absolute;
-      bottom: 7%;
-      z-index: 2;
-      border: 1px solid rgba(28, 27, 26, 0.24);
-      background: linear-gradient(180deg, #e4e1da, #b5afa4);
-    }
-
-    .home-kitchen-stove {
-      left: 9%;
-      width: 22%;
-      height: 22%;
-      border-radius: 5px;
-    }
-
-    .home-kitchen-stove::before {
-      content: "";
-      position: absolute;
-      inset: 13% 12% auto;
-      height: 28%;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle at 20% 50%, #3a3835 0 7px, transparent 8px),
-        radial-gradient(circle at 50% 50%, #3a3835 0 7px, transparent 8px),
-        radial-gradient(circle at 80% 50%, #3a3835 0 7px, transparent 8px);
-    }
-
-    .home-kitchen-sink {
-      left: 35%;
-      width: 20%;
-      height: 16%;
-      border-radius: 6px 6px 16px 16px;
-    }
-
-    .home-kitchen-sink::before {
-      content: "";
-      position: absolute;
-      left: 48%;
-      bottom: 92%;
-      width: 24%;
-      height: 48%;
-      border: 4px solid #6f6b63;
-      border-bottom: 0;
-      border-radius: 999px 999px 0 0;
-    }
-
-    .home-kitchen-floor {
-      position: absolute;
-      left: -8%;
-      right: -8%;
-      bottom: -14%;
-      z-index: 0;
-      height: 24%;
-      transform: skewY(-3deg);
-      background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
-        linear-gradient(180deg, #aaa49a, #837e76);
-      background-size: 64px 100%, 100% 100%;
-    }
-
-    .home-kitchen-hero__mascot {
-      position: absolute;
-      left: 51%;
-      bottom: 4%;
-      z-index: 4;
-      width: min(45%, 330px);
-      max-height: 83%;
-      object-fit: contain;
-      transform: translateX(-50%);
-      filter: drop-shadow(0 22px 24px rgba(28, 27, 26, 0.35));
+    .home-kitchen-hero__picture img {
+      object-fit: cover;
+      object-position: center;
     }
 
     .home-kitchen-hero__copy {
@@ -274,7 +143,7 @@
     .home-kitchen-eyebrow {
       margin: 0;
       color: var(--home-muted);
-      font-family: "Jost", system-ui, sans-serif;
+      font-family: "Jost", sans-serif;
       font-size: clamp(0.78rem, 1vw, 0.94rem);
       font-weight: 800;
       line-height: 1.2;
@@ -287,7 +156,7 @@
       max-width: 10ch;
       background: none;
       color: var(--home-ink) !important;
-      font-family: "Alfa Slab One", Georgia, serif;
+      font-family: "Alfa Slab One", serif;
       font-size: clamp(3.1rem, 7vw, 6.6rem);
       font-weight: 900;
       line-height: 0.98;
@@ -301,7 +170,7 @@
       margin: 0;
       max-width: 33rem;
       color: var(--home-deep);
-      font-family: "Jost", system-ui, sans-serif;
+      font-family: "Jost", sans-serif;
       font-size: clamp(1.1rem, 2.1vw, 1.45rem);
       font-weight: 650;
       line-height: 1.42;
@@ -362,7 +231,7 @@
     .home-kitchen-door__label {
       margin: 0;
       color: var(--home-muted);
-      font-family: "Jost", system-ui, sans-serif;
+      font-family: "Jost", sans-serif;
       font-size: 0.82rem;
       font-weight: 800;
       line-height: 1.2;
@@ -375,7 +244,7 @@
       margin: 0;
       background: none;
       color: var(--home-ink) !important;
-      font-family: "Alfa Slab One", Georgia, serif;
+      font-family: "Alfa Slab One", serif;
       font-size: clamp(1.9rem, 4vw, 3.15rem);
       line-height: 1.02;
       letter-spacing: 0;
@@ -387,7 +256,7 @@
     .home-kitchen-door p {
       margin: 0;
       color: var(--home-deep);
-      font-family: "Jost", system-ui, sans-serif;
+      font-family: "Jost", sans-serif;
       font-size: 1rem;
       line-height: 1.45;
     }
@@ -402,12 +271,13 @@
       border: 1px solid var(--home-red-dark);
       border-radius: 8px;
       background: var(--home-red);
-      color: #fffaf5;
-      font-family: "Jost", system-ui, sans-serif;
+      color: #fffaf5 !important;
+      font-family: "Alfa Slab One", serif;
       font-size: 0.95rem;
-      font-weight: 850;
+      font-weight: 400;
       line-height: 1;
       text-decoration: none;
+      -webkit-text-fill-color: #fffaf5 !important;
       box-shadow: 0 10px 18px rgba(143, 29, 29, 0.2);
       transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
     }
@@ -581,28 +451,6 @@
         aspect-ratio: 1;
       }
 
-      .home-kitchen-cabinets {
-        width: 48%;
-        right: 5%;
-      }
-
-      .home-kitchen-window {
-        width: 31%;
-        left: 6%;
-      }
-
-      .home-kitchen-fridge {
-        right: 4%;
-        width: 29%;
-        height: 55%;
-      }
-
-      .home-kitchen-hero__mascot {
-        left: 49%;
-        width: min(58%, 255px);
-        max-height: 75%;
-      }
-
       .home-kitchen-hero h1 {
         max-width: 9ch;
         font-size: clamp(2.85rem, 17vw, 4.4rem);
@@ -676,32 +524,23 @@
       <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
         <a href="index.html" data-nav-link="home">Home</a>
-        <a href="about.html" data-nav-link="about">About</a>
         <a href="projects.html" data-nav-link="projects">Projects</a>
         <a href="dev-logs/" data-nav-link="devlogs">Dev Logs</a>
-        <a href="contact.html" data-nav-link="contact">Contact</a>
+        <a href="about.html" data-nav-link="about">About</a>
       </nav>
     </div>
   </header>
 
   <main class="home-kitchen-shell">
     <section class="home-kitchen-hero" aria-labelledby="home-title">
-      <div class="home-kitchen-hero__scene" aria-hidden="true">
-        <div class="home-kitchen-window"></div>
-        <div class="home-kitchen-cabinets">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="home-kitchen-fridge"></div>
-        <div class="home-kitchen-stove"></div>
-        <div class="home-kitchen-sink"></div>
-        <div class="home-kitchen-counter"></div>
-        <div class="home-kitchen-floor"></div>
-        <img class="home-kitchen-hero__mascot" src="assets/mascots/itry/ITRY-MASCOT-001-HERO_A2.3-F2_transparent.webp" alt="">
+      <div class="home-kitchen-hero__scene">
+        <picture class="home-kitchen-hero__picture">
+          <source media="(max-width: 600px)" srcset="assets/home/kitchen-hero-square.webp">
+          <img src="assets/home/kitchen-hero.webp" width="1376" height="768" alt="iTry Ketchup mascot standing in a grayscale 1950s kitchen beside a rounded fridge." decoding="async" fetchpriority="high">
+        </picture>
       </div>
       <div class="home-kitchen-hero__copy">
-        <p class="home-kitchen-eyebrow">The grayscale kitchen</p>
+        <p class="home-kitchen-eyebrow">A ONE-BOTTLE STUDIO</p>
         <h1 id="home-title">iTryKetchup Studio</h1>
         <p class="home-kitchen-thesis">Small games, audio stories, and honest patch notes &mdash; served fresh from the test kitchen.</p>
       </div>
@@ -716,7 +555,7 @@
           <p class="home-kitchen-kicker">This week</p>
           <h2 id="home-special-title">The Wolf Tale</h2>
           <p>EP01 July 7 &middot; EP02 July 10</p>
-          <a class="home-kitchen-button" href="wolf-tale.html">Watch The Wolf Tale</a>
+          <a class="home-kitchen-button" href="wolf-tale.html">Watch EP01</a>
         </div>
       </article>
 
