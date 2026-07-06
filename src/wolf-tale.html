@@ -6,7 +6,7 @@
   <title>The Wolf Tale Flyer | iTryKetchup Studio</title>
   <meta name="description" content="The Wolf Tale flyer page for EP01 and EP02, with direct YouTube links, combined audio, and the official script from iTryKetchup Studio.">
   <meta property="og:title" content="The Wolf Tale Flyer | iTryKetchup Studio">
-  <meta property="og:description" content="Watch The Wolf Tale EP01 and EP02, listen to the combined audio edition, and read the official script.">
+  <meta property="og:description" content="Watch The Wolf Tale EP01 and EP02, listen to the combined audio track, and read the official script.">
   <meta property="og:url" content="https://www.itryketchup.com/wolf-tale.html">
   <meta property="og:image" content="https://www.itryketchup.com/assets/social/social-preview.png">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
@@ -363,15 +363,6 @@
       color: #faf8f5 !important;
     }
 
-    .wolf-playlist-note {
-      margin: 0;
-      border-left: 4px solid #d62828;
-      padding: 10px 0 10px 14px;
-      color: #4d463d;
-      font-weight: 600;
-      line-height: 1.45;
-    }
-
     .wolf-experience-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(220px, 0.72fr);
@@ -424,6 +415,13 @@
 
     .wolf-audio-panel .wolf-episode-label {
       color: #f5d2d2;
+    }
+
+    .wolf-audio-panel .wolf-audio-heading {
+      color: #faf8f5;
+      font-size: clamp(2rem, 7vw, 2.8rem);
+      line-height: 0.95;
+      text-transform: uppercase;
     }
 
     .wolf-tale-audio-player {
@@ -624,15 +622,13 @@
                 </div>
               </article>
             </div>
-            <p class="wolf-playlist-note">Playlist: <a href="https://www.youtube.com/playlist?list=PLfwSCffnEG2k" data-track="playlist" data-track-label="The Wolf Tale playlist">open The Wolf Tale playlist on YouTube</a>. Release timing follows the actual YouTube schedule.</p>
           </section>
 
           <section class="wolf-section" id="experience" aria-labelledby="experience-title">
             <h2 id="experience-title">Experience it your way</h2>
             <div class="wolf-experience-grid">
               <div class="wolf-audio-panel" id="listen">
-                <p class="wolf-episode-label">Listen</p>
-                <h3>Audio Edition</h3>
+                <h3 class="wolf-audio-heading">LISTEN</h3>
                 <p>Play the combined EP01 + EP02 audio track while you read.</p>
                 <audio class="wolf-tale-audio-player" controls preload="metadata" aria-label="The Wolf Tale combined EP01 and EP02 audio">
                   <source src="assets/wolf-tale/the-wolf-tale-ep01-ep02-audio.mp3" type="audio/mpeg">
