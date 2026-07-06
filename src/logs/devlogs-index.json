@@ -262,5 +262,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "devlogs", "ascii", "terminal", "polish", "accessibility"]
+  },
+  {
+    "session": "052",
+    "date": "2026-07-06",
+    "area": "SITE",
+    "title": "SITE v2.1 Wolf Tale Flyer Page Is Live",
+    "version": "SITE v2.1 Wolf Tale Flyer Page",
+    "summary": "The Wolf Tale page is live with the Grayscale Kitchen flyer-on-fridge treatment, a full-color release flyer, a square YouTube-style magnet, preserved EP01/EP02 actions, native audio, and official script access.",
+    "filename": "20260706_SITE_Session052_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "wolf-tale", "release-page", "flyer", "audio", "script"]
   }
 ]
