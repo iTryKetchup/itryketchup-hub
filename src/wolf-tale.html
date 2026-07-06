@@ -3,14 +3,506 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Wolf Tale | iTryKetchup Studio</title>
-  <meta name="description" content="A cinematic documentary-style prehistoric fiction audio drama exploring the imagined origins of the human-wolf bond.">
-  <meta property="og:title" content="The Wolf Tale | iTryKetchup Studio">
-  <meta property="og:description" content="A cinematic documentary-style prehistoric fiction audio drama exploring the imagined origins of the human-wolf bond.">
+  <title>The Wolf Tale Flyer | iTryKetchup Studio</title>
+  <meta name="description" content="The Wolf Tale flyer page for EP01 and EP02, with direct YouTube links, combined audio, and the official script from iTryKetchup Studio.">
+  <meta property="og:title" content="The Wolf Tale Flyer | iTryKetchup Studio">
+  <meta property="og:description" content="Watch The Wolf Tale EP01 and EP02, listen to the combined audio edition, and read the official script.">
   <meta property="og:url" content="https://www.itryketchup.com/wolf-tale.html">
   <meta property="og:image" content="https://www.itryketchup.com/assets/social/social-preview.png">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=1.8-web-page-polish">
+  <style>
+    body[data-page="wolf-tale"] {
+      --canvas: #eceae6;
+      --panel: #f4f2ee;
+      --panel-cool: #e4e2de;
+      --ink: #1e1d1b;
+      --muted: #5f5b55;
+      --line: #c9c5bd;
+      --red: #d62828;
+      --red-dark: #8e1b1b;
+      --blue: #4d5a61;
+      --shadow: 0 28px 80px rgba(31, 29, 25, 0.22);
+      --font-body: "Jost", "Trebuchet MS", Arial, sans-serif;
+      --font-display: "Alfa Slab One", Georgia, serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.7), transparent 38%),
+        radial-gradient(ellipse at 74% 18%, rgba(255, 255, 255, 0.32), transparent 42%),
+        linear-gradient(105deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.04) 28%, rgba(115, 115, 115, 0.05) 67%, rgba(255, 255, 255, 0.22) 100%),
+        #eceae6;
+      font-family: var(--font-body);
+    }
+
+    body[data-page="wolf-tale"] .site-header,
+    body[data-page="wolf-tale"] .site-footer {
+      background: rgba(236, 234, 230, 0.9);
+      border-color: #c9c5bd;
+      color: #1e1d1b;
+    }
+
+    body[data-page="wolf-tale"] .brand-link,
+    body[data-page="wolf-tale"] .site-nav a,
+    body[data-page="wolf-tale"] .site-footer a {
+      color: #1e1d1b;
+    }
+
+    body[data-page="wolf-tale"] .brand-link span,
+    body[data-page="wolf-tale"] .small {
+      color: #5f5b55;
+    }
+
+    body[data-page="wolf-tale"] .site-nav a:hover,
+    body[data-page="wolf-tale"] .site-nav a[aria-current="page"],
+    body[data-page="wolf-tale"] .site-footer a:hover {
+      background: #dedbd4;
+      color: #111;
+    }
+
+    body[data-page="wolf-tale"] .nav-toggle {
+      background: #f5f3ef;
+      color: #1e1d1b;
+    }
+
+    body[data-page="wolf-tale"] a:focus-visible,
+    body[data-page="wolf-tale"] button:focus-visible {
+      outline: 3px solid #2d2c29;
+      outline-offset: 4px;
+    }
+
+    .wolf-fridge-page {
+      width: min(100% - 32px, 980px);
+      margin: 0 auto;
+      padding: clamp(42px, 7vw, 86px) 0 clamp(52px, 8vw, 92px);
+    }
+
+    .wolf-flyer-wrap {
+      position: relative;
+      display: grid;
+      justify-items: center;
+    }
+
+    .wolf-magnet {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      z-index: 3;
+      width: 120px;
+      height: 72px;
+      transform: translateX(-50%) rotate(1.2deg);
+      filter: drop-shadow(0 12px 12px rgba(35, 35, 35, 0.28));
+    }
+
+    .wolf-flyer {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      overflow: visible;
+      border: 1px solid rgba(79, 67, 52, 0.16);
+      background: #faf8f5;
+      box-shadow: 0 24px 54px rgba(39, 35, 29, 0.24);
+      color: #211c18;
+      transform: rotate(-0.85deg);
+      transform-origin: center top;
+    }
+
+    .wolf-flyer::before {
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      z-index: 2;
+      width: 132px;
+      height: 34px;
+      border-radius: 0 0 999px 999px;
+      background: radial-gradient(ellipse at center top, rgba(33, 28, 24, 0.2), transparent 68%);
+      content: "";
+      pointer-events: none;
+      transform: translateX(-50%);
+    }
+
+    .wolf-flyer a {
+      color: #8e1b1b;
+    }
+
+    .wolf-flyer a:hover {
+      color: #d62828;
+    }
+
+    .wolf-hero-art {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-bottom: 8px solid #211c18;
+      background: #1b1714;
+    }
+
+    .wolf-flyer__body {
+      display: grid;
+      gap: clamp(28px, 5vw, 42px);
+      padding: clamp(44px, 7vw, 70px) clamp(24px, 5vw, 46px) clamp(24px, 5vw, 46px);
+    }
+
+    .wolf-intro {
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .wolf-intro h1 {
+      max-width: none;
+      color: #211c18;
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 10vw, 5.7rem);
+      font-weight: 400;
+      line-height: 0.95;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .wolf-tagline {
+      max-width: 36rem;
+      margin: 0;
+      color: #463f37;
+      font-size: clamp(1.06rem, 2.8vw, 1.28rem);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .wolf-release-line {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #211c18;
+      padding: 8px 16px;
+      background: #fff3aa;
+      color: #211c18;
+      font-size: clamp(0.86rem, 2.5vw, 1rem);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+      text-transform: uppercase;
+      transform: rotate(0.45deg);
+    }
+
+    .wolf-primary-action {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #8e1b1b;
+      border-radius: 4px;
+      padding: 12px 22px;
+      background: #d62828;
+      color: #faf8f5 !important;
+      font-weight: 900;
+      line-height: 1.2;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background-color 120ms ease, transform 120ms ease;
+    }
+
+    .wolf-primary-action:hover,
+    .wolf-primary-action:active {
+      background: #8e1b1b;
+      color: #faf8f5 !important;
+    }
+
+    .wolf-primary-action:active {
+      transform: translateY(1px);
+    }
+
+    .wolf-section {
+      display: grid;
+      gap: 18px;
+    }
+
+    .wolf-section h2 {
+      max-width: none;
+      color: #211c18;
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 5vw, 2.55rem);
+      font-weight: 400;
+      line-height: 1.05;
+    }
+
+    .wolf-episode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .wolf-episode-card {
+      display: grid;
+      min-width: 0;
+      overflow: hidden;
+      border: 2px solid #211c18;
+      border-radius: 0;
+      background: #fffdf9;
+      box-shadow: 8px 8px 0 rgba(33, 28, 24, 0.12);
+      color: #211c18;
+    }
+
+    .wolf-episode-card__poster {
+      display: grid;
+      min-height: 190px;
+      place-items: center;
+      border-bottom: 2px solid #211c18;
+      background:
+        radial-gradient(circle at 22% 22%, rgba(255, 243, 170, 0.82), transparent 28%),
+        radial-gradient(circle at 78% 34%, rgba(214, 40, 40, 0.28), transparent 24%),
+        linear-gradient(135deg, #211c18 0%, #3b2721 52%, #111 100%);
+      color: #faf8f5;
+    }
+
+    .wolf-episode-card__poster img {
+      width: 100%;
+      height: 100%;
+      min-height: 190px;
+      object-fit: cover;
+    }
+
+    .wolf-episode-card__copy {
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+    }
+
+    .wolf-episode-label {
+      margin: 0;
+      color: #8e1b1b;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .wolf-episode-card h3 {
+      color: #211c18;
+      font-family: var(--font-display);
+      font-size: clamp(1.32rem, 4vw, 1.72rem);
+      font-weight: 400;
+      line-height: 1.05;
+    }
+
+    .wolf-episode-card p {
+      margin: 0;
+      color: #4d463d;
+      line-height: 1.45;
+    }
+
+    .wolf-card-link {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      justify-self: start;
+      border: 2px solid #8e1b1b;
+      border-radius: 4px;
+      padding: 9px 14px;
+      color: #8e1b1b;
+      font-weight: 900;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .wolf-card-link:hover {
+      background: #8e1b1b;
+      color: #faf8f5 !important;
+    }
+
+    .wolf-playlist-note {
+      margin: 0;
+      border-left: 4px solid #d62828;
+      padding: 10px 0 10px 14px;
+      color: #4d463d;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .wolf-experience-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 0.72fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .wolf-audio-panel,
+    .wolf-script-panel {
+      min-width: 0;
+      border: 2px solid #211c18;
+      padding: 18px;
+      background: #fffdf9;
+      box-shadow: 6px 6px 0 rgba(33, 28, 24, 0.1);
+    }
+
+    .wolf-audio-panel {
+      display: grid;
+      gap: 12px;
+      border-color: #211c18;
+      background:
+        radial-gradient(ellipse at 18% 0%, rgba(214, 40, 40, 0.18), transparent 34%),
+        linear-gradient(135deg, #2a2520 0%, #171412 100%);
+      color: #faf8f5;
+      box-shadow:
+        6px 6px 0 rgba(33, 28, 24, 0.1),
+        inset 0 0 0 1px rgba(250, 248, 245, 0.08);
+    }
+
+    .wolf-audio-panel h3,
+    .wolf-script-panel h3 {
+      color: #211c18;
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 4vw, 1.62rem);
+      font-weight: 400;
+    }
+
+    .wolf-audio-panel p,
+    .wolf-script-panel p {
+      margin: 0;
+      color: #4d463d;
+      line-height: 1.45;
+    }
+
+    .wolf-audio-panel .wolf-episode-label,
+    .wolf-audio-panel h3,
+    .wolf-audio-panel p {
+      color: #faf8f5;
+    }
+
+    .wolf-audio-panel .wolf-episode-label {
+      color: #f5d2d2;
+    }
+
+    .wolf-tale-audio-player {
+      display: block;
+      width: 100%;
+      min-height: 44px;
+      accent-color: #d62828;
+    }
+
+    .wolf-script-panel {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .wolf-secondary-action {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      justify-self: start;
+      border: 2px solid #211c18;
+      border-radius: 4px;
+      padding: 10px 14px;
+      background: #fff3aa;
+      color: #211c18 !important;
+      font-weight: 900;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .wolf-secondary-action:hover {
+      background: #211c18;
+      color: #faf8f5 !important;
+    }
+
+    .wolf-credits {
+      border-top: 2px solid #211c18;
+      border-bottom: 2px solid #211c18;
+      padding: 24px 10px;
+      text-align: center;
+    }
+
+    .wolf-credits p {
+      margin: 0;
+      color: #211c18;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+
+    .wolf-credits a {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wolf-primary-action {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .wolf-fridge-page {
+        width: min(100% - 18px, 980px);
+        padding-top: 36px;
+      }
+
+      .wolf-flyer {
+        transform: none;
+      }
+
+      .wolf-magnet {
+        top: -24px;
+        width: 104px;
+      }
+
+      .wolf-flyer__body {
+        padding: 42px 24px 24px;
+      }
+
+      .wolf-episode-grid,
+      .wolf-experience-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 430px) {
+      body[data-page="wolf-tale"] .site-header__inner,
+      body[data-page="wolf-tale"] .site-footer__inner {
+        width: min(100% - 20px, var(--content));
+      }
+
+      .wolf-fridge-page {
+        width: 100%;
+        padding: 24px 0 44px;
+      }
+
+      .wolf-flyer {
+        width: 100%;
+        border-right: 0;
+        border-left: 0;
+      }
+
+      .wolf-flyer__body {
+        gap: 28px;
+        padding: 22px 16px;
+      }
+
+      .wolf-release-line {
+        width: 100%;
+      }
+
+      .wolf-primary-action,
+      .wolf-card-link,
+      .wolf-secondary-action {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body data-page="wolf-tale">
   <header class="site-header">
@@ -30,109 +522,91 @@
     </div>
   </header>
 
-  <main class="page-shell">
-    <section class="browser-panel wolf-hero" aria-labelledby="wolf-title">
-      <div class="browser-panel__bar" aria-hidden="true">
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">wolf-tale.html / cinematic-background</span>
-      </div>
-      <div class="browser-panel__body wolf-hero__body wolf-hero__body--cinematic">
-        <div class="wolf-hero__copy">
-          <p class="eyebrow hero-meta">Early Access</p>
-          <h1 id="wolf-title">The Wolf Tale</h1>
-          <p class="hero-subheadline">Origins of the Human-Wolf Bond</p>
-          <p class="hero-support">A cinematic documentary-style prehistoric fiction audio drama and visual story experiment from iTryKetchup Studio.</p>
-          <p class="wolf-disclaimer">This is a fictional story told with documentary realism &mdash; not a factual history claim.</p>
-        </div>
-      </div>
-    </section>
+  <main class="wolf-fridge-page">
+    <div class="wolf-flyer-wrap" aria-labelledby="wolf-title">
+      <svg class="wolf-magnet" viewBox="0 0 150 86" role="img" aria-label="Steel magnet with a ketchup-red play badge holding the flyer">
+        <defs>
+          <linearGradient id="wolf-magnet-steel" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#f4f4f1"></stop>
+            <stop offset="0.42" stop-color="#9d9d97"></stop>
+            <stop offset="1" stop-color="#565652"></stop>
+          </linearGradient>
+        </defs>
+        <path d="M21 49c0-23 22-41 54-41s54 18 54 41v21H99V50c0-10-9-18-24-18s-24 8-24 18v20H21V49z" fill="url(#wolf-magnet-steel)" stroke="#343431" stroke-width="5" stroke-linejoin="round"></path>
+        <path d="M32 61h20v16H32zM98 61h20v16H98z" fill="#4a4a46"></path>
+        <circle cx="75" cy="43" r="18" fill="#d62828" stroke="#faf8f5" stroke-width="4"></circle>
+        <path d="M70 33l16 10-16 10z" fill="#faf8f5" stroke="#faf8f5" stroke-linejoin="round"></path>
+      </svg>
 
-    <section class="section wolf-episodes-section" id="episodes" aria-labelledby="episodes-title">
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">current episodes</span>
-        </div>
-        <h2 id="episodes-title">Watch the Current Episodes</h2>
-        <p class="lede">Direct early-access links are the primary route. Embedded playback may remain unavailable while the videos are Private.</p>
-      </div>
-      <div class="wolf-episode-grid">
-        <article class="wolf-episode-card">
-          <div class="wolf-episode-card__media">
-            <iframe src="https://www.youtube-nocookie.com/embed/_527RIXbQjk" title="Episode 01 - The First Wolf" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-          <div class="wolf-episode-card__copy">
-            <p class="wolf-episode-label">Episode 01</p>
-            <h3>The First Wolf</h3>
-            <p class="wolf-episode-subtitle">Origins of the Human-Wolf Bond</p>
-            <p>After a violent conflict between hunters and a wolf pack, one man spares a single pup - not from compassion, but from curiosity.</p>
-            <a class="button buff-link" href="https://youtu.be/_527RIXbQjk" data-buff="+10 Episode 01 | +5 Direct Link">Watch Episode 01</a>
-          </div>
-        </article>
+      <article class="wolf-flyer">
+        <img class="wolf-hero-art" src="assets/wolf-tale/wolf-tale-playlist-hero.webp" alt="The Wolf Tale hero art showing a prehistoric campfire scene with wolves and hunters.">
 
-        <article class="wolf-episode-card">
-          <div class="wolf-episode-card__media">
-            <iframe src="https://www.youtube-nocookie.com/embed/ySddk077Lyg" title="Episode 02 - The Mammoth Hunt" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-          <div class="wolf-episode-card__copy">
-            <p class="wolf-episode-label">Episode 02</p>
-            <h3>The Mammoth Hunt</h3>
-            <p class="wolf-episode-subtitle">Origins of the Human-Wolf Bond</p>
-            <p>Five years later, neighboring clans gather for a massive mammoth hunt and witness wolves working beside humans.</p>
-            <a class="button buff-link" href="https://youtu.be/ySddk077Lyg" data-buff="+10 Episode 02 | +5 Direct Link">Watch Episode 02</a>
-          </div>
-        </article>
-      </div>
-      <div class="wolf-playlist-callout">
-        <p class="wolf-episode-label">Playlist</p>
-        <p><a href="https://www.youtube.com/playlist?list=PLfwSCffnEG2k">Open The Wolf Tale playlist</a></p>
-        <p>Release timing follows the actual YouTube schedule; this page does not claim scheduled episodes are public before launch.</p>
-      </div>
-    </section>
+        <div class="wolf-flyer__body">
+          <section class="wolf-intro" aria-labelledby="wolf-title">
+            <h1 id="wolf-title">THE WOLF TALE</h1>
+            <p class="wolf-tagline">Two campfire legends from the test kitchen.</p>
+            <p class="wolf-release-line">EP01 &mdash; July 7 &middot; EP02 &mdash; July 10</p>
+            <a class="wolf-primary-action" href="https://youtu.be/_527RIXbQjk" data-track="watch" data-track-label="The Wolf Tale EP01 primary button">Watch EP01</a>
+          </section>
 
-    <section class="section wolf-rules-section" aria-labelledby="wolf-rules-title">
-      <div class="section-header">
-        <div class="section-divider">
-          <span class="section-divider__label">story rules</span>
-        </div>
-        <h2 id="wolf-rules-title">Documentary Realism: The Real Sauce</h2>
-      </div>
-      <div class="wolf-rules-panel" aria-label="The Wolf Tale tone rules">
-        <ul class="wolf-rule-list">
-          <li><strong>100% Real Sauce</strong><span>No magic, no fantasy, just survival.</span></li>
-          <li><strong>No Chosen Heroes</strong><span>Nobody gets plot armor when the cold gets hungry.</span></li>
-          <li><strong>Observer Camera</strong><span>The camera watches. It does not rescue.</span></li>
-          <li><strong>Anthropological Realism</strong><span>The bond starts with behavior, risk, hunger, and patience.</span></li>
-          <li><strong>The World Is Real</strong><span>Snow, fear, fire, teeth, and bad decisions all matter.</span></li>
-          <li><strong>The Danger Is Real</strong><span>One mistake can end a hunt, a camp, or a bloodline.</span></li>
-        </ul>
-      </div>
-    </section>
+          <section class="wolf-section" id="episodes" aria-labelledby="episodes-title">
+            <h2 id="episodes-title">Current Episodes</h2>
+            <div class="wolf-episode-grid">
+              <article class="wolf-episode-card">
+                <div class="wolf-episode-card__poster">
+                  <img src="assets/wolf-tale/wolf-tale-playlist-hero.webp" alt="The First Wolf episode artwork from The Wolf Tale hero scene.">
+                </div>
+                <div class="wolf-episode-card__copy">
+                  <p class="wolf-episode-label">Episode 01</p>
+                  <h3>The First Wolf</h3>
+                  <p>A violent clash leaves one pup alive, and curiosity opens a dangerous new door.</p>
+                  <a class="wolf-card-link" href="https://youtu.be/_527RIXbQjk" data-track="watch" data-track-label="The Wolf Tale EP01 episode card">Watch EP01</a>
+                </div>
+              </article>
 
-    <section class="section wolf-script-section" aria-labelledby="script-title">
-      <div class="section-divider">
-        <span class="section-divider__label">script &amp; audio</span>
-      </div>
-      <div class="wolf-script-card">
-        <div class="wolf-script-copy">
-          <h2 id="script-title">Script &amp; Audio Edition</h2>
-          <p class="lede">Read the public script for Episode 01 and Episode 02 in one clean PDF.</p>
-          <div class="button-row">
-    <a class="button buff-link" href="/assets/wolf-tale/the-wolf-tale-official-script.pdf" target="_blank" rel="noopener" data-buff="+10 Official Script | +5 Story Context" data-track="download" data-track-label="The Wolf Tale official script PDF">Read the Official Script</a>
-          </div>
+              <article class="wolf-episode-card">
+                <div class="wolf-episode-card__poster">
+                  <img src="assets/wolf-tale/wolf-tale-mammoth-hunt-anchor.webp" alt="The Mammoth Hunt episode artwork with prehistoric hunters and a mammoth in the snow.">
+                </div>
+                <div class="wolf-episode-card__copy">
+                  <p class="wolf-episode-label">Episode 02</p>
+                  <h3>The Mammoth Hunt</h3>
+                  <p>Five years later, a massive hunt shows what humans and wolves can risk together.</p>
+                  <a class="wolf-card-link" href="https://youtu.be/ySddk077Lyg" data-track="watch" data-track-label="The Wolf Tale EP02 episode card">Watch EP02</a>
+                </div>
+              </article>
+            </div>
+            <p class="wolf-playlist-note">Playlist: <a href="https://www.youtube.com/playlist?list=PLfwSCffnEG2k" data-track="playlist" data-track-label="The Wolf Tale playlist">open The Wolf Tale playlist on YouTube</a>. Release timing follows the actual YouTube schedule.</p>
+          </section>
+
+          <section class="wolf-section" id="experience" aria-labelledby="experience-title">
+            <h2 id="experience-title">Experience it your way</h2>
+            <div class="wolf-experience-grid">
+              <div class="wolf-audio-panel" id="listen">
+                <p class="wolf-episode-label">Listen</p>
+                <h3>Audio Edition</h3>
+                <p>Play the combined EP01 + EP02 audio track while you read.</p>
+                <audio class="wolf-tale-audio-player" controls preload="metadata" aria-label="The Wolf Tale combined EP01 and EP02 audio">
+                  <source src="assets/wolf-tale/the-wolf-tale-ep01-ep02-audio.mp3" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+              <div class="wolf-script-panel" id="read">
+                <p class="wolf-episode-label">Read</p>
+                <h3>Official Script</h3>
+                <p>Keep the words nearby for the full campfire version.</p>
+                <a class="wolf-secondary-action" href="assets/wolf-tale/the-wolf-tale-official-script.pdf" target="_blank" rel="noopener" data-track="download" data-track-label="The Wolf Tale official script PDF">Read the Script</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="wolf-credits" aria-label="The Wolf Tale credits">
+            <p>Written, produced, and voiced at iTryKetchup Studio</p>
+            <a href="/">Back to the kitchen</a>
+          </section>
         </div>
-        <div class="wolf-tale-audio-card" aria-labelledby="wolf-tale-audio-title">
-          <p class="eyebrow">Audio Edition</p>
-          <h3 id="wolf-tale-audio-title">Listen while you read</h3>
-          <p>Play the combined EP01 + EP02 audio track directly on this page while you scroll through the official script.</p>
-          <audio class="wolf-tale-audio-player" controls preload="metadata" aria-label="The Wolf Tale combined EP01 and EP02 audio">
-            <source src="/assets/wolf-tale/the-wolf-tale-ep01-ep02-audio.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
-        </div>
-      </div>
-    </section>
+      </article>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -148,7 +622,7 @@
         <a href="https://github.com/iTryKetchup/itryketchup-hub">GitHub</a>
         <a href="https://www.youtube.com/@iTryKetchupStudio">YouTube @iTryKetchupStudio</a>
         <a href="https://www.youtube.com/@iTryKetchup">YouTube @iTryKetchup</a>
-        <span class="small footer-status-token">// wolf-tale: release-hub</span>
+        <span class="small footer-status-token">// wolf-tale: flyer-page</span>
       </div>
     </div>
   </footer>
