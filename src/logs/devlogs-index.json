@@ -274,5 +274,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "wolf-tale", "release-page", "flyer", "audio", "script"]
+  },
+  {
+    "session": "053",
+    "date": "2026-07-06",
+    "area": "SITE",
+    "title": "SITE v2.2 Home Kitchen Conversion Is Live",
+    "version": "SITE v2.2 Home Kitchen Conversion",
+    "summary": "Home is live with the Grayscale Kitchen direction, the approved iTry mascot in a grayscale kitchen hero, stable Wolf Tale feature copy, and compact Projects and Dev Logs doors.",
+    "filename": "20260706_SITE_Session053_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "home", "grayscale-kitchen", "mascot", "wolf-tale", "devlogs"]
   }
 ]
