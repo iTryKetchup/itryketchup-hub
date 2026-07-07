@@ -9623,14 +9623,26 @@ body[data-page="about"] h3 {
 
 .about-direction-card {
   display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-  gap: clamp(20px, 4vw, 46px);
+  grid-template-columns: 1fr;
+  gap: clamp(14px, 2.6vw, 24px);
   align-items: start;
 }
 
-.about-direction-card__intro p {
-  max-width: 48ch;
+.about-direction-card .section-divider {
   margin-bottom: 0;
+}
+
+.about-direction-card__intro {
+  max-width: 760px;
+}
+
+.about-direction-card__intro p {
+  max-width: 66ch;
+  margin-bottom: 0;
+}
+
+.about-direction-card .about-status-board {
+  margin-top: 0;
 }
 
 .about-status-board dt {
