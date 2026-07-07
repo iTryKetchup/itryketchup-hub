@@ -1,6 +1,6 @@
 (function () {
   const indexPath = "logs/devlogs-index.json";
-  const indexRequestPath = `${indexPath}?v=20260707-site-v25-devlogs-carousel-controls`;
+  const indexRequestPath = `${indexPath}?v=20260707-site-session056-public-log`;
   const logBasePath = "logs/";
 
   const selectors = {

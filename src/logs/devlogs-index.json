@@ -310,5 +310,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "projects", "grayscale-kitchen", "fridge-door", "whiteboard", "roadmap"]
+  },
+  {
+    "session": "056",
+    "date": "2026-07-07",
+    "area": "SITE",
+    "title": "SITE v2.5 Dev Logs Carousel Reader Is Live",
+    "version": "SITE v2.5 Dev Logs Carousel Reader",
+    "summary": "Dev Logs is live with a horizontal paper-card carousel, left and right carousel controls, and a centered paper reader that preserves raw log URLs and direct links.",
+    "filename": "20260707_SITE_Session056_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "devlogs", "carousel", "paper-reader", "grayscale-kitchen", "accessibility"]
   }
 ]
