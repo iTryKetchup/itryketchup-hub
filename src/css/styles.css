@@ -10387,20 +10387,18 @@ body[data-page="projects"] .button-secondary:hover {
 .projects-roadmap-board__frame {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  aspect-ratio: 1456 / 750;
+  overflow: visible;
+  aspect-ratio: 1456 / 720;
   border-radius: 8px;
-  background: #fdfcf9;
 }
 
 .projects-roadmap-board__image {
   display: block;
-  width: 101%;
+  width: 100%;
   height: auto;
-  max-width: none;
   object-fit: contain;
-  object-position: center top;
-  transform: translateX(-0.5%);
+  object-position: center;
+  transform: none;
 }
 
 .projects-roadmap-overlay {
