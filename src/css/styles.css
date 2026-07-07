@@ -9531,6 +9531,7 @@ body[data-page="about"] .site-nav a[aria-current="page"] {
 .about-grocery-card,
 .about-review-card,
 .about-contact-card,
+.about-cta-card,
 .contact-forward-card {
   position: relative;
   border: 1px solid rgba(28, 27, 26, 0.18);
@@ -9583,6 +9584,17 @@ body[data-page="about"] h3 {
   line-height: 1.5;
 }
 
+.about-fridge-hero__paper p,
+.about-fridge-hero__paper li,
+.about-paper-card p,
+.about-grocery-card p,
+.about-review-card p,
+.about-contact-card p,
+.about-cta-card p,
+.about-status-board dd {
+  color: var(--ink);
+}
+
 .about-fridge-notes,
 .about-status-board {
   display: grid;
@@ -9606,6 +9618,18 @@ body[data-page="about"] h3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.about-direction-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: clamp(20px, 4vw, 46px);
+  align-items: start;
+}
+
+.about-direction-card__intro p {
+  max-width: 48ch;
+  margin-bottom: 0;
+}
+
 .about-status-board dt {
   color: var(--red-dark);
   font-weight: 900;
@@ -9614,7 +9638,7 @@ body[data-page="about"] h3 {
 
 .about-status-board dd {
   margin: 3px 0 0;
-  color: var(--muted);
+  color: var(--ink);
 }
 
 .about-fridge-mascot {
@@ -9678,11 +9702,11 @@ body[data-page="about"] h3 {
   max-width: none;
 }
 
-.about-roadmap-list,
 .about-review-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(16px, 2.6vw, 26px);
+  align-items: stretch;
 }
 
 .about-grocery-card {
@@ -9693,6 +9717,7 @@ body[data-page="about"] h3 {
 .about-grocery-card p:last-child,
 .about-review-card p:last-child,
 .about-contact-card p:last-child,
+.about-cta-card p:last-child,
 .contact-forward-card p:last-child {
   margin-bottom: 0;
 }
@@ -9701,12 +9726,28 @@ body[data-page="about"] h3 {
   display: grid;
   grid-template-columns: 84px minmax(0, 1fr);
   gap: 16px;
-  align-items: center;
-  min-height: 180px;
-  padding: 18px;
+  align-items: start;
+  min-height: 228px;
+  height: 100%;
+  padding: 20px;
   background:
     linear-gradient(135deg, rgba(236, 234, 230, 0.72), rgba(250, 248, 245, 0.96)),
     #faf8f5;
+}
+
+.about-review-card > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.about-review-card h3 {
+  margin-bottom: 12px;
+}
+
+.about-review-card p:not(.about-card-label) {
+  margin: 0;
+  line-height: 1.5;
 }
 
 .about-review-card img {
@@ -9760,10 +9801,30 @@ body[data-page="about"] h3 {
 }
 
 .about-contact-note {
-  color: var(--muted);
+  color: var(--ink);
 }
 
 .about-contact-links {
+  display: grid;
+  gap: 10px;
+}
+
+.about-cta-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.42fr);
+  gap: clamp(20px, 4vw, 42px);
+  align-items: center;
+  padding: clamp(22px, 4vw, 42px);
+  background:
+    repeating-linear-gradient(0deg, rgba(185, 183, 178, 0.14) 0 1px, transparent 1px 34px),
+    linear-gradient(135deg, #fffdfa 0%, #faf8f5 60%, #eceae6 100%);
+}
+
+.about-cta-card h2 {
+  max-width: 11ch;
+}
+
+.about-cta-actions {
   display: grid;
   gap: 10px;
 }
@@ -9824,7 +9885,9 @@ body[data-page="about"] .button-secondary:hover {
 
 @media (max-width: 860px) {
   .about-fridge-hero__panel,
-  .about-contact-card {
+  .about-direction-card,
+  .about-contact-card,
+  .about-cta-card {
     grid-template-columns: 1fr;
   }
 
@@ -9837,7 +9900,6 @@ body[data-page="about"] .button-secondary:hover {
   }
 
   .about-status-board,
-  .about-roadmap-list,
   .about-review-grid {
     grid-template-columns: 1fr;
   }
@@ -9855,6 +9917,7 @@ body[data-page="about"] .button-secondary:hover {
   .about-paper-card,
   .about-grocery-card,
   .about-contact-card,
+  .about-cta-card,
   .contact-forward-card {
     padding: 18px;
   }
@@ -9869,6 +9932,7 @@ body[data-page="about"] .button-secondary:hover {
 
   .about-review-card {
     grid-template-columns: 64px minmax(0, 1fr);
+    min-height: 0;
     padding: 14px;
   }
 
