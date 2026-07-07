@@ -1,6 +1,6 @@
 (function () {
   const indexPath = "logs/devlogs-index.json";
-  const indexRequestPath = `${indexPath}?v=20260707-site-v24-projects-log`;
+  const indexRequestPath = `${indexPath}?v=20260707-site-v25-devlogs-fridge-reader`;
   const logBasePath = "logs/";
 
   const selectors = {
@@ -58,7 +58,7 @@
   function sessionLabel(log) {
     return [log.area, log.session ? `SESSION ${log.session}` : "", formatDate(log.date)]
       .filter(Boolean)
-      .join(" | ");
+      .join(" - ");
   }
 
   function logSlug(log) {
@@ -189,7 +189,7 @@
 
     const action = document.createElement("span");
     action.className = canOpen ? "text-action" : "text-action is-disabled";
-    action.textContent = canOpen ? "[--force-read]" : "[--pending-public]";
+    action.textContent = canOpen ? "Open paper reader" : "Pending public copy";
     card.appendChild(action);
 
     if (canOpen) {
@@ -202,7 +202,7 @@
   function setCount(logs) {
     const publicCount = logs.filter((log) => log.publicReady).length;
     document.querySelectorAll(selectors.count).forEach((count) => {
-      count.textContent = `${publicCount}/${logs.length} READY`;
+      count.textContent = `${publicCount}/${logs.length}`;
     });
   }
 
@@ -219,14 +219,14 @@
       path.textContent = `${logBasePath}${details.filename}`;
       meta.textContent = sessionLabel(details);
       title.textContent = details.title;
-      content.innerHTML = '<p class="devlog-viewer__state">Loading markdown copy...</p>';
+      content.innerHTML = '<p class="devlog-viewer__state">Loading paper copy...</p>';
       close.hidden = false;
       return;
     }
 
     if (state === "error") {
       path.textContent = details.filename ? `${logBasePath}${details.filename}` : indexPath;
-      meta.textContent = "reader fallback";
+      meta.textContent = "reader fallback note";
       title.textContent = "Log Could Not Load";
       content.innerHTML = `<p class="devlog-viewer__state devlog-viewer__state--error">${escapeHtml(details.message)}</p>`;
       close.hidden = false;
@@ -243,9 +243,9 @@
     }
 
     path.textContent = "logs/";
-    meta.textContent = "select a session card";
-    title.textContent = "Session Reader";
-    content.innerHTML = "<p>Choose a public Dev Log card to load the markdown copy without leaving the archive page.</p>";
+    meta.textContent = "select a pinned card";
+    title.textContent = "Paper Reader";
+    content.innerHTML = "<p>Selected public Markdown appears here as a paper copy.</p>";
     close.hidden = true;
   }
 

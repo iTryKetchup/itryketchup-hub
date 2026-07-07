@@ -6,7 +6,10 @@
   <title>Dev Logs - iTryKetchup Studio Hub</title>
   <meta name="description" content="Read development updates for the iTryKetchup Studio Hub and future project progress.">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.10.1-devlogs-structural-polish">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=2.5-devlogs-fridge-reader-mobile-order">
 </head>
 <body data-page="devlogs">
   <header class="site-header">
@@ -25,117 +28,52 @@
     </div>
   </header>
 
-  <main class="page-shell">
-    <section class="browser-panel devlogs-hero" aria-labelledby="devlogs-title">
-      <div class="browser-panel__bar" aria-hidden="true">
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">terminal://public-session-archives</span>
+  <main class="page-shell devlogs-fridge-page">
+    <section class="devlogs-fridge-hero" aria-labelledby="devlogs-title">
+      <div class="devlogs-paper-note devlogs-paper-note--intro">
+        <span class="devlogs-magnet devlogs-magnet--red" aria-hidden="true"></span>
+        <p class="eyebrow">public patch archive</p>
+        <h1 id="devlogs-title">Dev Logs</h1>
+        <p class="hero-subheadline">Pinned notes from shipped builds, polish passes, and studio experiments.</p>
+        <p class="hero-support">Real public Markdown stays readable as paper text, with the raw log files still available for direct links.</p>
+        <p class="devlogs-meta-line">logs archived - coffee level: variable</p>
       </div>
-      <div class="browser-panel__body devlogs-terminal-hero">
-        <div class="terminal-window terminal-window--hero devlogs-terminal-frame">
-          <div class="devlogs-brand-splats" aria-hidden="true">
-            <img class="devlogs-brand-splat devlogs-brand-splat--main" src="assets/brand/ketchup-splotch.webp" alt="" loading="lazy" decoding="async">
-            <img class="devlogs-brand-splat devlogs-brand-splat--drip" src="assets/brand/ketchup-splotch.webp" alt="" loading="lazy" decoding="async">
-            <img class="devlogs-brand-splat devlogs-brand-splat--smear" src="assets/brand/ketchup-splotch.webp" alt="" loading="lazy" decoding="async">
-          </div>
-          <div class="devlogs-terminal-copy">
-            <div class="terminal-window__line">itryketchup@studio:~$ ./fetch_logs.sh --all-chaos</div>
-            <div class="terminal-window__line">&gt; Initializing public session archives...</div>
-            <div class="terminal-window__line">&gt; [SUCCESS] <span data-devlog-count>22/22 READY</span> patches parsed.</div>
-            <div class="terminal-window__line terminal-window__warning">&gt; WARNING: 0% mustard detected in local system files.</div>
-            <div class="terminal-window__block" aria-label="System metadata">
-              <span>[SYSTEM METADATA]</span>
-              <span>----------------------------------------------</span>
-              <span>LOG_SCOPE     = "Honest Chaos Contained"</span>
-              <span>STATUS        = "Public / Mostly Stable"</span>
-              <span>COFFEE_LEVEL  = "Critically Low"</span>
-              <span>LAST_CRASH    = "3 sessions ago (forgot a semicolon)"</span>
-              <span>ESTIMATED_REGRETS = 42</span>
-              <span>----------------------------------------------</span>
-            </div>
-            <h1 id="devlogs-title">Dev Logs</h1>
-            <p class="hero-support">Ready for input. Scroll down to execute queries on the local public archive. CRITICAL_ERROR: Future-me is already asking "Why did I code it this way?"</p>
-            <p class="terminal-window__prompt">Run 'scroll_down' to view the log index... <span class="terminal-cursor" aria-hidden="true">█</span></p>
-          </div>
-          <pre class="devlogs-ascii-bottle" aria-hidden="true">             ________
-        ____/________\____
-       /                  \
-      /      I T R Y       \
-     /                      \
-    /    K E T C H U P      \
-   /__________________________\
-   |                          |
-   |        HHHHHHHHHH        |
-   |        H        H        |
-   |        H        H        |
-   |        HMMMMMMMMH        |
-   |                          |
-   |          ITRY            |
-   |                          |
-   |        KETCHUP           |
-   |                          |
-   |          LOGS            |
-   |                          |
-   |        .------.          |
-   |       /  W  W  \         |
-   |      /___WWWW___\        |
-   |                          |
-   |      TERMINAL SAUCE      |
-   |                          |
-   |       ARCHIVE MODE       |
-   |                          |
-   |       READY PATCHES      |
-   |                          |
-   |        |  |  |           |
-   |        |  |  |           |
-   |        H  H  H           |
-   |        HMMMMMH           |
-   |                          |
-   |     scroll_down.exe      |
-   |                          |
-   |__________________________|
-        /      ||      \
-       /_______||_______\</pre>
-        </div>
-      </div>
+
+      <aside class="devlogs-fridge-clip" aria-label="Dev Log archive count">
+        <span class="devlogs-magnet devlogs-magnet--steel" aria-hidden="true"></span>
+        <p class="eyebrow">archive count</p>
+        <strong data-devlog-count>Loading public notes</strong>
+        <span>public markdown copies</span>
+      </aside>
     </section>
 
     <section class="section devlogs-list-section" aria-labelledby="entries-title">
-      <div class="section-header">
+      <div class="section-header devlogs-section-header">
         <div class="section-divider">
-          <span class="section-divider__label">patch history</span>
+          <span class="section-divider__label">fridge archive</span>
         </div>
-        <h2 id="entries-title">Session Archive</h2>
-        <p class="lede">Static query results from the public archive. Real links, real dates, real notes, fake diagnostics with suspicious confidence.</p>
+        <h2 id="entries-title">Pinned Sessions</h2>
+        <p class="lede">Public notes stay pinned by session, with the same dates, summaries, raw URLs, and direct links.</p>
       </div>
-      <div class="devlogs-status-strip" aria-label="Dev log archive readout">
-        <span class="devlog-chip">[--force-read]</span>
-        <span class="devlog-chip" data-devlog-count>LOADING</span>
-        <span class="devlog-chip">[--ignore-bugs]</span>
-        <span class="devlog-chip">COFFEE_LEVEL="Critically Low"</span>
-      </div>
+
       <div class="devlog-reader-layout">
-        <div class="grid-two devlog-index-grid" data-devlog-list="all" aria-live="polite"></div>
+        <div class="devlog-index-grid" data-devlog-list="all" aria-live="polite"></div>
         <article class="devlog-viewer" id="devlog-viewer" data-devlog-viewer tabindex="-1" aria-labelledby="devlog-viewer-title" aria-live="polite">
           <div class="devlog-viewer__bar">
-            <span class="browser-panel__dot"></span>
-            <span class="browser-panel__dot"></span>
-            <span class="browser-panel__dot"></span>
+            <span class="devlogs-paper-clip" aria-hidden="true"></span>
             <span class="devlog-viewer__path" data-devlog-viewer-path>logs/</span>
             <button class="devlog-viewer__close" type="button" data-devlog-close hidden>Close</button>
           </div>
           <div class="devlog-viewer__body">
-            <p class="eyebrow" data-devlog-viewer-meta>select a session card</p>
-            <h3 id="devlog-viewer-title" data-devlog-viewer-title>Session Reader</h3>
+            <p class="eyebrow" data-devlog-viewer-meta>select a pinned card</p>
+            <h3 id="devlog-viewer-title" data-devlog-viewer-title>Paper Reader</h3>
             <div class="devlog-viewer__content" data-devlog-viewer-content>
-              <p>Choose a public Dev Log card to load the markdown copy without leaving the archive page.</p>
+              <p>Selected public Markdown appears here as a paper copy.</p>
             </div>
           </div>
         </article>
       </div>
-      <p class="notice">Run 'scroll_down' to view the log index. WARNING: pending or missing logs resolve to graceful error states instead of fake links.</p>
+      <p class="notice">Raw Markdown URLs remain available under <code>/logs/</code>. Missing or pending logs resolve to clear reader messages instead of fake links.</p>
     </section>
   </main>
 
@@ -161,7 +99,7 @@
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
   <script src="js/main.js" defer></script>
-  <script src="js/devlog-reader.js?v=20260705-site-v1101-devlogs-structural-log" defer></script>
+  <script src="js/devlog-reader.js?v=20260707-site-v25-devlogs-fridge-reader" defer></script>
   <script src="js/supabase-config.js" defer></script>
   <script src="js/site-analytics.js" defer></script>
 </body>
