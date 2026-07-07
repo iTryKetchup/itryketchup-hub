@@ -9471,6 +9471,7 @@ body[data-page="about"] .brand-link strong,
 body[data-page="about"] h1,
 body[data-page="about"] h2,
 body[data-page="about"] h3 {
+  color: var(--ink);
   font-family: "Alfa Slab One", Georgia, serif;
   letter-spacing: 0;
 }
@@ -9567,8 +9568,8 @@ body[data-page="about"] h1 {
 
 body[data-page="about"] h2 {
   margin: 0 0 14px;
-  font-size: clamp(2rem, 5vw, 4.1rem);
-  line-height: 1;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.08;
 }
 
 body[data-page="about"] h3 {
@@ -9586,6 +9587,7 @@ body[data-page="about"] h3 {
 
 .about-fridge-hero__paper p,
 .about-fridge-hero__paper li,
+.about-fridge-section .section-header .lede,
 .about-paper-card p,
 .about-grocery-card p,
 .about-review-card p,
@@ -9593,6 +9595,7 @@ body[data-page="about"] h3 {
 .about-cta-card p,
 .about-status-board dd {
   color: var(--ink);
+  opacity: 1;
 }
 
 .about-fridge-notes,
@@ -9776,8 +9779,8 @@ body[data-page="about"] h3 {
   padding: clamp(22px, 4vw, 42px);
 }
 
-.about-terminal-note h2,
-.about-terminal-note .about-card-label {
+body[data-page="about"] .about-terminal-note h2,
+body[data-page="about"] .about-terminal-note .about-card-label {
   color: #faf8f5;
 }
 
@@ -9846,8 +9849,20 @@ body[data-page="about"] h3 {
 .about-terminal-form {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
+  padding: 8px;
+  border: 1px solid rgba(250, 248, 245, 0.24);
+  border-radius: 8px;
+  background: #050506;
+  box-shadow: inset 0 0 0 1px rgba(250, 248, 245, 0.04);
+}
+
+.about-terminal-form:focus-within {
+  border-color: #ffe066;
+  box-shadow:
+    inset 0 0 0 1px rgba(250, 248, 245, 0.06),
+    0 0 0 3px rgba(255, 224, 102, 0.18);
 }
 
 .about-terminal-prompt {
@@ -9858,37 +9873,41 @@ body[data-page="about"] h3 {
 .about-terminal-input {
   width: 100%;
   min-width: 0;
-  min-height: 44px;
-  padding: 10px 12px;
-  border: 1px solid rgba(250, 248, 245, 0.36);
-  border-radius: 6px;
+  min-height: 36px;
+  padding: 7px 0;
+  border: 0;
+  border-radius: 0;
   color: #faf8f5;
-  background: #050506;
+  caret-color: #ffe066;
+  background: transparent;
   font: 1rem/1.4 Consolas, "Courier New", monospace;
+  appearance: none;
 }
 
 .about-terminal-input:focus-visible {
-  border-color: #ffe066;
-  box-shadow: 0 0 0 3px rgba(255, 224, 102, 0.24);
-  outline: 2px solid transparent;
+  box-shadow: none;
+  outline: 0;
 }
 
 .about-terminal-submit {
-  min-height: 44px;
-  padding: 9px 14px;
-  border: 1px solid var(--red);
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 224, 102, 0.68);
   border-radius: 6px;
-  color: #fffdfa;
-  background: var(--red);
-  font-weight: 900;
+  color: #ffe066;
+  background: rgba(255, 224, 102, 0.08);
+  font: 900 0.78rem/1 Consolas, "Courier New", monospace;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
 .about-terminal-submit:hover,
 .about-terminal-submit:focus-visible {
   border-color: #fffdfa;
-  background: var(--red-dark);
-  outline: 2px solid transparent;
+  color: #fffdfa;
+  background: rgba(250, 248, 245, 0.12);
+  box-shadow: 0 0 0 3px rgba(255, 224, 102, 0.18);
+  outline: 0;
 }
 
 .about-contact-card {
@@ -9904,6 +9923,16 @@ body[data-page="about"] h3 {
   font-weight: 900;
   line-height: 1.1;
   overflow-wrap: anywhere;
+}
+
+body[data-page="about"] .about-contact-email a {
+  color: var(--ink);
+  text-decoration-color: var(--red);
+}
+
+body[data-page="about"] .about-contact-email a:hover,
+body[data-page="about"] .about-contact-email a:focus-visible {
+  color: var(--red-dark);
 }
 
 .about-contact-note {
@@ -10033,7 +10062,7 @@ body[data-page="about"] .button-secondary:hover {
   }
 
   body[data-page="about"] h2 {
-    font-size: clamp(1.8rem, 11vw, 2.8rem);
+    font-size: clamp(1.7rem, 9vw, 2.25rem);
   }
 
   .about-review-card {
