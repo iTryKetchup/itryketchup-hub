@@ -56,7 +56,7 @@ window.ProjectsData = [
     category: "Fan project",
     status: "fan-project",
     visibility: "public",
-    summary: "A clearly labeled fan project concept exploring a crossover-style idea. This is not original IP and is not affiliated with or endorsed by the original rights holders.",
+    summary: "A clearly labeled fan project concept exploring a crossover-style idea.",
     imageId: "projectPlaceholder",
     link: "",
     actionLabel: "Fan Project",
