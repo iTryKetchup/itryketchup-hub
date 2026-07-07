@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=2.4-projects-review">
+  <link rel="stylesheet" href="css/styles.css?v=2.4-projects-roadmap">
 </head>
 <body data-page="projects">
   <header class="site-header">
@@ -44,29 +44,57 @@
           </div>
         </div>
       </div>
-      <div class="projects-whiteboard-sketch projects-fridge-whiteboard" aria-hidden="true">
-          <span class="projects-magnet projects-magnet--steel projects-magnet--one" aria-hidden="true"></span>
-          <span class="projects-magnet projects-magnet--red projects-magnet--two" aria-hidden="true"></span>
-          <div class="projects-whiteboard-sketch__header">
-            <span>The Dry-Erase Marker Sketch</span>
-            <span>cap left on: barely</span>
-          </div>
-          <svg class="projects-whiteboard-sketch__art" viewBox="0 0 520 320" role="img" aria-label="">
-            <path class="marker marker--red" d="M74 238 C92 172 132 126 190 104 C244 84 310 89 362 118 C410 145 438 188 448 239" />
-            <path class="marker marker--red" d="M132 224 L172 164 L230 214 L280 130 L334 214 L382 158 L420 226" />
-            <path class="marker marker--black" d="M126 247 C202 257 298 256 420 245" />
-            <path class="marker marker--black" d="M184 116 C208 102 247 101 272 113" />
-            <path class="marker marker--red marker--thin" d="M88 76 L174 76 M88 101 L238 101 M88 126 L154 126" />
-            <path class="marker marker--black marker--thin" d="M336 74 L432 74 M336 100 L470 100 M336 126 L410 126" />
-            <circle class="marker-dot marker-dot--red" cx="72" cy="76" r="7" />
-            <circle class="marker-dot marker-dot--red" cx="72" cy="101" r="7" />
-            <circle class="marker-dot marker-dot--red" cx="72" cy="126" r="7" />
+      <div class="projects-fridge-whiteboard projects-roadmap-board">
+        <div class="projects-roadmap-board__frame">
+          <img class="projects-roadmap-board__image" src="assets/projects/projects-whiteboard-base.png" alt="" aria-hidden="true">
+          <!-- Roadmap updates should edit these SVG groups only; the PNG base is permanent whiteboard furniture. -->
+          <svg class="projects-roadmap-overlay" viewBox="0 0 1000 430" role="img" aria-labelledby="projects-roadmap-title projects-roadmap-desc">
+            <title id="projects-roadmap-title">Studio roadmap</title>
+            <desc id="projects-roadmap-desc">NOW: Home live, About merged, Projects fridge. NEXT: Dev Logs tablet, Release notes polish. LATER: Crisper, Career Tracker, Future experiments.</desc>
+            <text class="roadmap-title" x="36" y="48">STUDIO ROADMAP</text>
+            <text class="roadmap-lane-label roadmap-lane-label--now" x="54" y="102">NOW</text>
+            <text class="roadmap-lane-label" x="386" y="102">NEXT</text>
+            <text class="roadmap-lane-label" x="713" y="102">LATER</text>
+            <path class="roadmap-arrow" d="M306 94 C326 83 346 83 366 94" />
+            <path class="roadmap-arrowhead" d="M356 85 L370 94 L356 103" />
+            <path class="roadmap-arrow" d="M636 94 C656 83 676 83 696 94" />
+            <path class="roadmap-arrowhead" d="M686 85 L700 94 L686 103" />
+            <!-- Move a roadmap-item group between lanes, or edit only its text, for future roadmap changes. -->
+            <g class="roadmap-item roadmap-item--solid" data-lane="now">
+              <rect x="36" y="128" width="250" height="48" rx="13" />
+              <text x="161" y="158">Home live</text>
+            </g>
+            <g class="roadmap-item roadmap-item--solid" data-lane="now">
+              <rect x="36" y="198" width="250" height="48" rx="13" />
+              <text x="161" y="228">About merged</text>
+            </g>
+            <g class="roadmap-item roadmap-item--solid" data-lane="now">
+              <rect x="36" y="268" width="250" height="48" rx="13" />
+              <text x="161" y="298">Projects fridge</text>
+            </g>
+            <g class="roadmap-item roadmap-item--idea" data-lane="next">
+              <rect x="366" y="150" width="250" height="48" rx="13" />
+              <text x="491" y="180">Dev Logs tablet</text>
+            </g>
+            <g class="roadmap-item roadmap-item--idea" data-lane="next">
+              <rect x="366" y="230" width="250" height="48" rx="13" />
+              <text x="491" y="260">Release notes polish</text>
+            </g>
+            <g class="roadmap-item roadmap-item--idea" data-lane="later">
+              <rect x="696" y="128" width="250" height="48" rx="13" />
+              <text x="821" y="158">Crisper</text>
+            </g>
+            <g class="roadmap-item roadmap-item--idea" data-lane="later">
+              <rect x="696" y="198" width="250" height="48" rx="13" />
+              <text x="821" y="228">Career Tracker</text>
+            </g>
+            <g class="roadmap-item roadmap-item--idea" data-lane="later">
+              <rect x="696" y="268" width="250" height="48" rx="13" />
+              <text x="821" y="298">Future experiments</text>
+            </g>
           </svg>
-          <div class="projects-whiteboard-sketch__notes">
-            <span>LIVE: Door v1.2</span>
-            <span>LIVE: Wolf Tale hub</span>
-            <span>QUEUE: future sauce</span>
-          </div>
+        </div>
+        <p class="sr-only">Roadmap summary. NOW: Home live, About merged, Projects fridge. NEXT: Dev Logs tablet, Release notes polish. LATER: Crisper, Career Tracker, Future experiments.</p>
       </div>
     </section>
 
