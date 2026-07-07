@@ -46,6 +46,9 @@
   function renderProjectCard(project) {
     const article = document.createElement("article");
     article.className = "card project-card";
+    const isFanProject = project.fanProject || project.status === "fan-project" || String(project.category || "").toLowerCase().includes("fan");
+    article.classList.add(isFanProject ? "project-card--fan" : "project-card--official");
+    if (project.status) article.classList.add(`project-card--${project.status}`);
 
     const image = document.createElement("img");
     image.className = "card-image";

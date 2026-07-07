@@ -6,7 +6,7 @@
   <title>Projects - iTryKetchup Studio Hub</title>
   <meta name="description" content="Browse active, planned, coming soon, and fan project cards from iTryKetchup Studio.">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=1.9-targeted-page-polish">
+  <link rel="stylesheet" href="css/styles.css?v=2.4-projects-fridge">
 </head>
 <body data-page="projects">
   <header class="site-header">
@@ -25,16 +25,11 @@
     </div>
   </header>
 
-  <main class="page-shell">
-    <section class="browser-panel projects-hero" aria-labelledby="projects-title">
-      <div class="browser-panel__bar" aria-hidden="true">
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__dot"></span>
-        <span class="browser-panel__label">whiteboard://project-index / dry-erase-sketch</span>
-      </div>
-      <div class="browser-panel__body hero-grid">
-        <div class="hero-copy">
+  <main class="page-shell projects-fridge-page">
+    <section class="projects-fridge-hero" aria-labelledby="projects-title">
+      <div class="projects-fridge-hero__copy">
+        <div class="projects-paper-note">
+          <span class="projects-magnet projects-magnet--red" aria-hidden="true"></span>
           <p class="eyebrow hero-meta">projects workspace</p>
           <h1 id="projects-title">Projects</h1>
           <p class="hero-subheadline">A live shelf of active builds, planned ideas, fan experiments, and future systems.</p>
@@ -45,7 +40,10 @@
             <a class="button-secondary buff-link" href="about.html#contact" data-buff="+8 Signal Sent | +2 Studio Contact">Contact</a>
           </div>
         </div>
-        <div class="projects-whiteboard-sketch" aria-hidden="true">
+      </div>
+      <div class="projects-whiteboard-sketch projects-fridge-whiteboard" aria-hidden="true">
+          <span class="projects-magnet projects-magnet--steel projects-magnet--one" aria-hidden="true"></span>
+          <span class="projects-magnet projects-magnet--red projects-magnet--two" aria-hidden="true"></span>
           <div class="projects-whiteboard-sketch__header">
             <span>The Dry-Erase Marker Sketch</span>
             <span>cap left on: barely</span>
@@ -66,18 +64,20 @@
             <span>LIVE: Wolf Tale hub</span>
             <span>QUEUE: future sauce</span>
           </div>
-        </div>
       </div>
     </section>
 
-    <section class="section projects-list-section" id="project-grid-title" aria-label="Project cards">
-      <div class="projects-status-strip" aria-label="Supported project states">
-        <span class="status-badge status-released">Released</span>
-        <span class="status-badge status-active">Active</span>
-        <span class="status-badge status-planned">Planned</span>
-        <span class="status-badge status-coming-soon">Coming Soon</span>
-        <span class="status-badge status-archive">Archive</span>
-        <span class="status-badge status-fan-project">Fan Project</span>
+    <section class="section projects-list-section projects-fridge-board" id="project-grid-title" aria-label="Project cards">
+      <div class="projects-status-note">
+        <span class="projects-magnet projects-magnet--steel" aria-hidden="true"></span>
+        <div class="projects-status-strip" aria-label="Supported project states">
+          <span class="status-badge status-released">Released</span>
+          <span class="status-badge status-active">Active</span>
+          <span class="status-badge status-planned">Planned</span>
+          <span class="status-badge status-coming-soon">Coming Soon</span>
+          <span class="status-badge status-archive">Archive</span>
+          <span class="status-badge status-fan-project">Fan Project</span>
+        </div>
       </div>
       <div class="grid" data-project-list="all"></div>
       <p class="notice">Fan project - not original IP, not affiliated with or endorsed by the original rights holders. Fan projects are labeled separately from original iTryKetchup Studio work.</p>
@@ -110,7 +110,7 @@
   <script src="js/mascots-data.js" defer></script>
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js?v=2.4-projects-fridge" defer></script>
   <script src="js/supabase-config.js" defer></script>
   <script src="js/site-analytics.js" defer></script>
 </body>
