@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=2.5-devlogs-fridge-reader-mobile-order">
+  <link rel="stylesheet" href="css/styles.css?v=2.5-devlogs-stacked-carousel">
 </head>
 <body data-page="devlogs">
   <header class="site-header">
@@ -56,22 +56,24 @@
         <p class="lede">Public notes stay pinned by session, with the same dates, summaries, raw URLs, and direct links.</p>
       </div>
 
-      <div class="devlog-reader-layout">
-        <div class="devlog-index-grid" data-devlog-list="all" aria-live="polite"></div>
-        <article class="devlog-viewer" id="devlog-viewer" data-devlog-viewer tabindex="-1" aria-labelledby="devlog-viewer-title" aria-live="polite">
-          <div class="devlog-viewer__bar">
-            <span class="devlogs-paper-clip" aria-hidden="true"></span>
-            <span class="devlog-viewer__path" data-devlog-viewer-path>logs/</span>
-            <button class="devlog-viewer__close" type="button" data-devlog-close hidden>Close</button>
-          </div>
-          <div class="devlog-viewer__body">
-            <p class="eyebrow" data-devlog-viewer-meta>select a pinned card</p>
-            <h3 id="devlog-viewer-title" data-devlog-viewer-title>Paper Reader</h3>
-            <div class="devlog-viewer__content" data-devlog-viewer-content>
-              <p>Selected public Markdown appears here as a paper copy.</p>
+      <div class="dev-logs-layout">
+        <div class="log-carousel" data-devlog-list="all" aria-label="Dev Log cards" aria-live="polite" tabindex="0"></div>
+        <div class="paper-reader-container">
+          <article class="devlog-viewer paper-reader" id="devlog-viewer" data-devlog-viewer tabindex="-1" aria-labelledby="devlog-viewer-title" aria-live="polite" hidden>
+            <div class="devlog-viewer__bar">
+              <span class="devlogs-paper-clip" aria-hidden="true"></span>
+              <span class="devlog-viewer__path" data-devlog-viewer-path>logs/</span>
+              <button class="devlog-viewer__close" type="button" data-devlog-close hidden>Close</button>
             </div>
-          </div>
-        </article>
+            <div class="devlog-viewer__body">
+              <p class="eyebrow" data-devlog-viewer-meta>select a pinned card</p>
+              <h3 id="devlog-viewer-title" data-devlog-viewer-title>Paper Reader</h3>
+              <div class="devlog-viewer__content" data-devlog-viewer-content>
+                <p>Selected public Markdown appears here as a paper copy.</p>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
       <p class="notice">Raw Markdown URLs remain available under <code>/logs/</code>. Missing or pending logs resolve to clear reader messages instead of fake links.</p>
     </section>
@@ -99,7 +101,7 @@
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
   <script src="js/main.js" defer></script>
-  <script src="js/devlog-reader.js?v=20260707-site-v25-devlogs-fridge-reader" defer></script>
+  <script src="js/devlog-reader.js?v=20260707-site-v25-devlogs-stacked-carousel" defer></script>
   <script src="js/supabase-config.js" defer></script>
   <script src="js/site-analytics.js" defer></script>
 </body>

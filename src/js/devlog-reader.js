@@ -1,6 +1,6 @@
 (function () {
   const indexPath = "logs/devlogs-index.json";
-  const indexRequestPath = `${indexPath}?v=20260707-site-v25-devlogs-fridge-reader`;
+  const indexRequestPath = `${indexPath}?v=20260707-site-v25-devlogs-stacked-carousel`;
   const logBasePath = "logs/";
 
   const selectors = {
@@ -106,6 +106,8 @@
   function loadRequestedFromUrl(options) {
     const requestedLog = getRequestedLog(loadedLogs);
     if (!requestedLog || !requestedLog.publicReady || !requestedLog.filename) {
+      setSelectedButton(null);
+      setViewerState("empty");
       return false;
     }
 
@@ -189,7 +191,7 @@
 
     const action = document.createElement("span");
     action.className = canOpen ? "text-action" : "text-action is-disabled";
-    action.textContent = canOpen ? "Open paper reader" : "Pending public copy";
+    action.textContent = canOpen ? "OPEN PAPER READER" : "PENDING PUBLIC COPY";
     card.appendChild(action);
 
     if (canOpen) {
@@ -207,15 +209,17 @@
   }
 
   function setViewerState(state, details) {
+    const viewer = document.querySelector(selectors.viewer);
     const path = document.querySelector(selectors.path);
     const meta = document.querySelector(selectors.meta);
     const title = document.querySelector(selectors.title);
     const content = document.querySelector(selectors.content);
     const close = document.querySelector(selectors.close);
 
-    if (!path || !meta || !title || !content || !close) return;
+    if (!viewer || !path || !meta || !title || !content || !close) return;
 
     if (state === "loading") {
+      viewer.hidden = false;
       path.textContent = `${logBasePath}${details.filename}`;
       meta.textContent = sessionLabel(details);
       title.textContent = details.title;
@@ -225,6 +229,7 @@
     }
 
     if (state === "error") {
+      viewer.hidden = false;
       path.textContent = details.filename ? `${logBasePath}${details.filename}` : indexPath;
       meta.textContent = "reader fallback note";
       title.textContent = "Log Could Not Load";
@@ -234,6 +239,7 @@
     }
 
     if (state === "loaded") {
+      viewer.hidden = false;
       path.textContent = `${logBasePath}${details.log.filename}`;
       meta.textContent = sessionLabel(details.log);
       title.textContent = details.log.title;
@@ -247,6 +253,7 @@
     title.textContent = "Paper Reader";
     content.innerHTML = "<p>Selected public Markdown appears here as a paper copy.</p>";
     close.hidden = true;
+    viewer.hidden = true;
   }
 
   function sanitizeHref(url) {
@@ -432,6 +439,9 @@
     setSelectedButton(button);
 
     setViewerState("loading", log);
+    if (button && button.closest(".log-carousel")) {
+      button.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
 
     if (settings.updateUrl) {
       updateLogUrl(log);
@@ -495,9 +505,9 @@
         container.replaceChildren(...logs.map(createDevLogCard));
       });
 
-      const defaultLog = logs.find((log) => log.publicReady && log.filename);
-      if (!loadRequestedFromUrl({ focusViewer: true }) && defaultLog) {
-        loadLog(defaultLog, findLogButton(defaultLog), { focusViewer: false, updateUrl: false });
+      if (!loadRequestedFromUrl({ focusViewer: true })) {
+        setSelectedButton(null);
+        setViewerState("empty");
       }
     } catch (error) {
       setCount([]);
@@ -524,9 +534,23 @@
     });
   }
 
+  function wireCarouselWheel() {
+    document.querySelectorAll(".log-carousel").forEach((carousel) => {
+      carousel.addEventListener("wheel", (event) => {
+        const hasHorizontalOverflow = carousel.scrollWidth > carousel.clientWidth;
+        const verticalIntent = Math.abs(event.deltaY) > Math.abs(event.deltaX);
+        if (!hasHorizontalOverflow || !verticalIntent) return;
+
+        event.preventDefault();
+        carousel.scrollLeft += event.deltaY;
+      }, { passive: false });
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     if (document.body.getAttribute("data-page") !== "devlogs") return;
     wireClose();
+    wireCarouselWheel();
     loadIndex();
     window.addEventListener("hashchange", () => loadRequestedFromUrl({ focusViewer: true }));
     window.addEventListener("popstate", () => loadRequestedFromUrl({ focusViewer: true }));

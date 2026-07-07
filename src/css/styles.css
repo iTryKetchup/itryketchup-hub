@@ -11748,3 +11748,154 @@ body[data-page="devlogs"] .notice code {
     transition: none;
   }
 }
+
+/* SITE v2.5 Dev Logs stacked carousel refinement */
+body[data-page="devlogs"] .dev-logs-layout {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 5vw, 44px);
+  margin-top: 28px;
+}
+
+body[data-page="devlogs"] .log-carousel {
+  display: flex;
+  gap: 22px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-inline: 8px;
+  scroll-snap-type: x proximity;
+  border: 1px solid rgba(28, 27, 26, 0.12);
+  border-radius: 8px;
+  padding: 24px 20px 30px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.44) 1px, transparent 1px) 0 0 / 72px 100%,
+    rgba(236, 234, 230, 0.64);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.54),
+    0 14px 28px rgba(28, 27, 26, 0.08);
+}
+
+body[data-page="devlogs"] .log-carousel:focus-visible {
+  outline: 3px solid rgba(214, 40, 40, 0.36);
+  outline-offset: 4px;
+}
+
+body[data-page="devlogs"] .log-carousel::-webkit-scrollbar {
+  height: 12px;
+}
+
+body[data-page="devlogs"] .log-carousel::-webkit-scrollbar-track {
+  border: 1px solid rgba(28, 27, 26, 0.12);
+  border-radius: 999px;
+  background: rgba(250, 248, 245, 0.82);
+}
+
+body[data-page="devlogs"] .log-carousel::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(250, 248, 245, 0.86);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, #b9b7b2, #8e1b1b);
+}
+
+body[data-page="devlogs"] .log-carousel::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(90deg, #9f9c96, #d62828);
+}
+
+body[data-page="devlogs"] .log-carousel {
+  scrollbar-color: rgba(142, 27, 27, 0.66) rgba(250, 248, 245, 0.82);
+  scrollbar-width: thin;
+}
+
+body[data-page="devlogs"] .log-carousel > .devlog-card {
+  flex: 0 0 320px;
+  width: 320px;
+  max-width: 320px;
+  scroll-snap-align: start;
+}
+
+body[data-page="devlogs"] .log-carousel > .devlog-card-button {
+  min-height: 100%;
+}
+
+body[data-page="devlogs"] .log-carousel .text-action {
+  text-transform: uppercase;
+}
+
+body[data-page="devlogs"] .paper-reader-container {
+  display: grid;
+  width: 100%;
+  justify-items: center;
+}
+
+body[data-page="devlogs"] .paper-reader-container .paper-reader {
+  position: relative;
+  top: auto;
+  order: initial;
+  width: min(100%, 850px);
+  max-width: 850px;
+  max-height: none;
+  margin: 0 auto;
+}
+
+body[data-page="devlogs"] .paper-reader-container .paper-reader[hidden] {
+  display: none;
+}
+
+body[data-page="devlogs"] .paper-reader-container .devlog-viewer__body {
+  max-height: min(72vh, 860px);
+  overflow: auto;
+  padding: clamp(24px, 4vw, 42px);
+}
+
+body[data-page="devlogs"] .paper-reader-container .devlog-viewer__content {
+  max-width: 72ch;
+  margin: 0 auto;
+}
+
+body[data-page="devlogs"] .paper-reader-container .devlog-viewer__content pre,
+body[data-page="devlogs"] .paper-reader-container .devlog-table-scroll {
+  max-width: 100%;
+}
+
+@media (max-width: 720px) {
+  body[data-page="devlogs"] .log-carousel {
+    gap: 18px;
+    padding: 22px 14px 28px;
+  }
+
+  body[data-page="devlogs"] .log-carousel > .devlog-card {
+    flex-basis: min(320px, calc(100vw - 52px));
+    width: min(320px, calc(100vw - 52px));
+    max-width: min(320px, calc(100vw - 52px));
+  }
+}
+
+@media (max-width: 520px) {
+  body[data-page="devlogs"] .log-carousel {
+    padding-inline: 12px;
+  }
+
+  body[data-page="devlogs"] .paper-reader-container .devlog-viewer__bar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  body[data-page="devlogs"] .paper-reader-container .devlog-viewer__path {
+    flex: 1 1 calc(100% - 34px);
+    white-space: normal;
+  }
+
+  body[data-page="devlogs"] .paper-reader-container .devlog-viewer__close {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  body[data-page="devlogs"] .paper-reader-container .devlog-viewer__body {
+    max-height: 70vh;
+  }
+}
