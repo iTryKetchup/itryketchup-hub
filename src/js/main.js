@@ -11,6 +11,14 @@
   };
 
   const publicItems = (items) => (items || []).filter((item) => item.visibility !== "hidden");
+  const studioHubStack = [
+    "Static HTML",
+    "CSS",
+    "Vanilla JavaScript",
+    "GitHub Pages",
+    "Supabase analytics",
+    "Git / GitHub"
+  ];
 
   function getRegistryImage(id, fallbackIdOverride) {
     const settings = window.SiteSettings || {};
@@ -43,12 +51,22 @@
     return badge;
   }
 
+  function isDuplicateChip(status, category) {
+    const statusText = String(statusLabels[status] || status || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const categoryText = String(category || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    return statusText && categoryText && statusText === categoryText;
+  }
+
   function renderProjectCard(project) {
     const article = document.createElement("article");
     article.className = "card project-card";
     const isFanProject = project.fanProject || project.status === "fan-project" || String(project.category || "").toLowerCase().includes("fan");
+    const isStudioHub = project.title === "iTryKetchup Studio Hub";
+    const isWolfTale = project.title === "The Wolf Tale";
     article.classList.add(isFanProject ? "project-card--fan" : "project-card--official");
     if (project.status) article.classList.add(`project-card--${project.status}`);
+    if (isStudioHub) article.classList.add("project-card--studio-hub");
+    if (isWolfTale) article.classList.add("project-card--wolf-tale");
 
     const image = document.createElement("img");
     image.className = "card-image";
@@ -63,38 +81,77 @@
     meta.className = "card-meta";
     meta.appendChild(createStatusBadge(project.status));
 
-    const category = document.createElement("span");
-    category.className = "category-label";
-    category.textContent = project.category;
-    meta.appendChild(category);
+    if (!isDuplicateChip(project.status, project.category)) {
+      const category = document.createElement("span");
+      category.className = "category-label";
+      category.textContent = project.category;
+      meta.appendChild(category);
+    }
     article.appendChild(meta);
 
     const title = document.createElement("h3");
-    title.textContent = project.title;
+    if (isStudioHub && project.link) {
+      const titleLink = document.createElement("a");
+      titleLink.href = project.link;
+      titleLink.textContent = project.title;
+      titleLink.dataset.track = "project_open";
+      titleLink.dataset.trackLabel = `${project.title} - Title`;
+      title.appendChild(titleLink);
+    } else {
+      title.textContent = project.title;
+    }
     article.appendChild(title);
 
     const summary = document.createElement("p");
     summary.textContent = project.summary;
     article.appendChild(summary);
 
-    if (project.fanProject && project.disclaimer) {
-      const disclaimer = document.createElement("p");
-      disclaimer.className = "fan-disclaimer";
-      disclaimer.textContent = project.disclaimer;
-      article.appendChild(disclaimer);
+    if (isStudioHub) {
+      const reveal = document.createElement("div");
+      reveal.className = "project-stack-reveal";
+      reveal.dataset.techStackReveal = "";
+
+      const panelId = "studio-hub-stack-panel";
+      const toggle = document.createElement("button");
+      toggle.className = "text-action project-stack-trigger";
+      toggle.type = "button";
+      toggle.dataset.techStackToggle = "";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-controls", panelId);
+
+      const toggleLabel = document.createElement("span");
+      toggleLabel.textContent = "Stack";
+      toggle.appendChild(toggleLabel);
+
+      const panel = document.createElement("div");
+      panel.className = "project-stack-panel";
+      panel.id = panelId;
+
+      const list = document.createElement("ul");
+      list.className = "project-stack-list";
+      studioHubStack.forEach((item) => {
+        const stackItem = document.createElement("li");
+        stackItem.textContent = item;
+        list.appendChild(stackItem);
+      });
+
+      const note = document.createElement("p");
+      note.textContent = "Static site; no frontend framework or backend app server in this repo.";
+      panel.append(list, note);
+      reveal.append(toggle, panel);
+      article.appendChild(reveal);
+      return article;
     }
 
-    const action = document.createElement(project.link ? "a" : "span");
-    action.className = project.link ? "text-action" : "text-action is-disabled";
-    action.textContent = project.actionLabel || "More";
     if (project.link) {
+      const action = document.createElement("a");
+      action.className = "text-action";
+      action.textContent = project.actionLabel || "More";
       action.href = project.link;
       action.dataset.track = "project_open";
       action.dataset.trackLabel = `${project.title} - ${action.textContent}`;
-    } else {
-      action.setAttribute("aria-disabled", "true");
+      article.appendChild(action);
     }
-    article.appendChild(action);
 
     return article;
   }
