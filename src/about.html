@@ -123,9 +123,19 @@
         <div class="about-terminal-note__body">
           <p class="about-card-label">one terminal joke, contained</p>
           <h2 id="terminal-title">Signal Routing Is Open</h2>
-          <p><span class="terminal-tag terminal-tag--success">[OK]</span> Email channel monitored.</p>
-          <p><span class="terminal-tag terminal-tag--warning">[NOTE]</span> No imaginary form backend is pretending to exist.</p>
-          <p><span class="terminal-tag terminal-tag--queued">[QUEUE]</span> Human-scale replies, usually within 7 days when the studio queue behaves.</p>
+          <p class="about-terminal-intro"><span class="terminal-tag terminal-tag--success">[OK]</span> Email channel monitored. No imaginary form backend is pretending to exist.</p>
+          <div class="about-terminal-console" data-about-terminal>
+            <div class="about-terminal-output" aria-live="polite" aria-label="Terminal output" data-about-terminal-output>
+              <p class="about-terminal-line"><span class="terminal-tag terminal-tag--queued">[QUEUE]</span> Human-scale replies, usually within 7 days when the studio queue behaves.</p>
+              <p class="about-terminal-line"><span class="terminal-tag terminal-tag--warning">[NOTE]</span> Type help for the tiny menu.</p>
+            </div>
+            <form class="about-terminal-form" data-about-terminal-form autocomplete="off">
+              <label class="sr-only" for="about-terminal-input">Type an About terminal command</label>
+              <span class="about-terminal-prompt" aria-hidden="true">studio&gt;</span>
+              <input id="about-terminal-input" class="about-terminal-input" type="text" inputmode="text" autocapitalize="none" spellcheck="false" data-about-terminal-input>
+              <button class="about-terminal-submit" type="submit">Run</button>
+            </form>
+          </div>
         </div>
       </article>
     </section>
@@ -186,6 +196,126 @@
   <script src="js/mascots-data.js" defer></script>
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
+  <script>
+    (() => {
+      const terminal = document.querySelector("[data-about-terminal]");
+      if (!terminal) return;
+
+      const form = terminal.querySelector("[data-about-terminal-form]");
+      const input = terminal.querySelector("[data-about-terminal-input]");
+      const output = terminal.querySelector("[data-about-terminal-output]");
+      if (!form || !input || !output) return;
+
+      const promptText = "studio>";
+      const routes = new Map([
+        ["contact", {
+          text: "Contact card is clipped to the fridge.",
+          href: "#contact",
+          label: "Jump to contact"
+        }],
+        ["projects", {
+          text: "Pantry door unlocked.",
+          href: "projects.html",
+          label: "Open projects"
+        }],
+        ["logs", {
+          text: "Counter notes are ready.",
+          href: "dev-logs/",
+          label: "Read dev logs"
+        }],
+        ["devlogs", {
+          text: "Counter notes are ready.",
+          href: "dev-logs/",
+          label: "Read dev logs"
+        }],
+        ["wolf", {
+          text: "Flyer pulled from the fridge.",
+          href: "wolf-tale.html",
+          label: "Visit The Wolf Tale"
+        }]
+      ]);
+
+      function appendLine(text, modifier = "") {
+        const line = document.createElement("p");
+        line.className = `about-terminal-line${modifier ? ` ${modifier}` : ""}`;
+        line.textContent = text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+        return line;
+      }
+
+      function appendLinkedLine(text, href, label) {
+        const line = document.createElement("p");
+        const message = document.createElement("span");
+        const link = document.createElement("a");
+
+        line.className = "about-terminal-line about-terminal-line--response";
+        message.textContent = `${text} `;
+        link.href = href;
+        link.textContent = label;
+        link.className = "about-terminal-link";
+
+        line.append(message, link);
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+      }
+
+      function showHelp() {
+        [
+          "help      show this menu",
+          "contact   jump to the contact card",
+          "projects  open the pantry",
+          "logs      read the dev logs",
+          "wolf      visit The Wolf Tale",
+          "clear     clear the counter"
+        ].forEach((line) => appendLine(line, "about-terminal-line--menu"));
+      }
+
+      function resetOutput() {
+        output.replaceChildren();
+        appendLine("[BOOT] Counter reset. Type help for commands.", "about-terminal-line--boot");
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const rawCommand = input.value.trim();
+        if (!rawCommand) return;
+
+        input.value = "";
+        const command = rawCommand.toLowerCase();
+
+        if (command === "clear") {
+          resetOutput();
+          input.focus();
+          return;
+        }
+
+        appendLine(`${promptText} ${rawCommand}`, "about-terminal-line--user");
+
+        if (command === "help") {
+          showHelp();
+        } else if (routes.has(command)) {
+          const route = routes.get(command);
+          appendLinkedLine(route.text, route.href, route.label);
+        } else {
+          appendLine("Ticket received. Sauce level stable. Type help for commands.", "about-terminal-line--response");
+        }
+
+        input.focus();
+      });
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        event.preventDefault();
+        if (typeof form.requestSubmit === "function") {
+          form.requestSubmit();
+        } else {
+          form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+        }
+      });
+    })();
+  </script>
   <script src="js/main.js?v=1.8-tech-stack-reveal-a11y" defer></script>
   <script src="js/supabase-config.js" defer></script>
   <script src="js/site-analytics.js" defer></script>

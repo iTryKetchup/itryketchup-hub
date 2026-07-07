@@ -9785,6 +9785,112 @@ body[data-page="about"] h3 {
   margin: 10px 0;
 }
 
+.about-terminal-intro {
+  max-width: 68ch;
+}
+
+.about-terminal-console {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+  padding: clamp(14px, 3vw, 18px);
+  border: 1px solid rgba(250, 248, 245, 0.2);
+  border-radius: 8px;
+  background: #101113;
+  box-shadow: inset 0 0 0 1px rgba(16, 17, 19, 0.8);
+}
+
+.about-terminal-output {
+  display: grid;
+  max-height: 260px;
+  gap: 8px;
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 0 4px 2px 0;
+}
+
+.about-terminal-line {
+  margin: 0;
+  color: #f7f5f0;
+  font: 0.95rem/1.55 Consolas, "Courier New", monospace;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.about-terminal-line--boot,
+.about-terminal-line--response {
+  color: #dce8dc;
+}
+
+.about-terminal-line--menu {
+  color: #fff8dc;
+}
+
+.about-terminal-line--user {
+  color: #ffd8d0;
+}
+
+.about-terminal-link {
+  color: #ffe066;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.about-terminal-link:hover,
+.about-terminal-link:focus-visible {
+  color: #fffdfa;
+}
+
+.about-terminal-form {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.about-terminal-prompt {
+  color: #ffe066;
+  font: 800 0.95rem/1 Consolas, "Courier New", monospace;
+}
+
+.about-terminal-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid rgba(250, 248, 245, 0.36);
+  border-radius: 6px;
+  color: #faf8f5;
+  background: #050506;
+  font: 1rem/1.4 Consolas, "Courier New", monospace;
+}
+
+.about-terminal-input:focus-visible {
+  border-color: #ffe066;
+  box-shadow: 0 0 0 3px rgba(255, 224, 102, 0.24);
+  outline: 2px solid transparent;
+}
+
+.about-terminal-submit {
+  min-height: 44px;
+  padding: 9px 14px;
+  border: 1px solid var(--red);
+  border-radius: 6px;
+  color: #fffdfa;
+  background: var(--red);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.about-terminal-submit:hover,
+.about-terminal-submit:focus-visible {
+  border-color: #fffdfa;
+  background: var(--red-dark);
+  outline: 2px solid transparent;
+}
+
 .about-contact-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(230px, 0.4fr);
@@ -9947,6 +10053,18 @@ body[data-page="about"] .button-secondary:hover {
 
   .about-terminal-note__body {
     padding: 18px;
+  }
+
+  .about-terminal-console {
+    padding: 12px;
+  }
+
+  .about-terminal-form {
+    grid-template-columns: 1fr;
+  }
+
+  .about-terminal-submit {
+    width: 100%;
   }
 
   .about-contact-links {
