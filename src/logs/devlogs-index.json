@@ -286,5 +286,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "home", "grayscale-kitchen", "mascot", "wolf-tale", "devlogs"]
+  },
+  {
+    "session": "054",
+    "date": "2026-07-07",
+    "area": "SITE",
+    "title": "SITE v2.3 About + Contact Merge Is Live",
+    "version": "SITE v2.3 About + Contact Merge",
+    "summary": "About and Contact are now combined, the public nav is simplified to Home, Projects, Dev Logs, and About, and the About page now includes the Grayscale Kitchen fridge-card direction plus an interactive terminal block.",
+    "filename": "20260707_SITE_Session054_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "about", "contact", "navigation", "grayscale-kitchen", "terminal"]
   }
 ]
