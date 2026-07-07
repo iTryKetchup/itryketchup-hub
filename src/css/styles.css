@@ -10388,15 +10388,19 @@ body[data-page="projects"] .button-secondary:hover {
   position: relative;
   width: 100%;
   overflow: hidden;
-  aspect-ratio: 1456 / 720;
+  aspect-ratio: 1456 / 750;
   border-radius: 8px;
+  background: #fdfcf9;
 }
 
 .projects-roadmap-board__image {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 101%;
+  height: auto;
+  max-width: none;
   object-fit: contain;
+  object-position: center top;
+  transform: translateX(-0.5%);
 }
 
 .projects-roadmap-overlay {
