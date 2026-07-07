@@ -10229,8 +10229,7 @@ body[data-page="projects"] .projects-fridge-page {
   z-index: 1;
 }
 
-.projects-paper-note,
-.projects-status-note {
+.projects-paper-note {
   position: relative;
   border: 1px solid rgba(28, 27, 26, 0.16);
   border-radius: 8px;
@@ -10402,7 +10401,8 @@ body[data-page="projects"] .button-secondary:hover {
 
 .projects-roadmap-overlay {
   position: absolute;
-  inset: 9% 7.5% 18% 6.5%;
+  inset: 6.8% 5.8% 15.5%;
+  display: block;
   width: auto;
   height: auto;
   overflow: visible;
@@ -10416,17 +10416,17 @@ body[data-page="projects"] .button-secondary:hover {
 .roadmap-item text {
   font-family: "Jost", "Trebuchet MS", Arial, sans-serif;
   font-weight: 900;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 .roadmap-title {
   fill: var(--red);
-  font-size: 36px;
+  font-size: 42px;
 }
 
 .roadmap-lane-label {
   fill: var(--ink);
-  font-size: 28px;
+  font-size: 34px;
 }
 
 .roadmap-lane-label--now {
@@ -10439,7 +10439,7 @@ body[data-page="projects"] .button-secondary:hover {
   stroke: var(--ink);
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 5;
+  stroke-width: 6;
   vector-effect: non-scaling-stroke;
 }
 
@@ -10448,7 +10448,7 @@ body[data-page="projects"] .button-secondary:hover {
   stroke: var(--ink);
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 4;
+  stroke-width: 5;
   vector-effect: non-scaling-stroke;
 }
 
@@ -10462,29 +10462,13 @@ body[data-page="projects"] .button-secondary:hover {
 
 .roadmap-item text {
   fill: var(--ink);
-  font-size: 27px;
+  font-size: 31px;
   text-anchor: middle;
   dominant-baseline: central;
 }
 
 .projects-fridge-board {
   margin-top: clamp(28px, 5vw, 56px);
-}
-
-.projects-status-note {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 18px clamp(18px, 3vw, 28px);
-}
-
-.projects-status-note > .projects-magnet {
-  position: static;
-  flex: 0 0 auto;
-}
-
-.projects-status-strip {
-  margin: 0;
 }
 
 body[data-page="projects"] .projects-status-strip .status-badge,
@@ -10873,7 +10857,6 @@ body[data-page="projects"] .notice::before {
 
   .projects-fridge-hero,
   .projects-paper-note,
-  .projects-status-note,
   body[data-page="projects"] .project-card {
     padding: 18px;
   }
@@ -10893,7 +10876,7 @@ body[data-page="projects"] .notice::before {
   }
 
   .projects-roadmap-overlay {
-    inset: 9% 7.5% 18% 6.5%;
+    inset: 6.8% 5.8% 15.5%;
   }
 
   .projects-whiteboard-sketch__header {
@@ -10902,14 +10885,6 @@ body[data-page="projects"] .notice::before {
 
   .projects-whiteboard-sketch__notes {
     display: grid;
-  }
-
-  .projects-status-note {
-    display: grid;
-  }
-
-  .projects-status-note > .projects-magnet {
-    justify-self: start;
   }
 
   body[data-page="projects"] .grid {

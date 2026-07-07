@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/styles.css?v=2.4-projects-roadmap">
+  <link rel="stylesheet" href="css/styles.css?v=2.4-projects-roadmap-fix">
 </head>
 <body data-page="projects">
   <header class="site-header">
@@ -37,86 +37,65 @@
           <h1 id="projects-title">Projects</h1>
           <p class="hero-subheadline">A live shelf of active builds, planned ideas, fan experiments, and future systems.</p>
           <p class="hero-support">Some projects are real today, some are still loading, and the labels stay honest. v1.0 keeps this page to <span class="accent-word">project cards</span>, not full detail pages.</p>
-          <div class="button-row" aria-label="Projects actions">
-            <a class="button buff-link" href="#project-grid-title" data-buff="+10 Project Visibility | +5 Build Context">View Active Projects</a>
-            <a class="button-secondary buff-link" href="dev-logs/" data-buff="+10 Patch Notes | +5 Process Visibility">Read Dev Logs</a>
-            <a class="button-secondary buff-link" href="about.html#contact" data-buff="+8 Signal Sent | +2 Studio Contact">Contact</a>
-          </div>
         </div>
       </div>
       <div class="projects-fridge-whiteboard projects-roadmap-board">
         <div class="projects-roadmap-board__frame">
           <img class="projects-roadmap-board__image" src="assets/projects/projects-whiteboard-base.png" alt="" aria-hidden="true">
           <!-- Roadmap updates should edit these SVG groups only; the PNG base is permanent whiteboard furniture. -->
-          <svg class="projects-roadmap-overlay" viewBox="0 0 1000 430" role="img" aria-labelledby="projects-roadmap-title projects-roadmap-desc">
+          <svg class="projects-roadmap-overlay" viewBox="0 0 1000 500" role="img" aria-labelledby="projects-roadmap-title projects-roadmap-desc">
             <title id="projects-roadmap-title">Studio roadmap</title>
-            <desc id="projects-roadmap-desc">NOW: Home live, About merged, Projects fridge. NEXT: Dev Logs tablet, Release notes polish. LATER: Crisper, Career Tracker, Future experiments.</desc>
-            <text class="roadmap-title" x="36" y="48">STUDIO ROADMAP</text>
-            <text class="roadmap-lane-label roadmap-lane-label--now" x="54" y="102">NOW</text>
-            <text class="roadmap-lane-label" x="386" y="102">NEXT</text>
-            <text class="roadmap-lane-label" x="713" y="102">LATER</text>
-            <path class="roadmap-arrow" d="M306 94 C326 83 346 83 366 94" />
-            <path class="roadmap-arrowhead" d="M356 85 L370 94 L356 103" />
-            <path class="roadmap-arrow" d="M636 94 C656 83 676 83 696 94" />
-            <path class="roadmap-arrowhead" d="M686 85 L700 94 L686 103" />
+            <desc id="projects-roadmap-desc">NOW: Home live, About merged, Projects fridge. NEXT: Dev Logs tablet, Release polish. LATER: Crisper, Career Tracker, Experiments.</desc>
+            <text class="roadmap-title" x="38" y="60">STUDIO ROADMAP</text>
+            <text class="roadmap-lane-label roadmap-lane-label--now" x="64" y="124">NOW</text>
+            <text class="roadmap-lane-label" x="397" y="124">NEXT</text>
+            <text class="roadmap-lane-label" x="716" y="124">LATER</text>
+            <path class="roadmap-arrow" d="M286 114 C312 94 338 94 364 114" />
+            <path class="roadmap-arrowhead" d="M350 100 L368 114 L350 128" />
+            <path class="roadmap-arrow" d="M608 114 C634 94 660 94 686 114" />
+            <path class="roadmap-arrowhead" d="M672 100 L690 114 L672 128" />
             <!-- Move a roadmap-item group between lanes, or edit only its text, for future roadmap changes. -->
             <g class="roadmap-item roadmap-item--solid" data-lane="now">
-              <rect x="36" y="128" width="250" height="48" rx="13" />
-              <text x="161" y="158">Home live</text>
+              <rect x="38" y="152" width="286" height="70" rx="16" />
+              <text x="181" y="187">Home live</text>
             </g>
             <g class="roadmap-item roadmap-item--solid" data-lane="now">
-              <rect x="36" y="198" width="250" height="48" rx="13" />
-              <text x="161" y="228">About merged</text>
+              <rect x="38" y="252" width="286" height="70" rx="16" />
+              <text x="181" y="287">About merged</text>
             </g>
             <g class="roadmap-item roadmap-item--solid" data-lane="now">
-              <rect x="36" y="268" width="250" height="48" rx="13" />
-              <text x="161" y="298">Projects fridge</text>
+              <rect x="38" y="352" width="286" height="70" rx="16" />
+              <text x="181" y="387">Projects fridge</text>
             </g>
-            <g class="roadmap-item roadmap-item--idea" data-lane="next">
-              <rect x="366" y="150" width="250" height="48" rx="13" />
-              <text x="491" y="180">Dev Logs tablet</text>
+            <g class="roadmap-item roadmap-item--solid" data-lane="next">
+              <rect x="357" y="190" width="286" height="70" rx="16" />
+              <text x="500" y="225">Dev Logs tablet</text>
             </g>
-            <g class="roadmap-item roadmap-item--idea" data-lane="next">
-              <rect x="366" y="230" width="250" height="48" rx="13" />
-              <text x="491" y="260">Release notes polish</text>
-            </g>
-            <g class="roadmap-item roadmap-item--idea" data-lane="later">
-              <rect x="696" y="128" width="250" height="48" rx="13" />
-              <text x="821" y="158">Crisper</text>
+            <g class="roadmap-item roadmap-item--solid" data-lane="next">
+              <rect x="357" y="310" width="286" height="70" rx="16" />
+              <text x="500" y="345">Release polish</text>
             </g>
             <g class="roadmap-item roadmap-item--idea" data-lane="later">
-              <rect x="696" y="198" width="250" height="48" rx="13" />
-              <text x="821" y="228">Career Tracker</text>
+              <rect x="676" y="152" width="286" height="70" rx="16" />
+              <text x="819" y="187">Crisper</text>
             </g>
             <g class="roadmap-item roadmap-item--idea" data-lane="later">
-              <rect x="696" y="268" width="250" height="48" rx="13" />
-              <text x="821" y="298">Future experiments</text>
+              <rect x="676" y="252" width="286" height="70" rx="16" />
+              <text x="819" y="287">Career Tracker</text>
+            </g>
+            <g class="roadmap-item roadmap-item--idea" data-lane="later">
+              <rect x="676" y="352" width="286" height="70" rx="16" />
+              <text x="819" y="387">Experiments</text>
             </g>
           </svg>
         </div>
-        <p class="sr-only">Roadmap summary. NOW: Home live, About merged, Projects fridge. NEXT: Dev Logs tablet, Release notes polish. LATER: Crisper, Career Tracker, Future experiments.</p>
+        <p class="sr-only">Roadmap summary. NOW: Home live, About merged, Projects fridge. NEXT: Dev Logs tablet, Release polish. LATER: Crisper, Career Tracker, Experiments.</p>
       </div>
     </section>
 
     <section class="section projects-list-section projects-fridge-board" id="project-grid-title" aria-label="Project cards">
-      <div class="projects-status-note">
-        <span class="projects-magnet projects-magnet--steel" aria-hidden="true"></span>
-        <div class="projects-status-strip" aria-label="Supported project states">
-          <span class="status-badge status-released">Released</span>
-          <span class="status-badge status-active">Active</span>
-          <span class="status-badge status-planned">Planned</span>
-          <span class="status-badge status-coming-soon">Coming Soon</span>
-          <span class="status-badge status-archive">Archive</span>
-          <span class="status-badge status-fan-project">Fan Project</span>
-        </div>
-      </div>
       <div class="grid" data-project-list="all"></div>
       <p class="notice">Fan project - not original IP, not affiliated with or endorsed by the original rights holders. Fan projects are labeled separately from original iTryKetchup Studio work.</p>
-      <div class="button-row">
-        <a class="button-secondary buff-link" href="dev-logs/" data-buff="+10 Patch Notes | +5 Project Context">Read Dev Logs</a>
-        <a class="button-secondary buff-link" href="about.html#contact" data-buff="+8 Signal Sent | +2 Studio Contact">Contact</a>
-        <a class="button-secondary buff-link" href="https://github.com/iTryKetchup/itryketchup-hub" data-buff="+12 Source Visibility | +3 Repo Lore">GitHub</a>
-      </div>
     </section>
   </main>
 
