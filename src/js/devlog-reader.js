@@ -1,6 +1,6 @@
 (function () {
   const indexPath = "logs/devlogs-index.json";
-  const indexRequestPath = `${indexPath}?v=20260707-site-v25-devlogs-stacked-carousel`;
+  const indexRequestPath = `${indexPath}?v=20260707-site-v25-devlogs-carousel-controls`;
   const logBasePath = "logs/";
 
   const selectors = {
@@ -17,6 +17,10 @@
   let currentButton = null;
   let logsByKey = new Map();
   let loadedLogs = [];
+
+  function prefersReducedMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
 
   function escapeHtml(value) {
     return String(value || "")
@@ -431,6 +435,50 @@
     }
   }
 
+  function getCarouselStep(carousel) {
+    const card = carousel.querySelector(".devlog-card-button");
+    const styles = window.getComputedStyle(carousel);
+    const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+    return card ? card.getBoundingClientRect().width + gap : Math.min(360, carousel.clientWidth * 0.86);
+  }
+
+  function updateCarouselControls(shell) {
+    const carousel = shell.querySelector(".log-carousel");
+    const previous = shell.querySelector("[data-log-carousel-prev]");
+    const next = shell.querySelector("[data-log-carousel-next]");
+    if (!carousel || !previous || !next) return;
+
+    const edgeTolerance = 16;
+    const hasOverflow = carousel.scrollWidth > carousel.clientWidth + 1;
+    const atStart = carousel.scrollLeft <= edgeTolerance;
+    const atEnd = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - edgeTolerance;
+
+    previous.setAttribute("aria-disabled", String(!hasOverflow || atStart));
+    next.setAttribute("aria-disabled", String(!hasOverflow || atEnd));
+    shell.dataset.carouselAtStart = String(!hasOverflow || atStart);
+    shell.dataset.carouselAtEnd = String(!hasOverflow || atEnd);
+  }
+
+  function updateAllCarouselControls() {
+    document.querySelectorAll("[data-log-carousel-shell]").forEach(updateCarouselControls);
+  }
+
+  function scrollCarousel(shell, direction) {
+    const carousel = shell.querySelector(".log-carousel");
+    if (!carousel) return;
+    const control = direction < 0
+      ? shell.querySelector("[data-log-carousel-prev]")
+      : shell.querySelector("[data-log-carousel-next]");
+    if (control && control.getAttribute("aria-disabled") === "true") return;
+
+    carousel.scrollTo({
+      left: carousel.scrollLeft + (getCarouselStep(carousel) * direction),
+      behavior: prefersReducedMotion() ? "auto" : "smooth"
+    });
+
+    window.setTimeout(() => updateCarouselControls(shell), prefersReducedMotion() ? 0 : 220);
+  }
+
   async function loadLog(log, button, options) {
     const viewer = document.querySelector(selectors.viewer);
     if (!viewer) return;
@@ -441,6 +489,7 @@
     setViewerState("loading", log);
     if (button && button.closest(".log-carousel")) {
       button.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      window.setTimeout(updateAllCarouselControls, prefersReducedMotion() ? 0 : 220);
     }
 
     if (settings.updateUrl) {
@@ -504,6 +553,7 @@
 
         container.replaceChildren(...logs.map(createDevLogCard));
       });
+      updateAllCarouselControls();
 
       if (!loadRequestedFromUrl({ focusViewer: true })) {
         setSelectedButton(null);
@@ -543,13 +593,38 @@
 
         event.preventDefault();
         carousel.scrollLeft += event.deltaY;
+        updateAllCarouselControls();
       }, { passive: false });
     });
+  }
+
+  function wireCarouselControls() {
+    document.querySelectorAll("[data-log-carousel-shell]").forEach((shell) => {
+      const carousel = shell.querySelector(".log-carousel");
+      const previous = shell.querySelector("[data-log-carousel-prev]");
+      const next = shell.querySelector("[data-log-carousel-next]");
+      if (!carousel || !previous || !next) return;
+      const handleControlKey = (event, direction) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        scrollCarousel(shell, direction);
+      };
+
+      previous.addEventListener("click", () => scrollCarousel(shell, -1));
+      next.addEventListener("click", () => scrollCarousel(shell, 1));
+      previous.addEventListener("keydown", (event) => handleControlKey(event, -1));
+      next.addEventListener("keydown", (event) => handleControlKey(event, 1));
+      carousel.addEventListener("scroll", () => updateCarouselControls(shell), { passive: true });
+      updateCarouselControls(shell);
+    });
+
+    window.addEventListener("resize", updateAllCarouselControls);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     if (document.body.getAttribute("data-page") !== "devlogs") return;
     wireClose();
+    wireCarouselControls();
     wireCarouselWheel();
     loadIndex();
     window.addEventListener("hashchange", () => loadRequestedFromUrl({ focusViewer: true }));

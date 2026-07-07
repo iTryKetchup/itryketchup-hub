@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Jost:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=2.5-devlogs-stacked-carousel">
+  <link rel="stylesheet" href="css/styles.css?v=2.5-devlogs-carousel-controls">
 </head>
 <body data-page="devlogs">
   <header class="site-header">
@@ -57,7 +57,15 @@
       </div>
 
       <div class="dev-logs-layout">
-        <div class="log-carousel" data-devlog-list="all" aria-label="Dev Log cards" aria-live="polite" tabindex="0"></div>
+        <div class="log-carousel-shell" data-log-carousel-shell>
+          <button class="log-carousel-control log-carousel-control--prev" type="button" aria-label="Scroll log cards left" aria-controls="devlog-carousel" aria-disabled="true" data-log-carousel-prev>
+            <span aria-hidden="true">&larr;</span>
+          </button>
+          <div class="log-carousel" id="devlog-carousel" data-devlog-list="all" aria-label="Dev Log cards" aria-live="polite" tabindex="0"></div>
+          <button class="log-carousel-control log-carousel-control--next" type="button" aria-label="Scroll log cards right" aria-controls="devlog-carousel" data-log-carousel-next>
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
         <div class="paper-reader-container">
           <article class="devlog-viewer paper-reader" id="devlog-viewer" data-devlog-viewer tabindex="-1" aria-labelledby="devlog-viewer-title" aria-live="polite" hidden>
             <div class="devlog-viewer__bar">
@@ -101,7 +109,7 @@
   <script src="js/projects-data.js" defer></script>
   <script src="js/devlogs-data.js" defer></script>
   <script src="js/main.js" defer></script>
-  <script src="js/devlog-reader.js?v=20260707-site-v25-devlogs-stacked-carousel" defer></script>
+  <script src="js/devlog-reader.js?v=20260707-site-v25-devlogs-carousel-controls" defer></script>
   <script src="js/supabase-config.js" defer></script>
   <script src="js/site-analytics.js" defer></script>
 </body>
