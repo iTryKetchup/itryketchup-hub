@@ -5,8 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <meta name="description" content="Experimental simulated HUD display for the iTryKetchup VITURE Beast test.">
+  <meta name="application-name" content="Ketchup HUD">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Ketchup HUD">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="/hud/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/hud/icons/apple-touch-icon.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2319d7e6' stroke-width='2'/%3E%3Cpath d='M16 3v8M16 21v8M3 16h8M21 16h8' stroke='%2319d7e6'/%3E%3C/svg%3E">
-  <title>iTryKetchup | AR HUD Adaptive Sensor Lab v0.3</title>
+  <title>Ketchup HUD v0.4 | Full-Screen Search</title>
   <style>
     :root {
       color-scheme: dark;
@@ -323,7 +331,7 @@
     aria-describedby="safetyNote"
     tabindex="-1"
   >
-    <h1 id="controlsTitle">iTryKetchup · HUD Adaptive Sensor Lab v0.3</h1>
+    <h1 id="controlsTitle">Ketchup HUD v0.4 · Full-Screen Search</h1>
     <p>Live clock and animated graphics. Compass, radar contact, box search, power, link, and frame readings are <strong>SIMULATED</strong>.</p>
     <p id="safetyNote" class="safety"><strong>Safety:</strong> Experimental visual display only. No real object detection and not navigation guidance. Do not view while crossing roads or whenever situational awareness is needed. Configure before moving; the HUD does not require constant interaction.</p>
 
@@ -396,6 +404,7 @@
     </div>
 
     <p class="hint">Keyboard: N sensor · S settings · H hide · C color · M layout · P pause · B blank · F fullscreen · Escape exits fullscreen.</p>
+    <p class="hint">Install on iPad: in Chrome, use Share → Add to Home Screen. Safari's Share menu is supported as an alternative.</p>
     <p class="hint">Pixel shifting and automatic black breaks are display-care options, not guaranteed burn-in prevention.</p>
     <p id="statusMessage" class="status-message" role="status" aria-live="polite"></p>
   </section>
@@ -446,10 +455,15 @@
       let shiftIndex = 0;
       let shiftX = 0;
       let shiftY = 0;
+      let layoutVariant = 0;
+      let layoutCountdown = 75;
       let radarAngle = 0;
       let boxMotion = { x: 0.5, y: 0.49 };
-      let boxTarget = { x: 0.5, y: 0.49 };
-      let boxTargetCountdown = 0;
+      let boxTarget = { x: 0.88, y: 0.18 };
+      let boxPhase = "move";
+      let boxPhaseRemaining = 0;
+      let boxLongTravel = true;
+      let boxMoveCount = 0;
       let settingsReturnTarget = null;
       const shifts = [
         [-7, 5],
@@ -559,7 +573,8 @@
         const b = frameBounds();
         const compact = width < 560;
         const cx = width / 2;
-        const y = b.top + (compact ? 68 : 35);
+        const arrangementOffset = layoutVariant >= 2 ? (compact ? 10 : 8) : 0;
+        const y = b.top + (compact ? 68 : 35) + arrangementOffset;
         const halfSpan = Math.min((b.right - b.left) * 0.43, 370);
         const tickGap = (halfSpan * 2) / 18;
         line(cx - halfSpan, y, cx + halfSpan, y, 0.5);
@@ -654,48 +669,105 @@
         ctx.fillText("CONTACT 7.8m · DEMO", targetX, targetY - targetSize - 10);
       }
 
+      function boxSize() {
+        return clamp(Math.min(width, height) * 0.14, 52, 130);
+      }
+
+      function boxTravelBounds() {
+        const b = frameBounds();
+        const half = boxSize() / 2;
+        return {
+          left: b.left + half + 6,
+          right: Math.max(b.left + half + 7, b.right - half - 6),
+          top: b.top + half + 34,
+          bottom: Math.max(b.top + half + 35, b.bottom - half - 34)
+        };
+      }
+
+      function boxPoint(position) {
+        const bounds = boxTravelBounds();
+        return {
+          x: bounds.left + position.x * Math.max(1, bounds.right - bounds.left),
+          y: bounds.top + position.y * Math.max(1, bounds.bottom - bounds.top)
+        };
+      }
+
+      function chooseBoxTarget(forceLong = false) {
+        const bounds = boxTravelBounds();
+        const current = boxPoint(boxMotion);
+        const diagonal = Math.hypot(bounds.right - bounds.left, bounds.bottom - bounds.top);
+        boxMoveCount += 1;
+        boxLongTravel = forceLong || boxMoveCount % 4 === 0 || Math.random() < 0.32;
+        let chosen = { x: Math.random(), y: Math.random() };
+
+        for (let attempt = 0; attempt < 12; attempt += 1) {
+          const candidate = { x: 0.02 + Math.random() * 0.96, y: 0.02 + Math.random() * 0.96 };
+          const point = boxPoint(candidate);
+          const distance = Math.hypot(point.x - current.x, point.y - current.y);
+          chosen = candidate;
+          if (!boxLongTravel || distance >= diagonal * 0.52) {
+            break;
+          }
+        }
+
+        boxTarget = chosen;
+        boxPhase = "move";
+        boxPhaseRemaining = 0;
+        updateBoxDiagnostics();
+      }
+
+      function updateBoxDiagnostics() {
+        const point = boxPoint(boxMotion);
+        const half = boxSize() / 2;
+        body.dataset.boxPhase = boxPhase;
+        body.dataset.boxLong = String(boxLongTravel);
+        body.dataset.boxX = point.x.toFixed(1);
+        body.dataset.boxY = point.y.toFixed(1);
+        body.dataset.boxLeft = (point.x - half).toFixed(1);
+        body.dataset.boxRight = (point.x + half).toFixed(1);
+        body.dataset.boxTop = (point.y - half).toFixed(1);
+        body.dataset.boxBottom = (point.y + half).toFixed(1);
+      }
+
       function drawBoxScanner() {
-        const g = sceneGeometry();
-        const areaWidth = Math.min(width * (g.portrait ? 0.78 : 0.54), 860);
-        const areaHeight = Math.min(height * (g.portrait ? 0.38 : 0.5), 470);
-        const left = g.cx - areaWidth / 2;
-        const top = g.cy - areaHeight / 2;
-        for (let index = 0; index <= 8; index += 1) {
-          const x = left + index * areaWidth / 8;
-          line(x, top, x, top + areaHeight, 0.1);
+        const point = boxPoint(boxMotion);
+        const target = boxPoint(boxTarget);
+        const boxX = point.x;
+        const boxY = point.y;
+        const size = boxSize();
+        const half = size / 2;
+        const corner = Math.min(18, size * 0.24);
+        const pulse = 0.5 + Math.sin(activeSeconds * 2.5) * 0.5;
+
+        if (boxPhase === "move" || boxPhase === "slow") {
+          ctx.save();
+          ctx.setLineDash([5, 9]);
+          line(boxX, boxY, target.x, target.y, 0.12);
+          ctx.restore();
+          arc(target.x, target.y, 4 + pulse * 3, 0, Math.PI * 2, 0.28);
         }
-        for (let index = 0; index <= 5; index += 1) {
-          const y = top + index * areaHeight / 5;
-          line(left, y, left + areaWidth, y, 0.1);
-        }
-        rect(left, top, areaWidth, areaHeight, 0.25);
-        const boxX = left + boxMotion.x * areaWidth;
-        const boxY = top + boxMotion.y * areaHeight;
-        const boxSize = clamp(Math.min(width, height) * 0.14, 52, 130);
-        const half = boxSize / 2;
-        const corner = Math.min(16, boxSize * 0.22);
+
         for (const xSign of [-1, 1]) {
           for (const ySign of [-1, 1]) {
             const x = boxX + xSign * half;
             const y = boxY + ySign * half;
-            line(x, y, x - xSign * corner, y, 0.92, 2);
-            line(x, y, x, y - ySign * corner, 0.92, 2);
+            line(x, y, x - xSign * corner, y, 0.94, 2);
+            line(x, y, x, y - ySign * corner, 0.94, 2);
           }
         }
-        line(boxX - 14, boxY, boxX + 14, boxY, 0.65);
-        line(boxX, boxY - 14, boxX, boxY + 14, 0.65);
-        const scanX = left + ((activeSeconds * 57) % Math.max(1, areaWidth));
-        line(scanX, top, scanX, top + areaHeight, 0.36, 2);
-        text("ACTIVE SENSOR · SEARCH PATTERN", g.cx, top - 22, width < 560 ? 11 : 14, "center", 0.82, true);
-        text(
-          "REGION " + String(Math.floor(boxMotion.x * 100)).padStart(2, "0") + " / " + String(Math.floor(boxMotion.y * 100)).padStart(2, "0") + " · DEMO",
-          g.cx,
-          top + areaHeight + 21,
-          width < 560 ? 9 : 11,
-          "center",
-          0.65
-        );
-        text("SEEK · PAUSE · REPOSITION", boxX, boxY + half + 22, width < 560 ? 9 : 11, "center", 0.77);
+
+        line(boxX - 15, boxY, boxX + 15, boxY, 0.68);
+        line(boxX, boxY - 15, boxX, boxY + 15, 0.68);
+        arc(boxX, boxY, half * (0.62 + pulse * 0.08), 0, Math.PI * 2, 0.16);
+
+        const phaseLabel = {
+          move: boxLongTravel ? "MOVE · LONG TRAVERSE" : "MOVE · SEARCH",
+          slow: "SLOW · ALIGN",
+          inspect: "PAUSE · INSPECT",
+          reposition: "REPOSITION"
+        }[boxPhase];
+        const labelY = clamp(boxY + half + 22, safe.top + 24, height - safe.bottom - 22);
+        text(phaseLabel, boxX, labelY, width < 560 ? 9 : 11, "center", 0.78, true);
       }
 
       function formatDuration(seconds) {
@@ -706,6 +778,8 @@
       function drawStatus() {
         const g = sceneGeometry();
         const b = frameBounds();
+        const swapSides = layoutVariant % 2 === 1;
+        const alternateHeight = layoutVariant >= 2;
         const clock = new Date();
         const time = clock.toLocaleTimeString([], {
           hour: "2-digit",
@@ -721,15 +795,21 @@
 
         if (g.portrait) {
           const small = width < 470;
-          const topY = b.top + (small ? 145 : 112);
-          text("TK-0927", b.left + 8, topY, small ? 16 : 20, "left", 0.92, true);
-          text("SIM HUD", b.left + 8, topY + 22, small ? 9 : 11, "left", 0.66);
-          text(time, b.right - 8, topY, small ? 17 : 23, "right", 0.95, true);
-          text(date, b.right - 8, topY + 22, small ? 9 : 11, "right", 0.78);
+          const topShift = alternateHeight ? (height >= 700 ? 48 : 22) : 0;
+          const topY = b.top + (small ? 145 : 112) + topShift;
+          const identityX = swapSides ? b.right - 8 : b.left + 8;
+          const identityAlign = swapSides ? "right" : "left";
+          const clockX = swapSides ? b.left + 8 : b.right - 8;
+          const clockAlign = swapSides ? "left" : "right";
+          text("TK-0927", identityX, topY, small ? 16 : 20, identityAlign, 0.92, true);
+          text("SIM HUD", identityX, topY + 22, small ? 9 : 11, identityAlign, 0.66);
+          text(time, clockX, topY, small ? 17 : 23, clockAlign, 0.95, true);
+          text(date, clockX, topY + 22, small ? 9 : 11, clockAlign, 0.78);
 
+          const panelLift = alternateHeight && height >= 700 ? Math.min(120, height * 0.14) : 0;
           const panelWidth = Math.min(168, (b.right - b.left) * 0.43);
-          const barX = b.left + 8;
-          const baseY = b.bottom - 105;
+          const barX = swapSides ? b.right - 8 - panelWidth : b.left + 8;
+          const baseY = b.bottom - 105 - panelLift;
           const entries = [
             ["PWR", "59% SIM", 0.59],
             ["LINK", "4G SIM", 1],
@@ -743,24 +823,30 @@
             ctx.fillStyle = color(0.72);
             ctx.fillRect(barX + 2, y + 11, (panelWidth - 4) * entry[2], 2);
           });
-          const rightX = b.right - 8;
-          const statusY = b.bottom - 100;
+          const statusX = swapSides ? b.left + 8 : b.right - 8;
+          const statusAlign = swapSides ? "left" : "right";
+          const statusY = b.bottom - 100 - panelLift;
           const statuses = [
             "HDG SIM",
             "UP " + formatDuration(activeSeconds),
             paused ? "ANIM PAUSED" : "ANIM ACTIVE",
             "SHIFT " + shiftX + "," + shiftY
           ];
-          statuses.forEach((value, index) => text(value, rightX, statusY + index * 21, small ? 9 : 10, "right", 0.8, true));
+          statuses.forEach((value, index) => text(value, statusX, statusY + index * 21, small ? 9 : 10, statusAlign, 0.8, true));
         } else {
-          const topY = b.top + 92;
-          text("TK-0927", b.left + 12, topY, g.short ? 17 : 23, "left", 0.92, true);
-          text("HELMET SYSTEMS · DEMO", b.left + 12, topY + 25, g.short ? 9 : 12, "left", 0.66);
-          text(time, b.right - 12, topY, g.short ? 20 : 27, "right", 0.95, true);
-          text(date, b.right - 12, topY + 26, g.short ? 9 : 11, "right", 0.78);
+          const topY = b.top + (alternateHeight ? (g.short ? 114 : 142) : 92);
+          const identityX = swapSides ? b.right - 12 : b.left + 12;
+          const identityAlign = swapSides ? "right" : "left";
+          const clockX = swapSides ? b.left + 12 : b.right - 12;
+          const clockAlign = swapSides ? "left" : "right";
+          text("TK-0927", identityX, topY, g.short ? 17 : 23, identityAlign, 0.92, true);
+          text("HELMET SYSTEMS · DEMO", identityX, topY + 25, g.short ? 9 : 12, identityAlign, 0.66);
+          text(time, clockX, topY, g.short ? 20 : 27, clockAlign, 0.95, true);
+          text(date, clockX, topY + 26, g.short ? 9 : 11, clockAlign, 0.78);
 
           const panelWidth = clamp(width * 0.2, 145, 220);
-          const baseY = height * 0.46;
+          const barX = swapSides ? b.right - 12 - panelWidth : b.left + 12;
+          const baseY = height * (alternateHeight ? (g.short ? 0.64 : 0.62) : 0.46);
           const entries = [
             ["PWR", "59% SIM", 0.59],
             ["LINK", "4G SIM", 1],
@@ -768,13 +854,15 @@
           ];
           entries.forEach((entry, index) => {
             const y = baseY + index * (g.short ? 34 : 44);
-            text(entry[0], b.left + 12, y, g.short ? 9 : 12, "left", 0.9, true);
-            text(entry[1], b.left + 12 + panelWidth, y, g.short ? 9 : 11, "right", 0.86);
-            rect(b.left + 12, y + 11, panelWidth, 7, 0.52);
+            text(entry[0], barX, y, g.short ? 9 : 12, "left", 0.9, true);
+            text(entry[1], barX + panelWidth, y, g.short ? 9 : 11, "right", 0.86);
+            rect(barX, y + 11, panelWidth, 7, 0.52);
             ctx.fillStyle = color(0.74);
-            ctx.fillRect(b.left + 14, y + 13, (panelWidth - 4) * entry[2], 3);
+            ctx.fillRect(barX + 2, y + 13, (panelWidth - 4) * entry[2], 3);
           });
-          const statusY = height * 0.47;
+          const statusX = swapSides ? b.left + 12 : b.right - 12;
+          const statusAlign = swapSides ? "left" : "right";
+          const statusY = height * (alternateHeight ? (g.short ? 0.65 : 0.63) : 0.47);
           const statuses = [
             "HDG SIM",
             "UP " + formatDuration(activeSeconds),
@@ -782,7 +870,7 @@
             "SHIFT " + shiftX + "," + shiftY
           ];
           statuses.forEach((value, index) => {
-            text(value, b.right - 12, statusY + index * (g.short ? 21 : 25), g.short ? 9 : 12, "right", 0.82, true);
+            text(value, statusX, statusY + index * (g.short ? 21 : 25), g.short ? 9 : 12, statusAlign, 0.82, true);
           });
         }
       }
@@ -798,7 +886,7 @@
         drawStatus();
         const b = frameBounds();
         text(
-          mode === "radar" ? "RADAR SCAN · SIMULATED" : "BOX SEARCH · SIMULATED",
+          mode === "radar" ? "RADAR SCAN · SIMULATED" : "FULL-SCREEN BOX SEARCH · SIMULATED",
           width / 2,
           b.bottom - 8,
           width < 560 ? 9 : 11,
@@ -827,29 +915,30 @@
 
       function drawTransition() {
         const progress = clamp(transition.elapsed / transition.duration, 0, 1);
-        const wipeY = progress * height;
-        const band = clamp(height * 0.027, 10, 27);
+        const wipeX = width * (1 - progress);
+        const band = clamp(width * 0.018, 8, 24);
+        body.dataset.transitionX = wipeX.toFixed(1);
 
         ctx.save();
         ctx.beginPath();
-        ctx.rect(-20, wipeY, width + 40, height - wipeY + 20);
+        ctx.rect(-20, -20, wipeX + 20, height + 40);
         ctx.clip();
         drawScene(transition.from);
         ctx.restore();
 
         ctx.save();
         ctx.beginPath();
-        ctx.rect(-20, -20, width + 40, wipeY + 20);
+        ctx.rect(wipeX, -20, width - wipeX + 20, height + 40);
         ctx.clip();
         drawScene(transition.to);
         ctx.restore();
 
-        for (let index = 0; index < 12; index += 1) {
-          const y = wipeY - band / 2 + index * band / 12;
-          const x = (index * 137 + Math.floor(activeSeconds * 67) * 41) % Math.max(1, width - 120);
-          line(x, y, Math.min(width, x + 28 + (index * 23) % 130), y, 0.13 + (index % 4) * 0.065);
+        for (let index = 0; index < 18; index += 1) {
+          const x = wipeX - band / 2 + index * band / 18;
+          const y = (index * 137 + Math.floor(activeSeconds * 67) * 41) % Math.max(1, height - 80);
+          line(x, y, x, Math.min(height, y + 18 + (index * 23) % 100), 0.11 + (index % 4) * 0.055);
         }
-        line(0, wipeY, width, wipeY, 0.28);
+        line(wipeX, 0, wipeX, height, 0.28);
       }
 
       function cycleMilliseconds() {
@@ -868,6 +957,12 @@
           sensorMode = nextMode;
           transition = null;
           modeCountdown = cycleMilliseconds() || randomModeDelay();
+          body.dataset.transition = "none";
+          body.dataset.transitionX = "0";
+          advanceLayout();
+          if (sensorMode === "box") {
+            chooseBoxTarget(true);
+          }
           updateStateAttributes();
           announce((nextMode === "radar" ? "Radar" : "Box scanner") + " mode selected.");
           return;
@@ -878,6 +973,7 @@
           elapsed: 0,
           duration: 1350
         };
+        body.dataset.transition = "right-to-left";
       }
 
       function switchSensor() {
@@ -890,22 +986,70 @@
         sensorMode = transition.to;
         transition = null;
         modeCountdown = cycleMilliseconds() || randomModeDelay();
+        body.dataset.transition = "none";
+        body.dataset.transitionX = "0";
+        advanceLayout();
+        if (sensorMode === "box") {
+          chooseBoxTarget(true);
+        }
         updateStateAttributes();
         announce((sensorMode === "radar" ? "Radar" : "Box scanner") + " mode active.");
       }
 
       function updateBox(deltaSeconds) {
-        boxTargetCountdown -= deltaSeconds;
-        if (boxTargetCountdown <= 0) {
-          boxTargetCountdown = 1.6 + Math.random() * 3;
-          boxTarget = {
-            x: 0.17 + Math.random() * 0.66,
-            y: 0.18 + Math.random() * 0.64
-          };
+        if (boxPhase === "inspect" || boxPhase === "reposition") {
+          boxPhaseRemaining -= deltaSeconds;
+          if (boxPhaseRemaining <= 0) {
+            if (boxPhase === "inspect") {
+              boxPhase = "reposition";
+              boxPhaseRemaining = 0.25 + Math.random() * 0.3;
+            } else {
+              chooseBoxTarget(false);
+            }
+          }
+          updateBoxDiagnostics();
+          return;
         }
-        const ease = 1 - Math.exp(-deltaSeconds * 2.2);
-        boxMotion.x += (boxTarget.x - boxMotion.x) * ease;
-        boxMotion.y += (boxTarget.y - boxMotion.y) * ease;
+
+        const bounds = boxTravelBounds();
+        const current = boxPoint(boxMotion);
+        const target = boxPoint(boxTarget);
+        const dx = target.x - current.x;
+        const dy = target.y - current.y;
+        const distance = Math.hypot(dx, dy);
+
+        if (boxPhase === "move" && distance <= 32) {
+          boxPhase = "slow";
+        }
+        if (boxPhase === "slow" && distance <= 3) {
+          boxMotion = { x: boxTarget.x, y: boxTarget.y };
+          boxPhase = "inspect";
+          boxPhaseRemaining = 1.2 + Math.random() * 1.8;
+          updateBoxDiagnostics();
+          return;
+        }
+
+        const speed = boxPhase === "move" ? clamp(80 + distance * 0.3, 100, 280) : 26;
+        const step = Math.min(distance, speed * deltaSeconds);
+        const ratio = distance > 0 ? step / distance : 0;
+        const nextX = current.x + dx * ratio;
+        const nextY = current.y + dy * ratio;
+        boxMotion.x = clamp((nextX - bounds.left) / Math.max(1, bounds.right - bounds.left), 0, 1);
+        boxMotion.y = clamp((nextY - bounds.top) / Math.max(1, bounds.bottom - bounds.top), 0, 1);
+        updateBoxDiagnostics();
+      }
+
+      function advanceLayout() {
+        layoutVariant = (layoutVariant + 1) % 4;
+        layoutCountdown = 75 + Math.random() * 30;
+        body.dataset.layoutVariant = String(layoutVariant);
+      }
+
+      function updateLayout(deltaSeconds) {
+        layoutCountdown -= deltaSeconds;
+        if (layoutCountdown <= 0) {
+          advanceLayout();
+        }
       }
 
       function updatePixelShift(deltaSeconds) {
@@ -954,6 +1098,7 @@
         updateBox(deltaSeconds);
         updatePixelShift(deltaSeconds);
         updateBreak(deltaSeconds);
+        updateLayout(deltaSeconds);
 
         if (transition) {
           transition.elapsed += deltaSeconds * 1000;
@@ -1001,6 +1146,10 @@
         body.dataset.blank = String(blank);
         body.dataset.paused = String(paused);
         body.dataset.sensor = transition ? transition.to : sensorMode;
+        body.dataset.transition = transition ? "right-to-left" : "none";
+        body.dataset.layoutVariant = String(layoutVariant);
+        body.dataset.displayMode = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone ? "standalone" : "browser";
+        updateBoxDiagnostics();
         el("pause").textContent = paused ? "Resume animation (P)" : "Pause animation (P)";
         el("pause").setAttribute("aria-pressed", String(paused));
         el("quickPause").textContent = paused ? "Resume" : "Pause";
@@ -1146,6 +1295,7 @@
       document.addEventListener("webkitfullscreenchange", updateFullscreenStatus);
 
       resize();
+      chooseBoxTarget(true);
       updateStateAttributes();
       if (paused) {
         announce("Reduced motion preference detected; animation starts paused.");
