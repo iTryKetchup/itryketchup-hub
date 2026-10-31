@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Experimental simulated HUD display for the iTryKetchup VITURE Beast test.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2319d7e6' stroke-width='2'/%3E%3Cpath d='M16 3v8M16 21v8M3 16h8M21 16h8' stroke='%2319d7e6'/%3E%3C/svg%3E">
+  <title>iTryKetchup | AR HUD Adaptive Sensor Lab v0.3</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --control-shift-x: 0px;
+      --control-shift-y: 0px;
+      --hud: #19d7e6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #000000;
+      color: var(--hud);
+      font-family: Consolas, "Courier New", monospace;
+      overscroll-behavior: none;
+    }
+
+    body {
+      position: fixed;
+      inset: 0;
+      min-height: 100%;
+      touch-action: manipulation;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button,
+    select {
+      min-height: 44px;
+    }
+
+    button {
+      border: 1px solid #3da3b2;
+      background: #103239;
+      color: #d6ffff;
+      cursor: pointer;
+      padding: 10px 12px;
+    }
+
+    button:focus-visible,
+    select:focus-visible,
+    input:focus-visible {
+      outline: 3px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    button:active {
+      background: #174751;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+    }
+
+    #controls {
+      position: fixed;
+      right: max(12px, var(--safe-right));
+      bottom: max(12px, var(--safe-bottom));
+      z-index: 20;
+      width: min(430px, calc(100vw - max(24px, var(--safe-left)) - max(24px, var(--safe-right))));
+      max-height: calc(100dvh - max(24px, var(--safe-top)) - max(24px, var(--safe-bottom)));
+      overflow: auto;
+      overscroll-behavior: contain;
+      padding: 18px;
+      border: 1px solid #21737d;
+      background: rgba(7, 16, 20, 0.97);
+      box-shadow: 0 0 24px rgba(0, 133, 153, 0.24);
+      color: #d1faff;
+      font-size: 13px;
+      line-height: 1.45;
+      scrollbar-color: #3da3b2 #071014;
+    }
+
+    #controls[hidden],
+    #hudTools[hidden] {
+      display: none;
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      color: #e3ffff;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 4px 0 12px;
+      color: #a9d1d8;
+    }
+
+    .safety {
+      margin: 12px 0;
+      padding: 11px 12px;
+      border-left: 3px solid #e1b23e;
+      background: rgba(80, 61, 8, 0.22);
+      color: #fff0bd;
+    }
+
+    .field {
+      display: grid;
+      grid-template-columns: minmax(112px, 1fr) minmax(150px, 1.25fr);
+      align-items: center;
+      gap: 12px;
+      margin: 9px 0;
+    }
+
+    .field > span {
+      color: #d1faff;
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid #386f77;
+      border-radius: 0;
+      background: #0a2126;
+      color: #dbffff;
+      padding: 8px;
+    }
+
+    .range-control {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      min-height: 44px;
+      margin: 0;
+      accent-color: #25cddb;
+    }
+
+    output {
+      min-width: 42px;
+      text-align: right;
+    }
+
+    #actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    #actions button:first-child {
+      grid-column: 1 / -1;
+      border-color: #62d5e5;
+      background: #16414a;
+    }
+
+    .hint,
+    .status-message {
+      font-size: 11px;
+    }
+
+    .status-message {
+      min-height: 1.4em;
+      margin-bottom: 0;
+      color: #d8ffff;
+    }
+
+    #hudTools {
+      position: fixed;
+      top: max(10px, var(--safe-top));
+      right: max(10px, var(--safe-right));
+      z-index: 12;
+      display: flex;
+      gap: 6px;
+      transform: translate(var(--control-shift-x), var(--control-shift-y));
+      opacity: 0.22;
+      transition: opacity 160ms ease;
+    }
+
+    #hudTools:hover,
+    #hudTools:focus-within {
+      opacity: 1;
+    }
+
+    #hudTools button {
+      min-width: 44px;
+      padding: 8px 10px;
+      border-color: rgba(61, 163, 178, 0.65);
+      background: rgba(3, 16, 19, 0.78);
+      color: #c5faff;
+      font-size: 12px;
+    }
+
+    #wake {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 100%;
+      padding:
+        max(24px, var(--safe-top))
+        max(24px, var(--safe-right))
+        max(24px, var(--safe-bottom))
+        max(24px, var(--safe-left));
+      border: 0;
+      background: #000000;
+      color: #7ccfd0;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-align: center;
+    }
+
+    #wake.active {
+      display: flex;
+    }
+
+    #wake span {
+      opacity: 0.3;
+    }
+
+    @media (max-width: 540px) {
+      #controls {
+        right: max(8px, var(--safe-right));
+        bottom: max(8px, var(--safe-bottom));
+        left: max(8px, var(--safe-left));
+        width: auto;
+        max-height: calc(100dvh - max(16px, var(--safe-top)) - max(16px, var(--safe-bottom)));
+        padding: 15px;
+        font-size: 12px;
+      }
+
+      .field {
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 8px;
+        margin: 7px 0;
+      }
+
+      #actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #hudTools {
+        top: max(6px, var(--safe-top));
+        right: max(6px, var(--safe-right));
+        gap: 4px;
+      }
+
+      #hudTools button {
+        padding: 7px;
+        font-size: 11px;
+      }
+    }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+      #controls {
+        top: max(8px, var(--safe-top));
+        right: max(8px, var(--safe-right));
+        bottom: max(8px, var(--safe-bottom));
+        max-height: none;
+        padding: 13px;
+        font-size: 11px;
+      }
+
+      #controls h1 {
+        font-size: 15px;
+      }
+
+      #controls p {
+        margin-bottom: 7px;
+      }
+
+      .field {
+        margin: 5px 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #hudTools {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body data-settings="open" data-blank="false" data-paused="false" data-sensor="radar">
+  <canvas
+    id="hud"
+    role="img"
+    aria-label="Animated experimental HUD. Compass heading, radar contact, box scanner, status, link, power, and frame readings are simulated."
+  ></canvas>
+
+  <section
+    id="controls"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="controlsTitle"
+    aria-describedby="safetyNote"
+    tabindex="-1"
+  >
+    <h1 id="controlsTitle">iTryKetchup · HUD Adaptive Sensor Lab v0.3</h1>
+    <p>Live clock and animated graphics. Compass, radar contact, box search, power, link, and frame readings are <strong>SIMULATED</strong>.</p>
+    <p id="safetyNote" class="safety"><strong>Safety:</strong> Experimental visual display only. No real object detection and not navigation guidance. Do not view while crossing roads or whenever situational awareness is needed. Configure before moving; the HUD does not require constant interaction.</p>
+
+    <label class="field">
+      <span>Color</span>
+      <select id="color">
+        <option value="cyan">Cyan (reference)</option>
+        <option value="green">Green (AR test)</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Intensity</span>
+      <span class="range-control">
+        <input id="bright" type="range" min="15" max="100" value="68">
+        <output id="brightVal" for="bright">68%</output>
+      </span>
+    </label>
+
+    <label class="field">
+      <span>Layout</span>
+      <select id="layout">
+        <option value="full">Full tactical HUD</option>
+        <option value="minimal">Minimal AR</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Sensor cycle</span>
+      <select id="cycle">
+        <option value="auto">Random 3–4 min</option>
+        <option value="180">Every 3 min</option>
+        <option value="240">Every 4 min</option>
+        <option value="off">Off</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Pixel shift</span>
+      <select id="shift">
+        <option value="30">Every 30 sec</option>
+        <option value="60">Every 60 sec</option>
+        <option value="0">Off</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Black break</span>
+      <select id="break">
+        <option value="600">Every 10 min</option>
+        <option value="1200">Every 20 min</option>
+        <option value="0">Off</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Radar sweep</span>
+      <select id="sweep">
+        <option value="on">On (simulated)</option>
+        <option value="off">Off</option>
+      </select>
+    </label>
+
+    <div id="actions">
+      <button id="hide" type="button">Enter HUD (H)</button>
+      <button id="next" type="button">Switch sensor (N)</button>
+      <button id="pause" type="button" aria-pressed="false">Pause animation (P)</button>
+      <button id="full" type="button">Fullscreen (F)</button>
+      <button id="blank" type="button">Blank now (B)</button>
+    </div>
+
+    <p class="hint">Keyboard: N sensor · S settings · H hide · C color · M layout · P pause · B blank · F fullscreen · Escape exits fullscreen.</p>
+    <p class="hint">Pixel shifting and automatic black breaks are display-care options, not guaranteed burn-in prevention.</p>
+    <p id="statusMessage" class="status-message" role="status" aria-live="polite"></p>
+  </section>
+
+  <nav id="hudTools" aria-label="HUD touch controls" hidden>
+    <button id="openSettings" type="button" aria-label="Open HUD settings">Settings</button>
+    <button id="quickSensor" type="button" aria-label="Switch simulated sensor mode">Sensor</button>
+    <button id="quickPause" type="button" aria-label="Pause HUD animation" aria-pressed="false">Pause</button>
+    <button id="quickBlank" type="button" aria-label="Blank the display">Blank</button>
+  </nav>
+
+  <button id="wake" type="button" aria-label="Resume HUD after blank screen">
+    <span>Tap or press B to resume HUD</span>
+  </button>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const canvas = document.getElementById("hud");
+      const ctx = canvas.getContext("2d", { alpha: false });
+      const el = (id) => document.getElementById(id);
+      const root = document.documentElement;
+      const body = document.body;
+      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const requestFullscreen =
+        document.documentElement.requestFullscreen?.bind(document.documentElement) ||
+        document.documentElement.webkitRequestFullscreen?.bind(document.documentElement);
+      const exitFullscreen =
+        document.exitFullscreen?.bind(document) ||
+        document.webkitExitFullscreen?.bind(document);
+
+      let width = 1600;
+      let height = 900;
+      let dpr = 1;
+      let safe = { top: 0, right: 0, bottom: 0, left: 0 };
+      let resizeFrame = 0;
+      let settingsOpen = true;
+      let blank = false;
+      let paused = motionQuery.matches;
+      let activeSeconds = 0;
+      let lastFrame = performance.now();
+      let sensorMode = "radar";
+      let modeCountdown = randomModeDelay();
+      let transition = null;
+      let shiftCountdown = 0;
+      let breakElapsed = 0;
+      let shiftIndex = 0;
+      let shiftX = 0;
+      let shiftY = 0;
+      let radarAngle = 0;
+      let boxMotion = { x: 0.5, y: 0.49 };
+      let boxTarget = { x: 0.5, y: 0.49 };
+      let boxTargetCountdown = 0;
+      let settingsReturnTarget = null;
+      const shifts = [
+        [-7, 5],
+        [9, -7],
+        [0, 8],
+        [8, 0],
+        [-8, -5],
+        [5, 7],
+        [-9, 0],
+        [6, -4]
+      ];
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function randomModeDelay() {
+        return (180 + Math.random() * 60) * 1000;
+      }
+
+      function readSafeArea(name) {
+        const value = getComputedStyle(root).getPropertyValue("--safe-" + name);
+        return Number.parseFloat(value) || 0;
+      }
+
+      function resize() {
+        dpr = clamp(window.devicePixelRatio || 1, 1, 3);
+        width = Math.max(1, Math.round(window.innerWidth));
+        height = Math.max(1, Math.round(window.innerHeight));
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        safe = {
+          top: readSafeArea("top"),
+          right: readSafeArea("right"),
+          bottom: readSafeArea("bottom"),
+          left: readSafeArea("left")
+        };
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function scheduleResize() {
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(resize);
+      }
+
+      function color(alpha = 1) {
+        const green = el("color").value === "green";
+        const intensity = Number(el("bright").value) / 100;
+        const rgb = green ? [76, 255, 130] : [29, 220, 238];
+        return "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", " + clamp(alpha * intensity, 0, 1) + ")";
+      }
+
+      function line(x1, y1, x2, y2, alpha = 1, lineWidth = 1) {
+        ctx.strokeStyle = color(alpha);
+        ctx.lineWidth = lineWidth;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+
+      function text(value, x, y, size = 13, align = "left", alpha = 1, bold = false) {
+        ctx.fillStyle = color(alpha);
+        ctx.font = (bold ? "700" : "500") + " " + size + "px Consolas, \"Courier New\", monospace";
+        ctx.textAlign = align;
+        ctx.textBaseline = "middle";
+        ctx.fillText(value, x, y);
+      }
+
+      function arc(cx, cy, radius, start, end, alpha = 0.5, lineWidth = 1) {
+        ctx.strokeStyle = color(alpha);
+        ctx.lineWidth = lineWidth;
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, start, end);
+        ctx.stroke();
+      }
+
+      function rect(x, y, boxWidth, boxHeight, alpha = 0.9, lineWidth = 1) {
+        ctx.strokeStyle = color(alpha);
+        ctx.lineWidth = lineWidth;
+        ctx.strokeRect(x, y, boxWidth, boxHeight);
+      }
+
+      function frameBounds() {
+        return {
+          left: safe.left + 18,
+          right: width - safe.right - 18,
+          top: safe.top + 18,
+          bottom: height - safe.bottom - 18
+        };
+      }
+
+      function drawCorners() {
+        const b = frameBounds();
+        const length = clamp(Math.min(width, height) * 0.075, 30, 64);
+        line(b.left, b.top, b.left + length, b.top, 0.88, 2);
+        line(b.left, b.top, b.left, b.top + length, 0.88, 2);
+        line(b.right, b.top, b.right - length, b.top, 0.88, 2);
+        line(b.right, b.top, b.right, b.top + length, 0.88, 2);
+        line(b.left, b.bottom, b.left + length, b.bottom, 0.88, 2);
+        line(b.left, b.bottom, b.left, b.bottom - length, 0.88, 2);
+        line(b.right, b.bottom, b.right - length, b.bottom, 0.88, 2);
+        line(b.right, b.bottom, b.right, b.bottom - length, 0.88, 2);
+      }
+
+      function drawCompass() {
+        const b = frameBounds();
+        const compact = width < 560;
+        const cx = width / 2;
+        const y = b.top + (compact ? 68 : 35);
+        const halfSpan = Math.min((b.right - b.left) * 0.43, 370);
+        const tickGap = (halfSpan * 2) / 18;
+        line(cx - halfSpan, y, cx + halfSpan, y, 0.5);
+        for (let index = -9; index <= 9; index += 1) {
+          const x = cx + index * tickGap;
+          line(x, y, x, y + (index % 3 === 0 ? 11 : 6), index % 3 === 0 ? 0.85 : 0.42, index % 3 === 0 ? 2 : 1);
+        }
+        text("W", cx - halfSpan * 0.55, y - 13, compact ? 12 : 15, "center", 0.87, true);
+        text("NW", cx + halfSpan * 0.44, y - 13, compact ? 12 : 15, "center", 0.87, true);
+        text("SIM 295°", cx, y + 31, compact ? 11 : 13, "center", 1, true);
+        rect(cx - 37, y + 19, 74, 24, 0.9);
+        ctx.fillStyle = color(0.9);
+        ctx.beginPath();
+        ctx.moveTo(cx, y + 8);
+        ctx.lineTo(cx - 6, y + 17);
+        ctx.lineTo(cx + 6, y + 17);
+        ctx.fill();
+      }
+
+      function sceneGeometry() {
+        const portrait = width / height < 0.82;
+        const short = height < 520;
+        const cx = width / 2;
+        const cy = portrait ? height * 0.46 : height * 0.55;
+        const radarRadius = clamp(
+          Math.min(width * (portrait ? 0.29 : 0.22), height * (portrait ? 0.18 : 0.28)),
+          62,
+          300
+        );
+        return { portrait, short, cx, cy, radarRadius };
+      }
+
+      function drawRadar() {
+        const g = sceneGeometry();
+        const cx = g.cx;
+        const cy = g.cy;
+        const radius = g.radarRadius;
+        arc(cx, cy, radius, 0, Math.PI * 2, 0.27);
+        arc(cx, cy, radius * 0.5, 0, Math.PI * 2, 0.28);
+        arc(cx, cy, radius * 0.17, 0, Math.PI * 2, 0.44);
+        for (let index = 0; index < 4; index += 1) {
+          const start = -2.4 + index * 1.55;
+          arc(cx, cy, radius * 0.37, start, start + 1.25, 0.77, 2.4);
+        }
+        for (let index = 0; index < 36; index += 1) {
+          const angle = index * Math.PI / 18;
+          const inner = radius * 0.39;
+          const outer = radius * (index % 3 === 0 ? 0.43 : 0.405);
+          line(
+            cx + Math.cos(angle) * inner,
+            cy + Math.sin(angle) * inner,
+            cx + Math.cos(angle) * outer,
+            cy + Math.sin(angle) * outer,
+            0.52
+          );
+        }
+        line(cx - 20, cy, cx - 5, cy, 0.95, 2);
+        line(cx + 5, cy, cx + 20, cy, 0.95, 2);
+        line(cx, cy - 20, cx, cy - 5, 0.95, 2);
+        line(cx, cy + 5, cx, cy + 20, 0.95, 2);
+
+        if (el("sweep").value === "on") {
+          for (let index = 22; index >= 0; index -= 1) {
+            const angle = -Math.PI / 2 + radarAngle - index * 0.028;
+            const alpha = (1 - index / 23) * 0.22;
+            line(cx, cy, cx + Math.cos(angle) * radius * 0.99, cy + Math.sin(angle) * radius * 0.99, alpha);
+          }
+        }
+
+        const targetX = cx + radius * 0.45;
+        const targetY = cy + radius * 0.14;
+        const targetSize = Math.max(12, radius * 0.095);
+        ctx.strokeStyle = "rgba(239, 74, 60, 0.68)";
+        ctx.lineWidth = 2;
+        for (const xSign of [-1, 1]) {
+          for (const ySign of [-1, 1]) {
+            const x = targetX + xSign * targetSize;
+            const y = targetY + ySign * targetSize;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - xSign * 7, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y - ySign * 7);
+            ctx.stroke();
+          }
+        }
+        ctx.fillStyle = "rgba(239, 74, 60, 0.72)";
+        ctx.font = (width < 560 ? 9 : 11) + "px Consolas, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("CONTACT 7.8m · DEMO", targetX, targetY - targetSize - 10);
+      }
+
+      function drawBoxScanner() {
+        const g = sceneGeometry();
+        const areaWidth = Math.min(width * (g.portrait ? 0.78 : 0.54), 860);
+        const areaHeight = Math.min(height * (g.portrait ? 0.38 : 0.5), 470);
+        const left = g.cx - areaWidth / 2;
+        const top = g.cy - areaHeight / 2;
+        for (let index = 0; index <= 8; index += 1) {
+          const x = left + index * areaWidth / 8;
+          line(x, top, x, top + areaHeight, 0.1);
+        }
+        for (let index = 0; index <= 5; index += 1) {
+          const y = top + index * areaHeight / 5;
+          line(left, y, left + areaWidth, y, 0.1);
+        }
+        rect(left, top, areaWidth, areaHeight, 0.25);
+        const boxX = left + boxMotion.x * areaWidth;
+        const boxY = top + boxMotion.y * areaHeight;
+        const boxSize = clamp(Math.min(width, height) * 0.14, 52, 130);
+        const half = boxSize / 2;
+        const corner = Math.min(16, boxSize * 0.22);
+        for (const xSign of [-1, 1]) {
+          for (const ySign of [-1, 1]) {
+            const x = boxX + xSign * half;
+            const y = boxY + ySign * half;
+            line(x, y, x - xSign * corner, y, 0.92, 2);
+            line(x, y, x, y - ySign * corner, 0.92, 2);
+          }
+        }
+        line(boxX - 14, boxY, boxX + 14, boxY, 0.65);
+        line(boxX, boxY - 14, boxX, boxY + 14, 0.65);
+        const scanX = left + ((activeSeconds * 57) % Math.max(1, areaWidth));
+        line(scanX, top, scanX, top + areaHeight, 0.36, 2);
+        text("ACTIVE SENSOR · SEARCH PATTERN", g.cx, top - 22, width < 560 ? 11 : 14, "center", 0.82, true);
+        text(
+          "REGION " + String(Math.floor(boxMotion.x * 100)).padStart(2, "0") + " / " + String(Math.floor(boxMotion.y * 100)).padStart(2, "0") + " · DEMO",
+          g.cx,
+          top + areaHeight + 21,
+          width < 560 ? 9 : 11,
+          "center",
+          0.65
+        );
+        text("SEEK · PAUSE · REPOSITION", boxX, boxY + half + 22, width < 560 ? 9 : 11, "center", 0.77);
+      }
+
+      function formatDuration(seconds) {
+        const whole = Math.floor(seconds);
+        return String(Math.floor(whole / 60)).padStart(2, "0") + ":" + String(whole % 60).padStart(2, "0");
+      }
+
+      function drawStatus() {
+        const g = sceneGeometry();
+        const b = frameBounds();
+        const clock = new Date();
+        const time = clock.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false
+        });
+        const date = clock.toLocaleDateString([], {
+          weekday: "short",
+          month: "short",
+          day: "numeric"
+        }).toUpperCase();
+
+        if (g.portrait) {
+          const small = width < 470;
+          const topY = b.top + (small ? 145 : 112);
+          text("TK-0927", b.left + 8, topY, small ? 16 : 20, "left", 0.92, true);
+          text("SIM HUD", b.left + 8, topY + 22, small ? 9 : 11, "left", 0.66);
+          text(time, b.right - 8, topY, small ? 17 : 23, "right", 0.95, true);
+          text(date, b.right - 8, topY + 22, small ? 9 : 11, "right", 0.78);
+
+          const panelWidth = Math.min(168, (b.right - b.left) * 0.43);
+          const barX = b.left + 8;
+          const baseY = b.bottom - 105;
+          const entries = [
+            ["PWR", "59% SIM", 0.59],
+            ["LINK", "4G SIM", 1],
+            ["FRAME", "165 SIM", 0.82]
+          ];
+          entries.forEach((entry, index) => {
+            const y = baseY + index * 31;
+            text(entry[0], barX, y, small ? 9 : 11, "left", 0.9, true);
+            text(entry[1], barX + panelWidth, y, small ? 9 : 10, "right", 0.82);
+            rect(barX, y + 9, panelWidth, 6, 0.5);
+            ctx.fillStyle = color(0.72);
+            ctx.fillRect(barX + 2, y + 11, (panelWidth - 4) * entry[2], 2);
+          });
+          const rightX = b.right - 8;
+          const statusY = b.bottom - 100;
+          const statuses = [
+            "HDG SIM",
+            "UP " + formatDuration(activeSeconds),
+            paused ? "ANIM PAUSED" : "ANIM ACTIVE",
+            "SHIFT " + shiftX + "," + shiftY
+          ];
+          statuses.forEach((value, index) => text(value, rightX, statusY + index * 21, small ? 9 : 10, "right", 0.8, true));
+        } else {
+          const topY = b.top + 92;
+          text("TK-0927", b.left + 12, topY, g.short ? 17 : 23, "left", 0.92, true);
+          text("HELMET SYSTEMS · DEMO", b.left + 12, topY + 25, g.short ? 9 : 12, "left", 0.66);
+          text(time, b.right - 12, topY, g.short ? 20 : 27, "right", 0.95, true);
+          text(date, b.right - 12, topY + 26, g.short ? 9 : 11, "right", 0.78);
+
+          const panelWidth = clamp(width * 0.2, 145, 220);
+          const baseY = height * 0.46;
+          const entries = [
+            ["PWR", "59% SIM", 0.59],
+            ["LINK", "4G SIM", 1],
+            ["FRAME", "165 SIM", 0.82]
+          ];
+          entries.forEach((entry, index) => {
+            const y = baseY + index * (g.short ? 34 : 44);
+            text(entry[0], b.left + 12, y, g.short ? 9 : 12, "left", 0.9, true);
+            text(entry[1], b.left + 12 + panelWidth, y, g.short ? 9 : 11, "right", 0.86);
+            rect(b.left + 12, y + 11, panelWidth, 7, 0.52);
+            ctx.fillStyle = color(0.74);
+            ctx.fillRect(b.left + 14, y + 13, (panelWidth - 4) * entry[2], 3);
+          });
+          const statusY = height * 0.47;
+          const statuses = [
+            "HDG SIM",
+            "UP " + formatDuration(activeSeconds),
+            paused ? "ANIM PAUSED" : "WAKE DENIED",
+            "SHIFT " + shiftX + "," + shiftY
+          ];
+          statuses.forEach((value, index) => {
+            text(value, b.right - 12, statusY + index * (g.short ? 21 : 25), g.short ? 9 : 12, "right", 0.82, true);
+          });
+        }
+      }
+
+      function drawScene(mode) {
+        drawCorners();
+        drawCompass();
+        if (mode === "radar") {
+          drawRadar();
+        } else {
+          drawBoxScanner();
+        }
+        drawStatus();
+        const b = frameBounds();
+        text(
+          mode === "radar" ? "RADAR SCAN · SIMULATED" : "BOX SEARCH · SIMULATED",
+          width / 2,
+          b.bottom - 8,
+          width < 560 ? 9 : 11,
+          "center",
+          0.58,
+          true
+        );
+      }
+
+      function drawMinimal() {
+        const b = frameBounds();
+        drawCorners();
+        const now = new Date();
+        text("TK · HUD TEST", b.left + 12, b.top + 44, width < 560 ? 12 : 15, "left", 0.8, true);
+        text(
+          now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }),
+          b.right - 12,
+          b.top + 44,
+          width < 560 ? 18 : 24,
+          "right",
+          0.86,
+          true
+        );
+        text("SIMULATION · NO LIVE SENSORS", b.left + 12, b.bottom - 16, width < 560 ? 9 : 11, "left", 0.58);
+      }
+
+      function drawTransition() {
+        const progress = clamp(transition.elapsed / transition.duration, 0, 1);
+        const wipeY = progress * height;
+        const band = clamp(height * 0.027, 10, 27);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(-20, wipeY, width + 40, height - wipeY + 20);
+        ctx.clip();
+        drawScene(transition.from);
+        ctx.restore();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(-20, -20, width + 40, wipeY + 20);
+        ctx.clip();
+        drawScene(transition.to);
+        ctx.restore();
+
+        for (let index = 0; index < 12; index += 1) {
+          const y = wipeY - band / 2 + index * band / 12;
+          const x = (index * 137 + Math.floor(activeSeconds * 67) * 41) % Math.max(1, width - 120);
+          line(x, y, Math.min(width, x + 28 + (index * 23) % 130), y, 0.13 + (index % 4) * 0.065);
+        }
+        line(0, wipeY, width, wipeY, 0.28);
+      }
+
+      function cycleMilliseconds() {
+        const selected = el("cycle").value;
+        if (selected === "off") {
+          return 0;
+        }
+        return selected === "auto" ? randomModeDelay() : Number(selected) * 1000;
+      }
+
+      function startSensorTransition(nextMode) {
+        if (nextMode === sensorMode && !transition) {
+          return;
+        }
+        if (paused) {
+          sensorMode = nextMode;
+          transition = null;
+          modeCountdown = cycleMilliseconds() || randomModeDelay();
+          updateStateAttributes();
+          announce((nextMode === "radar" ? "Radar" : "Box scanner") + " mode selected.");
+          return;
+        }
+        transition = {
+          from: sensorMode,
+          to: nextMode,
+          elapsed: 0,
+          duration: 1350
+        };
+      }
+
+      function switchSensor() {
+        const current = transition ? transition.to : sensorMode;
+        transition = null;
+        startSensorTransition(current === "radar" ? "box" : "radar");
+      }
+
+      function finishTransition() {
+        sensorMode = transition.to;
+        transition = null;
+        modeCountdown = cycleMilliseconds() || randomModeDelay();
+        updateStateAttributes();
+        announce((sensorMode === "radar" ? "Radar" : "Box scanner") + " mode active.");
+      }
+
+      function updateBox(deltaSeconds) {
+        boxTargetCountdown -= deltaSeconds;
+        if (boxTargetCountdown <= 0) {
+          boxTargetCountdown = 1.6 + Math.random() * 3;
+          boxTarget = {
+            x: 0.17 + Math.random() * 0.66,
+            y: 0.18 + Math.random() * 0.64
+          };
+        }
+        const ease = 1 - Math.exp(-deltaSeconds * 2.2);
+        boxMotion.x += (boxTarget.x - boxMotion.x) * ease;
+        boxMotion.y += (boxTarget.y - boxMotion.y) * ease;
+      }
+
+      function updatePixelShift(deltaSeconds) {
+        const seconds = Number(el("shift").value);
+        if (!seconds) {
+          shiftCountdown = 0;
+          setShift(0, 0);
+          return;
+        }
+        if (!shiftCountdown) {
+          shiftCountdown = seconds;
+        }
+        shiftCountdown -= deltaSeconds;
+        if (shiftCountdown <= 0) {
+          shiftCountdown = seconds;
+          shiftIndex = (shiftIndex + 1) % shifts.length;
+          setShift(shifts[shiftIndex][0], shifts[shiftIndex][1]);
+        }
+      }
+
+      function setShift(x, y) {
+        shiftX = x;
+        shiftY = y;
+        root.style.setProperty("--control-shift-x", x + "px");
+        root.style.setProperty("--control-shift-y", y + "px");
+      }
+
+      function updateBreak(deltaSeconds) {
+        const seconds = Number(el("break").value);
+        if (!seconds) {
+          breakElapsed = 0;
+          return;
+        }
+        breakElapsed += deltaSeconds;
+        if (breakElapsed >= seconds) {
+          setBlank(true);
+        }
+      }
+
+      function update(deltaSeconds) {
+        if (blank || paused) {
+          return;
+        }
+        activeSeconds += deltaSeconds;
+        radarAngle += deltaSeconds * 0.32;
+        updateBox(deltaSeconds);
+        updatePixelShift(deltaSeconds);
+        updateBreak(deltaSeconds);
+
+        if (transition) {
+          transition.elapsed += deltaSeconds * 1000;
+          if (transition.elapsed >= transition.duration) {
+            finishTransition();
+          }
+          return;
+        }
+
+        if (el("cycle").value !== "off") {
+          modeCountdown -= deltaSeconds * 1000;
+          if (modeCountdown <= 0) {
+            startSensorTransition(sensorMode === "radar" ? "box" : "radar");
+          }
+        }
+      }
+
+      function render(now) {
+        const deltaSeconds = Math.min((now - lastFrame) / 1000, 0.1);
+        lastFrame = now;
+        update(deltaSeconds);
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, width, height);
+
+        if (!blank) {
+          ctx.save();
+          ctx.translate(shiftX, shiftY);
+          if (el("layout").value === "minimal") {
+            drawMinimal();
+          } else if (transition) {
+            drawTransition();
+          } else {
+            drawScene(sensorMode);
+          }
+          ctx.restore();
+        }
+
+        requestAnimationFrame(render);
+      }
+
+      function updateStateAttributes() {
+        body.dataset.settings = settingsOpen ? "open" : "closed";
+        body.dataset.blank = String(blank);
+        body.dataset.paused = String(paused);
+        body.dataset.sensor = transition ? transition.to : sensorMode;
+        el("pause").textContent = paused ? "Resume animation (P)" : "Pause animation (P)";
+        el("pause").setAttribute("aria-pressed", String(paused));
+        el("quickPause").textContent = paused ? "Resume" : "Pause";
+        el("quickPause").setAttribute("aria-pressed", String(paused));
+        el("quickPause").setAttribute("aria-label", paused ? "Resume HUD animation" : "Pause HUD animation");
+      }
+
+      function announce(message) {
+        el("statusMessage").textContent = message;
+      }
+
+      function setPaused(nextPaused, shouldAnnounce = true) {
+        paused = nextPaused;
+        updateStateAttributes();
+        if (shouldAnnounce) {
+          announce(paused ? "Animation paused. The live clock remains current." : "Animation resumed.");
+        }
+      }
+
+      function setBlank(nextBlank) {
+        blank = nextBlank;
+        breakElapsed = 0;
+        el("wake").classList.toggle("active", blank);
+        el("wake").setAttribute("aria-hidden", String(!blank));
+        if (blank) {
+          settingsOpen = false;
+          el("controls").hidden = true;
+          el("hudTools").hidden = true;
+          el("wake").focus({ preventScroll: true });
+        } else {
+          el("hudTools").hidden = false;
+          el("quickBlank").focus({ preventScroll: true });
+        }
+        updateStateAttributes();
+      }
+
+      function toggleSettings(show) {
+        if (show && blank) {
+          blank = false;
+          el("wake").classList.remove("active");
+          el("wake").setAttribute("aria-hidden", "true");
+        }
+        settingsOpen = show;
+        el("controls").hidden = !show;
+        el("hudTools").hidden = show;
+        if (show) {
+          settingsReturnTarget = document.activeElement;
+          el("controls").focus({ preventScroll: true });
+        } else if (settingsReturnTarget && settingsReturnTarget !== document.body) {
+          el("openSettings").focus({ preventScroll: true });
+        }
+        updateStateAttributes();
+      }
+
+      async function toggleFullscreen() {
+        if (!requestFullscreen) {
+          announce("Fullscreen is unavailable in this browser. The HUD remains usable in the current Safari/browser view.");
+          return;
+        }
+        try {
+          if (document.fullscreenElement || document.webkitFullscreenElement) {
+            await exitFullscreen?.();
+          } else {
+            await requestFullscreen();
+          }
+        } catch {
+          announce("Fullscreen was not available. The HUD remains usable in the current browser view.");
+        }
+      }
+
+      function updateFullscreenStatus() {
+        const active = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+        el("full").textContent = active ? "Exit fullscreen (F)" : "Fullscreen (F)";
+        if (active) {
+          announce("Fullscreen active.");
+        }
+      }
+
+      el("hide").addEventListener("click", () => toggleSettings(false));
+      el("openSettings").addEventListener("click", () => toggleSettings(true));
+      el("next").addEventListener("click", switchSensor);
+      el("quickSensor").addEventListener("click", switchSensor);
+      el("pause").addEventListener("click", () => setPaused(!paused));
+      el("quickPause").addEventListener("click", () => setPaused(!paused));
+      el("blank").addEventListener("click", () => setBlank(true));
+      el("quickBlank").addEventListener("click", () => setBlank(true));
+      el("wake").addEventListener("click", () => setBlank(false));
+      el("full").addEventListener("click", toggleFullscreen);
+      el("bright").addEventListener("input", () => {
+        el("brightVal").textContent = el("bright").value + "%";
+      });
+      el("cycle").addEventListener("change", () => {
+        modeCountdown = cycleMilliseconds() || randomModeDelay();
+        announce(el("cycle").value === "off" ? "Automatic sensor switching disabled." : "Sensor cycle updated.");
+      });
+      el("shift").addEventListener("change", () => {
+        shiftCountdown = 0;
+        if (el("shift").value === "0") {
+          setShift(0, 0);
+        }
+      });
+      el("break").addEventListener("change", () => {
+        breakElapsed = 0;
+      });
+
+      window.addEventListener("keydown", (event) => {
+        const target = event.target;
+        if (target instanceof HTMLInputElement || target instanceof HTMLSelectElement) {
+          if (event.key !== "Escape") {
+            return;
+          }
+        }
+        const key = event.key.toLowerCase();
+        if (key === "s") {
+          toggleSettings(!settingsOpen);
+        } else if (key === "h") {
+          toggleSettings(false);
+        } else if (key === "b") {
+          setBlank(!blank);
+        } else if (key === "c") {
+          el("color").value = el("color").value === "cyan" ? "green" : "cyan";
+        } else if (key === "m") {
+          el("layout").value = el("layout").value === "full" ? "minimal" : "full";
+        } else if (key === "p") {
+          setPaused(!paused);
+        } else if (key === "n") {
+          switchSensor();
+        } else if (key === "f") {
+          toggleFullscreen();
+        }
+      });
+
+      motionQuery.addEventListener?.("change", (event) => {
+        if (event.matches) {
+          setPaused(true);
+          announce("Reduced motion preference detected; animation paused.");
+        }
+      });
+      window.addEventListener("resize", scheduleResize);
+      window.addEventListener("orientationchange", scheduleResize);
+      window.visualViewport?.addEventListener("resize", scheduleResize);
+      document.addEventListener("fullscreenchange", updateFullscreenStatus);
+      document.addEventListener("webkitfullscreenchange", updateFullscreenStatus);
+
+      resize();
+      updateStateAttributes();
+      if (paused) {
+        announce("Reduced motion preference detected; animation starts paused.");
+      } else if (!requestFullscreen) {
+        announce("Fullscreen may be unavailable here; the HUD remains usable in the current browser view.");
+      }
+      requestAnimationFrame(render);
+    })();
+  </script>
+</body>
+</html>
