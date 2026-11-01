@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Experimental simulated HUD with a centered animated compass, live cycle activity, and scanner-linked coordinates for the iTryKetchup VITURE Beast test.">
+  <meta name="description" content="Experimental simulated HUD with a bottom-left radar, intermittent simulated contacts, centered compass, live activity bars, and scanner-linked coordinates.">
   <meta name="application-name" content="Ketchup HUD">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,7 +14,7 @@
   <link rel="manifest" href="/hud/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/hud/icons/apple-touch-icon.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2319d7e6' stroke-width='2'/%3E%3Cpath d='M16 3v8M16 21v8M3 16h8M21 16h8' stroke='%2319d7e6'/%3E%3C/svg%3E">
-  <title>Ketchup HUD v0.6 | Live Activity Bars</title>
+  <title>Ketchup HUD v0.7 | Radar Upgrade</title>
   <style>
     :root {
       color-scheme: dark;
@@ -320,7 +320,7 @@
   <canvas
     id="hud"
     role="img"
-    aria-label="Animated experimental HUD. Compass heading, radar contact, box scanner, and link activity are simulated. Cycle timing and browser frame rate are live."
+    aria-label="Animated experimental HUD. Compass heading, radar contacts, box scanner, link activity, and digital cleaning line are simulated. Cycle timing and browser frame rate are live."
   ></canvas>
 
   <section
@@ -331,8 +331,8 @@
     aria-describedby="safetyNote"
     tabindex="-1"
   >
-    <h1 id="controlsTitle">Ketchup HUD v0.6 · Live Activity Bars</h1>
-    <p>Live clock, sensor-cycle countdown, and measured browser FPS. Compass, radar contact, scanner coordinates, and LINK activity are <strong>SIMULATED</strong>.</p>
+    <h1 id="controlsTitle">Ketchup HUD v0.7 · Radar Upgrade</h1>
+    <p>Live clock, sensor-cycle countdown, and measured browser FPS. Compass, radar contacts, scanner coordinates, LINK activity, and the digital cleaning line are <strong>SIMULATED</strong>.</p>
     <p id="safetyNote" class="safety"><strong>Safety:</strong> Experimental visual display only. No real object detection and not navigation guidance. Do not view while crossing roads or whenever situational awareness is needed. Configure before moving; the HUD does not require constant interaction.</p>
 
     <label class="field">
@@ -460,6 +460,16 @@
       let layoutVariant = 0;
       let layoutCountdown = 75;
       let radarAngle = 0;
+      let radarContactCountdown = testMode ? 0.35 : randomBetween(3.5, 8.5);
+      let radarContactSequence = 0;
+      let radarContactSpawnCount = 0;
+      let radarContactExpiredCount = 0;
+      let radarGreenSeen = 0;
+      let radarRedSeen = 0;
+      const radarContacts = [];
+      let cleaningSweep = null;
+      let cleaningCountdown = testMode ? 0.8 : randomBetween(40, 70);
+      let cleaningSweepCount = 0;
       let compassHeading = 295;
       let compassTarget = 295;
       let compassTargetCountdown = 0;
@@ -500,6 +510,10 @@
 
       function wrapDegrees(value) {
         return ((value % 360) + 360) % 360;
+      }
+
+      function wrapRadians(value) {
+        return ((value % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
       }
 
       function angleDelta(from, to) {
@@ -748,8 +762,114 @@
         return { portrait, short, cx, cy, radarRadius };
       }
 
-      function drawRadar() {
+      function radarGeometry() {
         const g = sceneGeometry();
+        const b = frameBounds();
+        const compass = compassLayout();
+        const panel = statusPanelLayout();
+        const compact = width < 560;
+        const edge = compact ? 14 : 22;
+        const upperClearance = Math.max(
+          compass.bottom + 34,
+          b.top + (g.portrait ? (compact ? 230 : 210) : g.short ? 175 : 190)
+        );
+        const bottomLimit = g.portrait
+          ? Math.min(b.bottom - 44, panel.top - 30)
+          : b.bottom - (g.short ? 38 : 46);
+        const baseRadius = Math.min(
+          width * (g.portrait ? 0.25 : 0.18),
+          height * (g.portrait ? 0.16 : g.short ? 0.18 : 0.22)
+        );
+        const quadrantRadius = Math.max(48, (width / 2 - b.left - edge) / 2);
+        const verticalRadius = Math.max(48, (bottomLimit - upperClearance) / 2);
+        const radarRadius = clamp(Math.min(baseRadius, quadrantRadius, verticalRadius), 48, g.portrait ? 170 : 220);
+        const cx = b.left + edge + radarRadius;
+        const cy = bottomLimit - radarRadius;
+        return { ...g, cx, cy, radarRadius };
+      }
+
+      function radarContactOpacity(contact) {
+        if (contact.state !== "active") {
+          return 0;
+        }
+        return clamp(Math.min(contact.age / 0.28, (contact.duration - contact.age) / 0.9), 0, 1);
+      }
+
+      function drawRadarContact(contact, geometry) {
+        if (contact.state !== "active") {
+          return;
+        }
+        const radius = geometry.radarRadius * contact.distance;
+        const x = geometry.cx + Math.cos(contact.bearing) * radius;
+        const y = geometry.cy + Math.sin(contact.bearing) * radius;
+        const opacity = radarContactOpacity(contact);
+        const rgb = contact.kind === "red" ? [239, 74, 60] : [87, 255, 142];
+        const contactColor = (alpha) => "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", " + clamp(alpha * opacity, 0, 1) + ")";
+
+        ctx.strokeStyle = contactColor(contact.kind === "red" ? 0.86 : 0.72);
+        ctx.fillStyle = contactColor(contact.kind === "red" ? 0.72 : 0.62);
+        ctx.lineWidth = contact.kind === "red" ? 1.6 : 1.2;
+        ctx.beginPath();
+        ctx.arc(x, y, contact.size, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillRect(x - 1, y - 1, 2, 2);
+
+        if (contact.kind === "red") {
+          const bracket = contact.size + 5;
+          for (const xSign of [-1, 1]) {
+            for (const ySign of [-1, 1]) {
+              const bx = x + xSign * bracket;
+              const by = y + ySign * bracket;
+              ctx.beginPath();
+              ctx.moveTo(bx, by);
+              ctx.lineTo(bx - xSign * 4, by);
+              ctx.moveTo(bx, by);
+              ctx.lineTo(bx, by - ySign * 4);
+              ctx.stroke();
+            }
+          }
+          if (contact.age < 0.9) {
+            ctx.beginPath();
+            ctx.arc(x, y, contact.size + 3 + contact.age * 9, 0, Math.PI * 2);
+            ctx.strokeStyle = contactColor(0.24 * (1 - contact.age / 0.9));
+            ctx.stroke();
+          }
+        }
+      }
+
+      function updateRadarContactDiagnostics(geometry) {
+        const activeContacts = radarContacts.filter((contact) => contact.state === "active");
+        body.dataset.radarCenterX = geometry.cx.toFixed(1);
+        body.dataset.radarCenterY = geometry.cy.toFixed(1);
+        body.dataset.radarRadius = geometry.radarRadius.toFixed(1);
+        body.dataset.radarSweepBearing = wrapRadians(-Math.PI / 2 + radarAngle).toFixed(4);
+        body.dataset.radarContactCount = String(activeContacts.length);
+        body.dataset.radarContactTotal = String(radarContacts.length);
+        body.dataset.radarContactSpawnCount = String(radarContactSpawnCount);
+        body.dataset.radarContactExpiredCount = String(radarContactExpiredCount);
+        body.dataset.radarGreenSeen = String(radarGreenSeen);
+        body.dataset.radarRedSeen = String(radarRedSeen);
+        if (testMode) {
+          body.dataset.radarContacts = JSON.stringify(radarContacts.map((contact) => {
+            const radialDistance = geometry.radarRadius * contact.distance;
+            return {
+              id: contact.id,
+              kind: contact.kind,
+              state: contact.state,
+              x: Number((geometry.cx + Math.cos(contact.bearing) * radialDistance).toFixed(2)),
+              y: Number((geometry.cy + Math.sin(contact.bearing) * radialDistance).toFixed(2)),
+              bearing: Number(contact.bearing.toFixed(4)),
+              distance: Number(contact.distance.toFixed(3)),
+              age: Number(contact.age.toFixed(3)),
+              duration: Number(contact.duration.toFixed(3)),
+              opacity: Number(radarContactOpacity(contact).toFixed(3))
+            };
+          }));
+        }
+      }
+
+      function drawRadar() {
+        const g = radarGeometry();
         const cx = g.cx;
         const cy = g.cy;
         const radius = g.radarRadius;
@@ -786,29 +906,8 @@
           }
         }
 
-        const targetX = cx + radius * 0.45;
-        const targetY = cy + radius * 0.14;
-        const targetSize = Math.max(12, radius * 0.095);
-        ctx.strokeStyle = "rgba(239, 74, 60, 0.68)";
-        ctx.lineWidth = 2;
-        for (const xSign of [-1, 1]) {
-          for (const ySign of [-1, 1]) {
-            const x = targetX + xSign * targetSize;
-            const y = targetY + ySign * targetSize;
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(x - xSign * 7, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(x, y - ySign * 7);
-            ctx.stroke();
-          }
-        }
-        ctx.fillStyle = "rgba(239, 74, 60, 0.72)";
-        ctx.font = (width < 560 ? 9 : 11) + "px Consolas, monospace";
-        ctx.textAlign = "center";
-        ctx.fillText("CONTACT 7.8m · DEMO", targetX, targetY - targetSize - 10);
+        radarContacts.forEach((contact) => drawRadarContact(contact, g));
+        updateRadarContactDiagnostics(g);
       }
 
       function boxSize() {
@@ -937,7 +1036,7 @@
       }
 
       function radarRegion() {
-        const g = sceneGeometry();
+        const g = radarGeometry();
         return {
           left: g.cx - g.radarRadius - 12,
           right: g.cx + g.radarRadius + 12,
@@ -1427,6 +1526,126 @@
         body.dataset.linkTargetActivity = target.toFixed(4);
       }
 
+      function spawnRadarContact() {
+        radarContactSequence += 1;
+        const sweepBearing = wrapRadians(-Math.PI / 2 + radarAngle);
+        const kind = testMode
+          ? (radarContactSequence % 4 === 0 ? "red" : "green")
+          : (Math.random() < 0.22 ? "red" : "green");
+        radarContacts.push({
+          id: radarContactSequence,
+          kind,
+          state: "pending",
+          bearing: wrapRadians(sweepBearing + randomBetween(testMode ? 0.08 : 0.18, testMode ? 0.24 : 0.95)),
+          distance: randomBetween(0.2, 0.82),
+          size: randomBetween(3.5, 6.5),
+          age: 0,
+          wait: 0,
+          duration: testMode ? randomBetween(1.2, 2.0) : randomBetween(4.2, 7.8)
+        });
+        radarContactSpawnCount += 1;
+      }
+
+      function updateRadarContacts(deltaSeconds) {
+        const radarVisible = transition
+          ? transition.from === "radar" || transition.to === "radar"
+          : sensorMode === "radar";
+        if (!radarVisible) {
+          return;
+        }
+
+        radarContactCountdown -= deltaSeconds;
+        if (radarContactCountdown <= 0 && radarContacts.length < 3) {
+          spawnRadarContact();
+          radarContactCountdown = testMode ? randomBetween(0.32, 0.58) : randomBetween(3.5, 8.5);
+        }
+
+        const sweepBearing = wrapRadians(-Math.PI / 2 + radarAngle);
+        for (let index = radarContacts.length - 1; index >= 0; index -= 1) {
+          const contact = radarContacts[index];
+          if (contact.state === "pending") {
+            contact.wait += deltaSeconds;
+            const forwardDistance = wrapRadians(contact.bearing - sweepBearing);
+            if (forwardDistance <= 0.07 || contact.wait >= (testMode ? 1.4 : 4.2)) {
+              contact.state = "active";
+              contact.age = 0;
+              if (contact.kind === "red") {
+                radarRedSeen += 1;
+              } else {
+                radarGreenSeen += 1;
+              }
+            }
+          } else {
+            contact.age += deltaSeconds;
+            if (contact.age >= contact.duration) {
+              radarContacts.splice(index, 1);
+              radarContactExpiredCount += 1;
+            }
+          }
+        }
+      }
+
+      function updateCleaningSweep(deltaSeconds) {
+        if (cleaningSweep) {
+          cleaningSweep.elapsed += deltaSeconds;
+          if (cleaningSweep.elapsed >= cleaningSweep.duration) {
+            cleaningSweep = null;
+            cleaningSweepCount += 1;
+            cleaningCountdown = testMode ? randomBetween(0.8, 1.15) : randomBetween(40, 70);
+          }
+          return;
+        }
+        cleaningCountdown -= deltaSeconds;
+        if (cleaningCountdown <= 0) {
+          cleaningSweep = {
+            elapsed: 0,
+            duration: testMode ? 1.25 : randomBetween(2.4, 3.2)
+          };
+        }
+      }
+
+      function cleaningProgress() {
+        return cleaningSweep ? clamp(cleaningSweep.elapsed / cleaningSweep.duration, 0, 1) : 0;
+      }
+
+      function cleaningLineY(progress) {
+        return clamp(progress * Math.max(1, height - 3) + 1, 1, Math.max(1, height - 2));
+      }
+
+      function updateCleaningDiagnostics() {
+        const progress = cleaningProgress();
+        body.dataset.cleaningState = blank ? "blank" : paused ? "paused" : cleaningSweep ? "active" : "idle";
+        body.dataset.cleaningVisible = String(Boolean(cleaningSweep && !blank && !paused));
+        body.dataset.cleaningDirection = "top-to-bottom";
+        body.dataset.cleaningProgress = progress.toFixed(4);
+        body.dataset.cleaningY = cleaningSweep ? cleaningLineY(progress).toFixed(1) : "-1";
+        body.dataset.cleaningLeft = "0";
+        body.dataset.cleaningRight = String(width);
+        body.dataset.cleaningSweepCount = String(cleaningSweepCount);
+        body.dataset.cleaningCountdown = cleaningCountdown.toFixed(3);
+      }
+
+      function drawDigitalCleaningSweep() {
+        if (!cleaningSweep || blank || paused) {
+          return;
+        }
+        const progress = cleaningProgress();
+        const y = cleaningLineY(progress);
+        ctx.save();
+        ctx.fillStyle = color(0.16);
+        ctx.fillRect(0, y, width, 1);
+        ctx.fillStyle = color(0.05);
+        ctx.fillRect(0, y - 2, width, 1);
+        ctx.fillRect(0, y + 2, width, 1);
+        for (let index = 0; index < 9; index += 1) {
+          const segmentX = (index * 173 + Math.floor(activeSeconds * 47) * 29) % Math.max(1, width);
+          const segmentWidth = Math.min(width - segmentX, 12 + (index * 19) % 54);
+          ctx.fillStyle = color(0.035 + (index % 3) * 0.012);
+          ctx.fillRect(segmentX, y + (index % 3) - 1, segmentWidth, 1);
+        }
+        ctx.restore();
+      }
+
       function resetFrameRateMeasurements() {
         frameSamples.length = 0;
         frameRate = 0;
@@ -1524,10 +1743,12 @@
         activeSeconds += deltaSeconds;
         radarAngle += deltaSeconds * 0.32;
         body.dataset.radarAngle = radarAngle.toFixed(3);
+        updateRadarContacts(deltaSeconds);
         updateCompass(deltaSeconds);
         updateBox(deltaSeconds);
         updatePixelShift(deltaSeconds);
         updateBreak(deltaSeconds);
+        updateCleaningSweep(deltaSeconds);
         updateLayout(deltaSeconds);
         updateLinkActivity(deltaSeconds);
 
@@ -1569,8 +1790,10 @@
             drawScene(sensorMode);
           }
           ctx.restore();
+          drawDigitalCleaningSweep();
         }
 
+        updateCleaningDiagnostics();
         requestAnimationFrame(render);
       }
 
@@ -1581,7 +1804,7 @@
         body.dataset.sensor = transition ? transition.to : sensorMode;
         body.dataset.transition = transition ? "right-to-left" : "none";
         body.dataset.layoutVariant = String(layoutVariant);
-        body.dataset.hudVersion = "0.6";
+        body.dataset.hudVersion = "0.7";
         body.dataset.hudTest = String(testMode);
         body.dataset.compassHeading = compassHeading.toFixed(2);
         body.dataset.compassScaleHeading = compassHeading.toFixed(2);
@@ -1595,6 +1818,7 @@
         body.dataset.frameRateFresh = String(frameRateFresh);
         body.dataset.displayMode = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone ? "standalone" : "browser";
         updateBoxDiagnostics();
+        updateCleaningDiagnostics();
         el("pause").textContent = paused ? "Resume animation (P)" : "Pause animation (P)";
         el("pause").setAttribute("aria-pressed", String(paused));
         el("quickPause").textContent = paused ? "Resume" : "Pause";
