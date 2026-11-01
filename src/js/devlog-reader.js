@@ -1,6 +1,6 @@
 (function () {
   const indexPath = "logs/devlogs-index.json";
-  const indexRequestPath = `${indexPath}?v=20260707-site-session056-public-log`;
+  const indexRequestPath = `${indexPath}?v=20261101-site-session062-ar-lab-launch`;
   const logBasePath = "logs/";
 
   const selectors = {

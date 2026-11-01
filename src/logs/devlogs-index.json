@@ -322,5 +322,17 @@
     "status": "copied",
     "publicReady": true,
     "tags": ["site", "devlogs", "carousel", "paper-reader", "grayscale-kitchen", "accessibility"]
+  },
+  {
+    "session": "062",
+    "date": "2026-11-01",
+    "area": "SITE",
+    "title": "Ketchup AR Lab Is Open: Try Recon Scanner v0.7 for Free",
+    "version": "Ketchup AR Lab / Recon Scanner v0.7",
+    "summary": "Ketchup AR Lab is open with Recon Scanner v0.7, a free browser-based sci-fi HUD experiment for AR glasses, tablets, phones, and desktop browsers.",
+    "filename": "20261101_SITE_Session062_DevLog.md",
+    "status": "copied",
+    "publicReady": true,
+    "tags": ["site", "ketchup-ar-lab", "recon-scanner", "sci-fi-hud", "free", "launch"]
   }
 ]

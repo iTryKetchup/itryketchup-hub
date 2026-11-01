@@ -32,6 +32,16 @@ window.ProjectsData = [
     actionLabel: "Open The Wolf Tale"
   },
   {
+    title: "Ketchup AR Lab: Recon Scanner",
+    category: "Sci-Fi HUD Experiment",
+    status: "released",
+    visibility: "public",
+    summary: "Free browser-based animated sci-fi HUD with simulated radar, search scanner, compass, and display effects. Part of the ongoing Ketchup AR Lab.",
+    imageId: "projectPlaceholder",
+    link: "hud/",
+    actionLabel: "Launch Free HUD"
+  },
+  {
     title: "Kitchen Wars: The Crisper",
     category: "Game concept",
     status: "planned",
