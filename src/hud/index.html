@@ -657,8 +657,19 @@
       }
 
       function advanceCompassVerticalPlacement() {
+        const currentPoint = boxPoint(boxMotion);
+        const targetPoint = boxPoint(boxTarget);
         const count = compassLayout().verticalPlacements;
         compassVerticalPlacement = chooseDifferentIndex(compassVerticalPlacement, count);
+        const nextBounds = boxTravelBounds();
+        boxMotion = {
+          x: clamp((currentPoint.x - nextBounds.left) / Math.max(1, nextBounds.right - nextBounds.left), 0, 1),
+          y: clamp((currentPoint.y - nextBounds.top) / Math.max(1, nextBounds.bottom - nextBounds.top), 0, 1)
+        };
+        boxTarget = {
+          x: clamp((targetPoint.x - nextBounds.left) / Math.max(1, nextBounds.right - nextBounds.left), 0, 1),
+          y: clamp((targetPoint.y - nextBounds.top) / Math.max(1, nextBounds.bottom - nextBounds.top), 0, 1)
+        };
         compassVerticalCountdown = testMode ? randomBetween(2.2, 3.6) : randomBetween(58, 104);
         compassVerticalMoveCount += 1;
         body.dataset.compassVerticalPlacement = String(compassVerticalPlacement);

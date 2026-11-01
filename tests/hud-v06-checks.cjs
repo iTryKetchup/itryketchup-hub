@@ -370,7 +370,11 @@ async function runViewport(browser, baseUrl, spec) {
     check(Number(inspectStart.data.linkTargetActivity) >= 0.9, "desktop LINK target is strongest while inspecting");
     await page.waitForTimeout(350);
     const inspectAfter = await diagnostics(page);
-    if (inspectAfter.data.boxPhase === "inspect" && inspectAfter.data.boxMoveCount === inspectStart.data.boxMoveCount) {
+    if (
+      inspectAfter.data.boxPhase === "inspect" &&
+      inspectStart.data.boxMoveCount !== undefined &&
+      inspectAfter.data.boxMoveCount === inspectStart.data.boxMoveCount
+    ) {
       check(inspectAfter.data.scannerX === inspectStart.data.scannerX && inspectAfter.data.scannerY === inspectStart.data.scannerY, "desktop inspect pause holds scanner SHIFT values");
       check(Number(inspectAfter.data.linkActivity) > Number(slow.data.linkActivity), "desktop LINK smoothly strengthens during inspection");
     }
