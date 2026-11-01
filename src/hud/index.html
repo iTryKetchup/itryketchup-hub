@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Experimental simulated HUD with animated compass and scanner-linked coordinates for the iTryKetchup VITURE Beast test.">
+  <meta name="description" content="Experimental simulated HUD with a centered animated compass, live cycle activity, and scanner-linked coordinates for the iTryKetchup VITURE Beast test.">
   <meta name="application-name" content="Ketchup HUD">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,7 +14,7 @@
   <link rel="manifest" href="/hud/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/hud/icons/apple-touch-icon.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2319d7e6' stroke-width='2'/%3E%3Cpath d='M16 3v8M16 21v8M3 16h8M21 16h8' stroke='%2319d7e6'/%3E%3C/svg%3E">
-  <title>Ketchup HUD v0.5 | Dynamic Readouts</title>
+  <title>Ketchup HUD v0.6 | Live Activity Bars</title>
   <style>
     :root {
       color-scheme: dark;
@@ -320,7 +320,7 @@
   <canvas
     id="hud"
     role="img"
-    aria-label="Animated experimental HUD. Compass heading, radar contact, box scanner, status, link, power, and frame readings are simulated."
+    aria-label="Animated experimental HUD. Compass heading, radar contact, box scanner, and link activity are simulated. Cycle timing and browser frame rate are live."
   ></canvas>
 
   <section
@@ -331,8 +331,8 @@
     aria-describedby="safetyNote"
     tabindex="-1"
   >
-    <h1 id="controlsTitle">Ketchup HUD v0.5 · Dynamic Readouts</h1>
-    <p>Live clock and animated graphics. Compass, radar contact, scanner coordinates, power, link, and frame readings are <strong>SIMULATED</strong>.</p>
+    <h1 id="controlsTitle">Ketchup HUD v0.6 · Live Activity Bars</h1>
+    <p>Live clock, sensor-cycle countdown, and measured browser FPS. Compass, radar contact, scanner coordinates, and LINK activity are <strong>SIMULATED</strong>.</p>
     <p id="safetyNote" class="safety"><strong>Safety:</strong> Experimental visual display only. No real object detection and not navigation guidance. Do not view while crossing roads or whenever situational awareness is needed. Configure before moving; the HUD does not require constant interaction.</p>
 
     <label class="field">
@@ -449,7 +449,8 @@
       let activeSeconds = 0;
       let lastFrame = performance.now();
       let sensorMode = "radar";
-      let modeCountdown = randomModeDelay();
+      let modeCycleDuration = 0;
+      let modeCountdown = 0;
       let transition = null;
       let shiftCountdown = 0;
       let breakElapsed = 0;
@@ -462,12 +463,15 @@
       let compassHeading = 295;
       let compassTarget = 295;
       let compassTargetCountdown = 0;
-      let compassPlacement = 0;
-      let compassPlacementCountdown = testMode ? 2.4 : 58;
-      let compassMoveCount = 0;
-      let statusPanelPlacement = 0;
-      let statusPanelCountdown = testMode ? 2.8 : 52;
-      let statusPanelMoveCount = 0;
+      let compassVerticalPlacement = 0;
+      let compassVerticalCountdown = testMode ? 2.4 : 58;
+      let compassVerticalMoveCount = 0;
+      let linkActivity = 0.28;
+      let linkPhase = "radar";
+      let frameRate = 0;
+      let frameRateReference = 60;
+      let frameRateFresh = false;
+      const frameSamples = [];
       let boxMotion = { x: 0.5, y: 0.49 };
       let boxTarget = { x: 0.88, y: 0.18 };
       let boxPhase = "move";
@@ -604,6 +608,7 @@
 
       function drawCorners() {
         const b = frameBounds();
+        setRectDiagnostics("frame", b);
         const length = clamp(Math.min(width, height) * 0.075, 30, 64);
         line(b.left, b.top, b.left + length, b.top, 0.88, 2);
         line(b.left, b.top, b.left, b.top + length, 0.88, 2);
@@ -625,27 +630,17 @@
         const compact = width < 560;
         const short = height < 520;
         const halfSpan = Math.min((b.right - b.left) * 0.43, 370);
-        const horizontalClearance = compact ? 14 : 72;
-        const horizontalRoom = Math.max(
-          0,
-          (b.right - b.left) / 2 - halfSpan - horizontalClearance
-        );
-        const placements = [
-          { x: -0.72, y: 0 },
-          { x: 0.66, y: 9 },
-          { x: -0.18, y: 16 },
-          { x: 0.28, y: 4 }
-        ];
-        const placement = placements[compassPlacement % placements.length];
-        const cx = width / 2 + placement.x * horizontalRoom;
+        const verticalOffsets = [0, 7, 14, 4];
+        const verticalOffset = verticalOffsets[compassVerticalPlacement % verticalOffsets.length];
+        const cx = (b.left + b.right) / 2;
         const baseY = b.top + (compact ? 72 : short ? 62 : 68);
-        const y = baseY + placement.y;
+        const y = baseY + verticalOffset;
         return {
           cx,
           y,
           halfSpan,
           compact,
-          placements: placements.length,
+          verticalPlacements: verticalOffsets.length,
           left: cx - halfSpan - 5,
           right: cx + halfSpan + 5,
           top: y - 24,
@@ -661,13 +656,13 @@
         body.dataset.compassTarget = compassTarget.toFixed(1);
       }
 
-      function advanceCompassPlacement() {
-        const count = compassLayout().placements;
-        compassPlacement = chooseDifferentIndex(compassPlacement, count);
-        compassPlacementCountdown = testMode ? randomBetween(2.2, 3.6) : randomBetween(52, 94);
-        compassMoveCount += 1;
-        body.dataset.compassPlacement = String(compassPlacement);
-        body.dataset.compassMoveCount = String(compassMoveCount);
+      function advanceCompassVerticalPlacement() {
+        const count = compassLayout().verticalPlacements;
+        compassVerticalPlacement = chooseDifferentIndex(compassVerticalPlacement, count);
+        compassVerticalCountdown = testMode ? randomBetween(2.2, 3.6) : randomBetween(58, 104);
+        compassVerticalMoveCount += 1;
+        body.dataset.compassVerticalPlacement = String(compassVerticalPlacement);
+        body.dataset.compassVerticalMoveCount = String(compassVerticalMoveCount);
       }
 
       function updateCompass(deltaSeconds) {
@@ -682,9 +677,9 @@
           chooseCompassTarget(false);
         }
 
-        compassPlacementCountdown -= deltaSeconds;
-        if (compassPlacementCountdown <= 0) {
-          advanceCompassPlacement();
+        compassVerticalCountdown -= deltaSeconds;
+        if (compassVerticalCountdown <= 0) {
+          advanceCompassVerticalPlacement();
         }
         body.dataset.compassHeading = compassHeading.toFixed(2);
         body.dataset.compassScaleHeading = compassHeading.toFixed(2);
@@ -725,8 +720,8 @@
         setRectDiagnostics("compass", layout);
         body.dataset.compassCenterX = cx.toFixed(1);
         body.dataset.compassPointerBearing = compassHeading.toFixed(2);
-        body.dataset.compassPlacement = String(compassPlacement);
-        body.dataset.compassMoveCount = String(compassMoveCount);
+        body.dataset.compassVerticalPlacement = String(compassVerticalPlacement);
+        body.dataset.compassVerticalMoveCount = String(compassVerticalMoveCount);
       }
 
       function sceneGeometry() {
@@ -813,11 +808,21 @@
         const b = frameBounds();
         const half = boxSize() / 2;
         const compass = compassLayout();
+        const panel = statusPanelLayout();
+        const portrait = sceneGeometry().portrait;
+        const readout = boxReadoutLayout();
+        const naturalLeft = b.left + half + 6;
+        const naturalRight = Math.max(b.left + half + 7, b.right - half - 6);
+        const naturalBottom = Math.max(b.top + half + 35, b.bottom - half - 34);
         return {
-          left: b.left + half + 6,
-          right: Math.max(b.left + half + 7, b.right - half - 6),
+          left: portrait ? naturalLeft : Math.min(naturalRight - 1, Math.max(naturalLeft, readout.right + half + 18)),
+          right: portrait
+            ? naturalRight
+            : Math.max(b.left + half + 7, Math.min(naturalRight, panel.left - half - 18)),
           top: Math.max(b.top + half + 34, compass.bottom + half + 16),
-          bottom: Math.max(b.top + half + 35, b.bottom - half - 34)
+          bottom: portrait
+            ? Math.max(b.top + half + 35, Math.min(naturalBottom, Math.min(panel.top, readout.top) - half - 30))
+            : naturalBottom
         };
       }
 
@@ -834,6 +839,7 @@
         const current = boxPoint(boxMotion);
         const diagonal = Math.hypot(bounds.right - bounds.left, bounds.bottom - bounds.top);
         boxMoveCount += 1;
+        body.dataset.boxMoveCount = String(boxMoveCount);
         boxLongTravel = forceLong || boxMoveCount % 4 === 0 || Math.random() < 0.32;
         let chosen = { x: Math.random(), y: Math.random() };
 
@@ -953,7 +959,7 @@
         };
       }
 
-      function statusPanelCandidates() {
+      function statusPanelLayout() {
         const g = sceneGeometry();
         const b = frameBounds();
         const small = width < 470;
@@ -963,25 +969,24 @@
         const rowStep = g.portrait ? 31 : g.short ? 34 : 44;
         const panelHeight = rowStep * 2 + (g.portrait ? 18 : 22);
         const edge = g.portrait ? 8 : 12;
-        const left = b.left + edge;
-        const right = b.right - edge - panelWidth;
+        const left = b.right - edge - panelWidth;
         const compass = compassLayout();
-        const upper = clamp(
-          Math.max(compass.bottom + (g.portrait ? 36 : 28), height * (g.portrait ? 0.5 : 0.43)),
-          compass.bottom + 20,
-          b.bottom - panelHeight - 34
-        );
-        const lower = clamp(
-          b.bottom - panelHeight - (g.portrait ? (small ? 58 : 76) : 42),
-          compass.bottom + 20,
-          b.bottom - panelHeight - 18
-        );
-        return [
-          { left, right: left + panelWidth, top: upper, bottom: upper + panelHeight, panelWidth, rowStep, small },
-          { left: right, right: right + panelWidth, top: upper, bottom: upper + panelHeight, panelWidth, rowStep, small },
-          { left, right: left + panelWidth, top: lower, bottom: lower + panelHeight, panelWidth, rowStep, small },
-          { left: right, right: right + panelWidth, top: lower, bottom: lower + panelHeight, panelWidth, rowStep, small }
-        ];
+        const preferredTop = g.portrait
+          ? b.bottom - panelHeight - (small ? 58 : 76)
+          : Math.max(compass.bottom + 34, height * (g.short ? 0.45 : 0.48));
+        const top = clamp(preferredTop, compass.bottom + 22, b.bottom - panelHeight - 18);
+        const region = {
+          left,
+          right: left + panelWidth,
+          top,
+          bottom: top + panelHeight,
+          panelWidth,
+          rowStep,
+          small
+        };
+        body.dataset.statusPanelAnchor = "right";
+        setRectDiagnostics("statusPanel", region);
+        return region;
       }
 
       function protectedRegionsForMode(mode) {
@@ -1008,38 +1013,6 @@
           }));
           return !best || distance > best.distance ? { candidate, distance } : best;
         }, null).candidate;
-      }
-
-      function resolveStatusPanel(mode) {
-        const candidates = statusPanelCandidates();
-        const protectedRegions = protectedRegionsForMode(mode);
-        const order = candidates.map((_, index) => (statusPanelPlacement + index) % candidates.length);
-        const safeIndex = order.find((index) => regionClear(candidates[index], protectedRegions, 3));
-        const region = safeIndex === undefined
-          ? farthestRegion(candidates, protectedRegions)
-          : candidates[safeIndex];
-        const resolvedIndex = candidates.indexOf(region);
-        body.dataset.statusPanelPlacement = String(statusPanelPlacement);
-        body.dataset.statusPanelResolved = String(resolvedIndex);
-        body.dataset.statusPanelAvoidance = String(resolvedIndex !== statusPanelPlacement);
-        body.dataset.statusPanelMoveCount = String(statusPanelMoveCount);
-        setRectDiagnostics("statusPanel", region);
-        return region;
-      }
-
-      function advanceStatusPanel() {
-        statusPanelPlacement = chooseDifferentIndex(statusPanelPlacement, statusPanelCandidates().length);
-        statusPanelCountdown = testMode ? randomBetween(2.5, 4.2) : randomBetween(48, 86);
-        statusPanelMoveCount += 1;
-        body.dataset.statusPanelPlacement = String(statusPanelPlacement);
-        body.dataset.statusPanelMoveCount = String(statusPanelMoveCount);
-      }
-
-      function updateStatusPanel(deltaSeconds) {
-        statusPanelCountdown -= deltaSeconds;
-        if (statusPanelCountdown <= 0) {
-          advanceStatusPanel();
-        }
       }
 
       function readoutCandidates() {
@@ -1071,10 +1044,22 @@
         ];
       }
 
+      function boxReadoutLayout() {
+        const candidates = readoutCandidates();
+        return sceneGeometry().portrait ? candidates[2] : candidates[0];
+      }
+
       function resolveReadout(mode, barRegion) {
+        if (mode === "box") {
+          const region = boxReadoutLayout();
+          body.dataset.readoutPlacement = sceneGeometry().portrait ? "2" : "0";
+          body.dataset.readoutFallback = "false";
+          setRectDiagnostics("readout", region);
+          return region;
+        }
         const candidates = readoutCandidates();
         const protectedRegions = [...protectedRegionsForMode(mode), barRegion];
-        const preferred = (statusPanelPlacement + layoutVariant + 1) % candidates.length;
+        const preferred = (layoutVariant + 1) % candidates.length;
         const order = candidates.map((_, index) => (preferred + index) % candidates.length);
         const safeIndex = order.find((index) => regionClear(candidates[index], protectedRegions, 3));
         const region = safeIndex === undefined
@@ -1091,12 +1076,65 @@
         return (rounded >= 0 ? "+" : "-") + String(Math.abs(rounded)).padStart(digits, "0");
       }
 
+      function cycleReadout() {
+        if (!modeCycleDuration || el("cycle").value === "off") {
+          return { label: "OFF", fill: 0, state: "off" };
+        }
+        const minutes = Math.max(0, Math.ceil(modeCountdown / 60000));
+        return {
+          label: String(minutes).padStart(2, "0") + " MM",
+          fill: clamp(1 - modeCountdown / modeCycleDuration, 0, 1),
+          state: paused || blank ? "paused" : transition ? "transition" : "running"
+        };
+      }
+
+      function linkReadout(mode) {
+        if (paused || blank) {
+          return { label: "PAUSED SIM", fill: 0 };
+        }
+        if (mode === "radar") {
+          return { label: "RADAR SIM", fill: linkActivity };
+        }
+        return {
+          label: (boxPhase === "inspect" ? "INSPECT" : boxPhase === "slow" ? "ALIGN" : "SEARCH") + " SIM",
+          fill: linkActivity
+        };
+      }
+
+      function frameReadout() {
+        if (paused) {
+          return { label: "PAUSED", fill: 0 };
+        }
+        if (!frameRateFresh) {
+          return { label: "-- FPS", fill: 0 };
+        }
+        return {
+          label: Math.round(frameRate) + " FPS",
+          fill: clamp(frameRate / frameRateReference, 0, 1)
+        };
+      }
+
       function drawStatusBars(region) {
+        const mode = transition ? transition.to : sensorMode;
+        const cycleStatus = cycleReadout();
+        const linkStatus = linkReadout(mode);
+        const frameStatus = frameReadout();
         const entries = [
-          ["POWER", "59% SIM", 0.59],
-          ["LINK", "4G SIM", 1],
-          ["FRAME", "165 SIM", 0.82]
+          ["CYCLE", cycleStatus.label, cycleStatus.fill],
+          ["LINK", linkStatus.label, linkStatus.fill],
+          ["FRAME", frameStatus.label, frameStatus.fill]
         ];
+        body.dataset.cycleDurationMs = String(Math.round(modeCycleDuration));
+        body.dataset.cycleRemainingMs = String(Math.max(0, Math.round(modeCountdown)));
+        body.dataset.cycleProgress = cycleStatus.fill.toFixed(4);
+        body.dataset.cycleDisplay = cycleStatus.label;
+        body.dataset.cycleState = cycleStatus.state;
+        body.dataset.linkActivity = linkStatus.fill.toFixed(4);
+        body.dataset.linkPhase = linkPhase;
+        body.dataset.frameRate = frameRateFresh ? frameRate.toFixed(1) : "stale";
+        body.dataset.frameRateReference = String(frameRateReference);
+        body.dataset.frameRateFill = frameStatus.fill.toFixed(4);
+        body.dataset.frameRateFresh = String(frameRateFresh);
         entries.forEach((entry, index) => {
           const y = region.top + index * region.rowStep;
           text(entry[0], region.left, y, region.small ? 9 : sceneGeometry().short ? 9 : 11, "left", 0.9, true);
@@ -1180,7 +1218,7 @@
           text(date, clockX, topY + 26, g.short ? 9 : 11, clockAlign, 0.78);
         }
 
-        const barRegion = resolveStatusPanel(mode);
+        const barRegion = statusPanelLayout();
         drawStatusBars(barRegion);
         drawStatusReadout(mode, resolveReadout(mode, barRegion));
       }
@@ -1256,7 +1294,15 @@
         if (selected === "off") {
           return 0;
         }
+        if (testMode) {
+          return selected === "auto" ? randomBetween(2600, 3200) : 2800;
+        }
         return selected === "auto" ? randomModeDelay() : Number(selected) * 1000;
+      }
+
+      function resetModeCycle() {
+        modeCycleDuration = cycleMilliseconds();
+        modeCountdown = modeCycleDuration;
       }
 
       function startSensorTransition(nextMode) {
@@ -1266,7 +1312,7 @@
         if (paused) {
           sensorMode = nextMode;
           transition = null;
-          modeCountdown = cycleMilliseconds() || randomModeDelay();
+          resetModeCycle();
           body.dataset.transition = "none";
           body.dataset.transitionX = "0";
           advanceLayout();
@@ -1287,15 +1333,17 @@
       }
 
       function switchSensor() {
-        const current = transition ? transition.to : sensorMode;
-        transition = null;
-        startSensorTransition(current === "radar" ? "box" : "radar");
+        if (transition) {
+          sensorMode = transition.to;
+          transition = null;
+        }
+        startSensorTransition(sensorMode === "radar" ? "box" : "radar");
       }
 
       function finishTransition() {
         sensorMode = transition.to;
         transition = null;
-        modeCountdown = cycleMilliseconds() || randomModeDelay();
+        resetModeCycle();
         body.dataset.transition = "none";
         body.dataset.transitionX = "0";
         advanceLayout();
@@ -1347,6 +1395,62 @@
         boxMotion.x = clamp((nextX - bounds.left) / Math.max(1, bounds.right - bounds.left), 0, 1);
         boxMotion.y = clamp((nextY - bounds.top) / Math.max(1, bounds.bottom - bounds.top), 0, 1);
         updateBoxDiagnostics();
+      }
+
+      function updateLinkActivity(deltaSeconds) {
+        const mode = transition ? transition.to : sensorMode;
+        let target = 0.28;
+        if (mode === "radar") {
+          linkPhase = "radar";
+          target = 0.27 + (Math.sin(radarAngle * 2.2) + 1) * 0.075;
+        } else {
+          linkPhase = boxPhase;
+          target = {
+            move: 0.36,
+            slow: 0.62,
+            inspect: 0.92,
+            reposition: 0.24
+          }[boxPhase] || 0.3;
+        }
+        linkActivity += (target - linkActivity) * Math.min(1, deltaSeconds * 2.4);
+        body.dataset.linkTargetActivity = target.toFixed(4);
+      }
+
+      function resetFrameRateMeasurements() {
+        frameSamples.length = 0;
+        frameRate = 0;
+        frameRateFresh = false;
+      }
+
+      function updateFrameRate(now, rawDeltaMilliseconds) {
+        if (paused || blank || document.hidden || rawDeltaMilliseconds > 1000) {
+          if (frameRateFresh || frameSamples.length) {
+            resetFrameRateMeasurements();
+          }
+          return;
+        }
+        if (rawDeltaMilliseconds < 2 || rawDeltaMilliseconds > 250) {
+          return;
+        }
+        frameSamples.push({ at: now, fps: clamp(1000 / rawDeltaMilliseconds, 1, 300) });
+        while (frameSamples.length > 120 || (frameSamples[0] && frameSamples[0].at < now - 1200)) {
+          frameSamples.shift();
+        }
+        if (frameSamples.length < 8) {
+          return;
+        }
+        const sorted = frameSamples.map((sample) => sample.fps).sort((a, b) => a - b);
+        const trim = Math.floor(sorted.length * 0.1);
+        const core = sorted.slice(trim, Math.max(trim + 1, sorted.length - trim));
+        const measured = core.reduce((sum, sample) => sum + sample, 0) / core.length;
+        const commonRefreshRates = [60, 75, 90, 120, 144, 165, 240];
+        // The closest common refresh rate is the documented 100% reference for the FRAME bar.
+        const inferredRefreshRate = commonRefreshRates.reduce((closest, candidate) =>
+          Math.abs(candidate - measured) < Math.abs(closest - measured) ? candidate : closest
+        , 60);
+        frameRateReference = Math.max(frameRateReference, inferredRefreshRate);
+        frameRate = frameRateFresh ? frameRate + (measured - frameRate) * 0.18 : measured;
+        frameRateFresh = true;
       }
 
       function advanceLayout() {
@@ -1414,7 +1518,7 @@
         updatePixelShift(deltaSeconds);
         updateBreak(deltaSeconds);
         updateLayout(deltaSeconds);
-        updateStatusPanel(deltaSeconds);
+        updateLinkActivity(deltaSeconds);
 
         if (transition) {
           transition.elapsed += deltaSeconds * 1000;
@@ -1424,8 +1528,8 @@
           return;
         }
 
-        if (el("cycle").value !== "off") {
-          modeCountdown -= deltaSeconds * 1000;
+        if (modeCycleDuration > 0) {
+          modeCountdown = Math.max(0, modeCountdown - deltaSeconds * 1000);
           if (modeCountdown <= 0) {
             startSensorTransition(sensorMode === "radar" ? "box" : "radar");
           }
@@ -1433,8 +1537,10 @@
       }
 
       function render(now) {
-        const deltaSeconds = Math.min((now - lastFrame) / 1000, 0.1);
+        const rawDeltaMilliseconds = now - lastFrame;
+        const deltaSeconds = Math.min(rawDeltaMilliseconds / 1000, 0.1);
         lastFrame = now;
+        updateFrameRate(now, rawDeltaMilliseconds);
         update(deltaSeconds);
 
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1464,15 +1570,18 @@
         body.dataset.sensor = transition ? transition.to : sensorMode;
         body.dataset.transition = transition ? "right-to-left" : "none";
         body.dataset.layoutVariant = String(layoutVariant);
-        body.dataset.hudVersion = "0.5";
+        body.dataset.hudVersion = "0.6";
         body.dataset.hudTest = String(testMode);
         body.dataset.compassHeading = compassHeading.toFixed(2);
         body.dataset.compassScaleHeading = compassHeading.toFixed(2);
         body.dataset.compassTarget = compassTarget.toFixed(1);
-        body.dataset.compassPlacement = String(compassPlacement);
-        body.dataset.compassMoveCount = String(compassMoveCount);
-        body.dataset.statusPanelPlacement = String(statusPanelPlacement);
-        body.dataset.statusPanelMoveCount = String(statusPanelMoveCount);
+        body.dataset.compassVerticalPlacement = String(compassVerticalPlacement);
+        body.dataset.compassVerticalMoveCount = String(compassVerticalMoveCount);
+        body.dataset.statusPanelAnchor = "right";
+        body.dataset.cycleDurationMs = String(Math.round(modeCycleDuration));
+        body.dataset.cycleRemainingMs = String(Math.max(0, Math.round(modeCountdown)));
+        body.dataset.linkPhase = linkPhase;
+        body.dataset.frameRateFresh = String(frameRateFresh);
         body.dataset.displayMode = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone ? "standalone" : "browser";
         updateBoxDiagnostics();
         el("pause").textContent = paused ? "Resume animation (P)" : "Pause animation (P)";
@@ -1487,7 +1596,12 @@
       }
 
       function setPaused(nextPaused, shouldAnnounce = true) {
+        const changed = paused !== nextPaused;
         paused = nextPaused;
+        if (changed) {
+          resetFrameRateMeasurements();
+          lastFrame = performance.now();
+        }
         updateStateAttributes();
         if (shouldAnnounce) {
           announce(paused ? "Animation paused. The live clock remains current." : "Animation resumed.");
@@ -1495,8 +1609,13 @@
       }
 
       function setBlank(nextBlank) {
+        const changed = blank !== nextBlank;
         blank = nextBlank;
         breakElapsed = 0;
+        if (changed) {
+          resetFrameRateMeasurements();
+          lastFrame = performance.now();
+        }
         el("wake").classList.toggle("active", blank);
         el("wake").setAttribute("aria-hidden", String(!blank));
         if (blank) {
@@ -1567,7 +1686,12 @@
         el("brightVal").textContent = el("bright").value + "%";
       });
       el("cycle").addEventListener("change", () => {
-        modeCountdown = cycleMilliseconds() || randomModeDelay();
+        if (transition && el("cycle").value !== "off") {
+          modeCountdown = 0;
+        } else {
+          resetModeCycle();
+        }
+        updateStateAttributes();
         announce(el("cycle").value === "off" ? "Automatic sensor switching disabled." : "Sensor cycle updated.");
       });
       el("shift").addEventListener("change", () => {
@@ -1618,8 +1742,13 @@
       window.visualViewport?.addEventListener("resize", scheduleResize);
       document.addEventListener("fullscreenchange", updateFullscreenStatus);
       document.addEventListener("webkitfullscreenchange", updateFullscreenStatus);
+      document.addEventListener("visibilitychange", () => {
+        resetFrameRateMeasurements();
+        lastFrame = performance.now();
+      });
 
       resize();
+      resetModeCycle();
       chooseCompassTarget(true);
       chooseBoxTarget(true);
       updateStateAttributes();
