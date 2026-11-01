@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Experimental simulated HUD display for the iTryKetchup VITURE Beast test.">
+  <meta name="description" content="Experimental simulated HUD with animated compass and scanner-linked coordinates for the iTryKetchup VITURE Beast test.">
   <meta name="application-name" content="Ketchup HUD">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,7 +14,7 @@
   <link rel="manifest" href="/hud/manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="/hud/icons/apple-touch-icon.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2319d7e6' stroke-width='2'/%3E%3Cpath d='M16 3v8M16 21v8M3 16h8M21 16h8' stroke='%2319d7e6'/%3E%3C/svg%3E">
-  <title>Ketchup HUD v0.4 | Full-Screen Search</title>
+  <title>Ketchup HUD v0.5 | Dynamic Readouts</title>
   <style>
     :root {
       color-scheme: dark;
@@ -331,8 +331,8 @@
     aria-describedby="safetyNote"
     tabindex="-1"
   >
-    <h1 id="controlsTitle">Ketchup HUD v0.4 · Full-Screen Search</h1>
-    <p>Live clock and animated graphics. Compass, radar contact, box search, power, link, and frame readings are <strong>SIMULATED</strong>.</p>
+    <h1 id="controlsTitle">Ketchup HUD v0.5 · Dynamic Readouts</h1>
+    <p>Live clock and animated graphics. Compass, radar contact, scanner coordinates, power, link, and frame readings are <strong>SIMULATED</strong>.</p>
     <p id="safetyNote" class="safety"><strong>Safety:</strong> Experimental visual display only. No real object detection and not navigation guidance. Do not view while crossing roads or whenever situational awareness is needed. Configure before moving; the HUD does not require constant interaction.</p>
 
     <label class="field">
@@ -429,6 +429,7 @@
       const el = (id) => document.getElementById(id);
       const root = document.documentElement;
       const body = document.body;
+      const testMode = new URLSearchParams(window.location.search).get("hudTest") === "1";
       const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
       const requestFullscreen =
         document.documentElement.requestFullscreen?.bind(document.documentElement) ||
@@ -458,6 +459,15 @@
       let layoutVariant = 0;
       let layoutCountdown = 75;
       let radarAngle = 0;
+      let compassHeading = 295;
+      let compassTarget = 295;
+      let compassTargetCountdown = 0;
+      let compassPlacement = 0;
+      let compassPlacementCountdown = testMode ? 2.4 : 58;
+      let compassMoveCount = 0;
+      let statusPanelPlacement = 0;
+      let statusPanelCountdown = testMode ? 2.8 : 52;
+      let statusPanelMoveCount = 0;
       let boxMotion = { x: 0.5, y: 0.49 };
       let boxTarget = { x: 0.88, y: 0.18 };
       let boxPhase = "move";
@@ -478,6 +488,41 @@
 
       function clamp(value, min, max) {
         return Math.max(min, Math.min(max, value));
+      }
+
+      function randomBetween(min, max) {
+        return min + Math.random() * (max - min);
+      }
+
+      function wrapDegrees(value) {
+        return ((value % 360) + 360) % 360;
+      }
+
+      function angleDelta(from, to) {
+        return ((to - from + 540) % 360) - 180;
+      }
+
+      function chooseDifferentIndex(current, count) {
+        if (count <= 1) {
+          return 0;
+        }
+        return (current + 1 + Math.floor(Math.random() * (count - 1))) % count;
+      }
+
+      function rectanglesOverlap(a, b, padding = 0) {
+        return !(
+          a.right + padding <= b.left ||
+          a.left >= b.right + padding ||
+          a.bottom + padding <= b.top ||
+          a.top >= b.bottom + padding
+        );
+      }
+
+      function setRectDiagnostics(prefix, region) {
+        body.dataset[prefix + "Left"] = region.left.toFixed(1);
+        body.dataset[prefix + "Right"] = region.right.toFixed(1);
+        body.dataset[prefix + "Top"] = region.top.toFixed(1);
+        body.dataset[prefix + "Bottom"] = region.bottom.toFixed(1);
       }
 
       function randomModeDelay() {
@@ -502,6 +547,7 @@
           left: readSafeArea("left")
         };
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        updateBoxDiagnostics();
       }
 
       function scheduleResize() {
@@ -569,38 +615,127 @@
         line(b.right, b.bottom, b.right, b.bottom - length, 0.88, 2);
       }
 
-      function drawCompass() {
+      function compassLabel(bearing) {
+        const labels = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+        return labels[Math.round(wrapDegrees(bearing) / 45) % labels.length];
+      }
+
+      function compassLayout() {
         const b = frameBounds();
         const compact = width < 560;
-        const cx = width / 2;
-        const arrangementOffset = layoutVariant >= 2 ? (compact ? 10 : 8) : 0;
-        const y = b.top + (compact ? 68 : 35) + arrangementOffset;
+        const short = height < 520;
         const halfSpan = Math.min((b.right - b.left) * 0.43, 370);
-        const tickGap = (halfSpan * 2) / 18;
-        line(cx - halfSpan, y, cx + halfSpan, y, 0.5);
-        for (let index = -9; index <= 9; index += 1) {
-          const x = cx + index * tickGap;
-          line(x, y, x, y + (index % 3 === 0 ? 11 : 6), index % 3 === 0 ? 0.85 : 0.42, index % 3 === 0 ? 2 : 1);
+        const horizontalClearance = compact ? 14 : 72;
+        const horizontalRoom = Math.max(
+          0,
+          (b.right - b.left) / 2 - halfSpan - horizontalClearance
+        );
+        const placements = [
+          { x: -0.72, y: 0 },
+          { x: 0.66, y: 9 },
+          { x: -0.18, y: 16 },
+          { x: 0.28, y: 4 }
+        ];
+        const placement = placements[compassPlacement % placements.length];
+        const cx = width / 2 + placement.x * horizontalRoom;
+        const baseY = b.top + (compact ? 72 : short ? 62 : 68);
+        const y = baseY + placement.y;
+        return {
+          cx,
+          y,
+          halfSpan,
+          compact,
+          placements: placements.length,
+          left: cx - halfSpan - 5,
+          right: cx + halfSpan + 5,
+          top: y - 24,
+          bottom: y + 46
+        };
+      }
+
+      function chooseCompassTarget(initial = false) {
+        const magnitude = initial ? randomBetween(12, 28) : randomBetween(16, 54);
+        const direction = Math.random() < 0.5 ? -1 : 1;
+        compassTarget = wrapDegrees(compassHeading + magnitude * direction);
+        compassTargetCountdown = testMode ? randomBetween(1.4, 2.3) : randomBetween(12, 24);
+        body.dataset.compassTarget = compassTarget.toFixed(1);
+      }
+
+      function advanceCompassPlacement() {
+        const count = compassLayout().placements;
+        compassPlacement = chooseDifferentIndex(compassPlacement, count);
+        compassPlacementCountdown = testMode ? randomBetween(2.2, 3.6) : randomBetween(52, 94);
+        compassMoveCount += 1;
+        body.dataset.compassPlacement = String(compassPlacement);
+        body.dataset.compassMoveCount = String(compassMoveCount);
+      }
+
+      function updateCompass(deltaSeconds) {
+        compassTargetCountdown -= deltaSeconds;
+        const difference = angleDelta(compassHeading, compassTarget);
+        const speed = clamp(Math.abs(difference) * 0.22, 0.3, testMode ? 8 : 2.4);
+        const step = Math.min(Math.abs(difference), speed * deltaSeconds);
+        if (step > 0.001) {
+          compassHeading = wrapDegrees(compassHeading + Math.sign(difference) * step);
         }
-        text("W", cx - halfSpan * 0.55, y - 13, compact ? 12 : 15, "center", 0.87, true);
-        text("NW", cx + halfSpan * 0.44, y - 13, compact ? 12 : 15, "center", 0.87, true);
-        text("SIM 295°", cx, y + 31, compact ? 11 : 13, "center", 1, true);
-        rect(cx - 37, y + 19, 74, 24, 0.9);
+        if (compassTargetCountdown <= 0 || Math.abs(difference) < 0.12) {
+          chooseCompassTarget(false);
+        }
+
+        compassPlacementCountdown -= deltaSeconds;
+        if (compassPlacementCountdown <= 0) {
+          advanceCompassPlacement();
+        }
+        body.dataset.compassHeading = compassHeading.toFixed(2);
+        body.dataset.compassScaleHeading = compassHeading.toFixed(2);
+      }
+
+      function drawCompass() {
+        const layout = compassLayout();
+        const { cx, y, halfSpan, compact } = layout;
+        const pixelsPerDegree = halfSpan / 50;
+        const firstBearing = Math.floor(compassHeading / 5) * 5 - 60;
+        line(cx - halfSpan, y, cx + halfSpan, y, 0.5);
+
+        for (let bearing = firstBearing; bearing <= firstBearing + 120; bearing += 5) {
+          const wrappedBearing = wrapDegrees(bearing);
+          const difference = angleDelta(compassHeading, wrappedBearing);
+          const x = cx + difference * pixelsPerDegree;
+          if (x < cx - halfSpan - 1 || x > cx + halfSpan + 1) {
+            continue;
+          }
+          const cardinal = Math.round(wrappedBearing) % 45 === 0;
+          const major = Math.round(wrappedBearing) % 15 === 0;
+          line(x, y, x, y + (cardinal ? 13 : major ? 10 : 6), cardinal ? 0.9 : major ? 0.7 : 0.4, cardinal ? 2 : 1);
+          if (cardinal) {
+            text(compassLabel(wrappedBearing), x, y - 14, compact ? 10 : 13, "center", 0.86, true);
+          }
+        }
+
+        const headingText = String(Math.round(compassHeading)).padStart(3, "0");
+        text("SIM HDG " + headingText + "°", cx, y + 31, compact ? 10 : 13, "center", 1, true);
+        rect(cx - (compact ? 43 : 52), y + 18, compact ? 86 : 104, 26, 0.9);
         ctx.fillStyle = color(0.9);
         ctx.beginPath();
-        ctx.moveTo(cx, y + 8);
+        ctx.moveTo(cx, y + 7);
         ctx.lineTo(cx - 6, y + 17);
         ctx.lineTo(cx + 6, y + 17);
         ctx.fill();
+
+        setRectDiagnostics("compass", layout);
+        body.dataset.compassCenterX = cx.toFixed(1);
+        body.dataset.compassPointerBearing = compassHeading.toFixed(2);
+        body.dataset.compassPlacement = String(compassPlacement);
+        body.dataset.compassMoveCount = String(compassMoveCount);
       }
 
       function sceneGeometry() {
         const portrait = width / height < 0.82;
         const short = height < 520;
         const cx = width / 2;
-        const cy = portrait ? height * 0.46 : height * 0.55;
+        const cy = portrait ? height * 0.46 : height * (short ? 0.62 : 0.55);
         const radarRadius = clamp(
-          Math.min(width * (portrait ? 0.29 : 0.22), height * (portrait ? 0.18 : 0.28)),
+          Math.min(width * (portrait ? 0.29 : 0.22), height * (portrait ? 0.18 : short ? 0.24 : 0.28)),
           62,
           300
         );
@@ -612,6 +747,7 @@
         const cx = g.cx;
         const cy = g.cy;
         const radius = g.radarRadius;
+        setRectDiagnostics("radar", radarRegion());
         arc(cx, cy, radius, 0, Math.PI * 2, 0.27);
         arc(cx, cy, radius * 0.5, 0, Math.PI * 2, 0.28);
         arc(cx, cy, radius * 0.17, 0, Math.PI * 2, 0.44);
@@ -676,10 +812,11 @@
       function boxTravelBounds() {
         const b = frameBounds();
         const half = boxSize() / 2;
+        const compass = compassLayout();
         return {
           left: b.left + half + 6,
           right: Math.max(b.left + half + 7, b.right - half - 6),
-          top: b.top + half + 34,
+          top: Math.max(b.top + half + 34, compass.bottom + half + 16),
           bottom: Math.max(b.top + half + 35, b.bottom - half - 34)
         };
       }
@@ -718,7 +855,10 @@
 
       function updateBoxDiagnostics() {
         const point = boxPoint(boxMotion);
+        const bounds = boxTravelBounds();
         const half = boxSize() / 2;
+        const scannerX = Math.round(point.x - (bounds.left + bounds.right) / 2);
+        const scannerY = Math.round(point.y - (bounds.top + bounds.bottom) / 2);
         body.dataset.boxPhase = boxPhase;
         body.dataset.boxLong = String(boxLongTravel);
         body.dataset.boxX = point.x.toFixed(1);
@@ -727,6 +867,10 @@
         body.dataset.boxRight = (point.x + half).toFixed(1);
         body.dataset.boxTop = (point.y - half).toFixed(1);
         body.dataset.boxBottom = (point.y + half).toFixed(1);
+        body.dataset.scannerOriginX = ((bounds.left + bounds.right) / 2).toFixed(1);
+        body.dataset.scannerOriginY = ((bounds.top + bounds.bottom) / 2).toFixed(1);
+        body.dataset.scannerX = String(scannerX);
+        body.dataset.scannerY = String(scannerY);
       }
 
       function drawBoxScanner() {
@@ -775,7 +919,226 @@
         return String(Math.floor(whole / 60)).padStart(2, "0") + ":" + String(whole % 60).padStart(2, "0");
       }
 
-      function drawStatus() {
+      function radarRegion() {
+        const g = sceneGeometry();
+        return {
+          left: g.cx - g.radarRadius - 12,
+          right: g.cx + g.radarRadius + 12,
+          top: g.cy - g.radarRadius - 4,
+          bottom: g.cy + g.radarRadius + 12
+        };
+      }
+
+      function scannerRegion() {
+        const point = boxPoint(boxMotion);
+        const half = boxSize() / 2;
+        return {
+          left: point.x - half - 8,
+          right: point.x + half + 8,
+          top: point.y - half - 8,
+          bottom: point.y + half + 28
+        };
+      }
+
+      function touchControlsRegion() {
+        if (el("hudTools").hidden) {
+          return null;
+        }
+        const region = el("hudTools").getBoundingClientRect();
+        return {
+          left: region.left,
+          right: region.right,
+          top: region.top,
+          bottom: region.bottom
+        };
+      }
+
+      function statusPanelCandidates() {
+        const g = sceneGeometry();
+        const b = frameBounds();
+        const small = width < 470;
+        const panelWidth = g.portrait
+          ? Math.min(168, (b.right - b.left) * 0.43)
+          : clamp(width * 0.2, 145, 220);
+        const rowStep = g.portrait ? 31 : g.short ? 34 : 44;
+        const panelHeight = rowStep * 2 + (g.portrait ? 18 : 22);
+        const edge = g.portrait ? 8 : 12;
+        const left = b.left + edge;
+        const right = b.right - edge - panelWidth;
+        const compass = compassLayout();
+        const upper = clamp(
+          Math.max(compass.bottom + (g.portrait ? 36 : 28), height * (g.portrait ? 0.5 : 0.43)),
+          compass.bottom + 20,
+          b.bottom - panelHeight - 34
+        );
+        const lower = clamp(
+          b.bottom - panelHeight - (g.portrait ? (small ? 58 : 76) : 42),
+          compass.bottom + 20,
+          b.bottom - panelHeight - 18
+        );
+        return [
+          { left, right: left + panelWidth, top: upper, bottom: upper + panelHeight, panelWidth, rowStep, small },
+          { left: right, right: right + panelWidth, top: upper, bottom: upper + panelHeight, panelWidth, rowStep, small },
+          { left, right: left + panelWidth, top: lower, bottom: lower + panelHeight, panelWidth, rowStep, small },
+          { left: right, right: right + panelWidth, top: lower, bottom: lower + panelHeight, panelWidth, rowStep, small }
+        ];
+      }
+
+      function protectedRegionsForMode(mode) {
+        const regions = [compassLayout(), mode === "radar" ? radarRegion() : scannerRegion()];
+        const touch = touchControlsRegion();
+        if (touch) {
+          regions.push(touch);
+        }
+        return regions;
+      }
+
+      function regionClear(region, protectedRegions, padding = 4) {
+        return protectedRegions.every((protectedRegion) => !rectanglesOverlap(region, protectedRegion, padding));
+      }
+
+      function farthestRegion(candidates, protectedRegions) {
+        return candidates.reduce((best, candidate) => {
+          const cx = (candidate.left + candidate.right) / 2;
+          const cy = (candidate.top + candidate.bottom) / 2;
+          const distance = Math.min(...protectedRegions.map((region) => {
+            const rx = (region.left + region.right) / 2;
+            const ry = (region.top + region.bottom) / 2;
+            return Math.hypot(cx - rx, cy - ry);
+          }));
+          return !best || distance > best.distance ? { candidate, distance } : best;
+        }, null).candidate;
+      }
+
+      function resolveStatusPanel(mode) {
+        const candidates = statusPanelCandidates();
+        const protectedRegions = protectedRegionsForMode(mode);
+        const order = candidates.map((_, index) => (statusPanelPlacement + index) % candidates.length);
+        const safeIndex = order.find((index) => regionClear(candidates[index], protectedRegions, 3));
+        const region = safeIndex === undefined
+          ? farthestRegion(candidates, protectedRegions)
+          : candidates[safeIndex];
+        const resolvedIndex = candidates.indexOf(region);
+        body.dataset.statusPanelPlacement = String(statusPanelPlacement);
+        body.dataset.statusPanelResolved = String(resolvedIndex);
+        body.dataset.statusPanelAvoidance = String(resolvedIndex !== statusPanelPlacement);
+        body.dataset.statusPanelMoveCount = String(statusPanelMoveCount);
+        setRectDiagnostics("statusPanel", region);
+        return region;
+      }
+
+      function advanceStatusPanel() {
+        statusPanelPlacement = chooseDifferentIndex(statusPanelPlacement, statusPanelCandidates().length);
+        statusPanelCountdown = testMode ? randomBetween(2.5, 4.2) : randomBetween(48, 86);
+        statusPanelMoveCount += 1;
+        body.dataset.statusPanelPlacement = String(statusPanelPlacement);
+        body.dataset.statusPanelMoveCount = String(statusPanelMoveCount);
+      }
+
+      function updateStatusPanel(deltaSeconds) {
+        statusPanelCountdown -= deltaSeconds;
+        if (statusPanelCountdown <= 0) {
+          advanceStatusPanel();
+        }
+      }
+
+      function readoutCandidates() {
+        const g = sceneGeometry();
+        const b = frameBounds();
+        const compact = width < 560;
+        const readoutWidth = compact ? Math.min(176, b.right - b.left - 16) : width < 900 ? 222 : 266;
+        const lineStep = g.short ? 19 : compact ? 20 : 24;
+        const readoutHeight = lineStep * 3 + 20;
+        const edge = compact ? 8 : 12;
+        const left = b.left + edge;
+        const right = b.right - edge - readoutWidth;
+        const sideUpper = clamp(height * (g.portrait ? 0.34 : 0.38), compassLayout().bottom + 22, b.bottom - readoutHeight - 24);
+        const sideLower = clamp(b.bottom - readoutHeight - (g.portrait ? 52 : 34), compassLayout().bottom + 22, b.bottom - readoutHeight - 18);
+        const centerTop = clamp(compassLayout().bottom + 22, b.top + 20, b.bottom - readoutHeight - 24);
+        return [
+          { left, right: left + readoutWidth, top: sideUpper, bottom: sideUpper + readoutHeight, lineStep, compact },
+          { left: right, right: right + readoutWidth, top: sideUpper, bottom: sideUpper + readoutHeight, lineStep, compact },
+          { left, right: left + readoutWidth, top: sideLower, bottom: sideLower + readoutHeight, lineStep, compact },
+          { left: right, right: right + readoutWidth, top: sideLower, bottom: sideLower + readoutHeight, lineStep, compact },
+          {
+            left: width / 2 - readoutWidth / 2,
+            right: width / 2 + readoutWidth / 2,
+            top: centerTop,
+            bottom: centerTop + readoutHeight,
+            lineStep,
+            compact
+          }
+        ];
+      }
+
+      function resolveReadout(mode, barRegion) {
+        const candidates = readoutCandidates();
+        const protectedRegions = [...protectedRegionsForMode(mode), barRegion];
+        const preferred = (statusPanelPlacement + layoutVariant + 1) % candidates.length;
+        const order = candidates.map((_, index) => (preferred + index) % candidates.length);
+        const safeIndex = order.find((index) => regionClear(candidates[index], protectedRegions, 3));
+        const region = safeIndex === undefined
+          ? farthestRegion(candidates, protectedRegions)
+          : candidates[safeIndex];
+        body.dataset.readoutPlacement = String(candidates.indexOf(region));
+        body.dataset.readoutFallback = String(safeIndex === undefined);
+        setRectDiagnostics("readout", region);
+        return region;
+      }
+
+      function signedNumber(value, digits = 3) {
+        const rounded = Math.round(value);
+        return (rounded >= 0 ? "+" : "-") + String(Math.abs(rounded)).padStart(digits, "0");
+      }
+
+      function drawStatusBars(region) {
+        const entries = [
+          ["POWER", "59% SIM", 0.59],
+          ["LINK", "4G SIM", 1],
+          ["FRAME", "165 SIM", 0.82]
+        ];
+        entries.forEach((entry, index) => {
+          const y = region.top + index * region.rowStep;
+          text(entry[0], region.left, y, region.small ? 9 : sceneGeometry().short ? 9 : 11, "left", 0.9, true);
+          text(entry[1], region.right, y, region.small ? 8 : 10, "right", 0.84);
+          rect(region.left, y + 10, region.panelWidth, sceneGeometry().portrait ? 6 : 7, 0.52);
+          ctx.fillStyle = color(0.74);
+          ctx.fillRect(region.left + 2, y + 12, (region.panelWidth - 4) * entry[2], sceneGeometry().portrait ? 2 : 3);
+        });
+      }
+
+      function drawStatusReadout(mode, region) {
+        const scannerX = Number(body.dataset.scannerX || 0);
+        const scannerY = Number(body.dataset.scannerY || 0);
+        const heading = String(Math.round(compassHeading)).padStart(3, "0");
+        const activity = paused ? "PAUSED" : "ACTIVE";
+        const scannerLine = region.compact
+          ? "SCN SHIFT X" + signedNumber(scannerX) + " Y" + signedNumber(scannerY)
+          : "SCAN SHIFT · SIM X" + signedNumber(scannerX) + " Y" + signedNumber(scannerY);
+        const oledLine = region.compact
+          ? "OLED SHIFT X" + signedNumber(shiftX, 2) + " Y" + signedNumber(shiftY, 2)
+          : "OLED SHIFT · X" + signedNumber(shiftX, 2) + " Y" + signedNumber(shiftY, 2) + " · DISPLAY";
+        const lines = [
+          "HDG " + heading + "° · SIM",
+          "UP " + formatDuration(activeSeconds) + " · " + activity,
+          mode === "box" ? scannerLine : "RADAR DATA · SIMULATED",
+          oledLine
+        ];
+        const alignRight = region.left > width / 2;
+        const x = alignRight ? region.right : region.left;
+        const align = alignRight ? "right" : "left";
+        const size = region.compact ? 8 : sceneGeometry().short ? 9 : 10;
+        lines.forEach((value, index) => {
+          text(value, x, region.top + 10 + index * region.lineStep, size, align, index >= 2 ? 0.86 : 0.78, true);
+        });
+        body.dataset.visibleShiftSource = mode === "box" ? "scanner" : "display-care";
+        body.dataset.visibleShiftX = String(mode === "box" ? scannerX : shiftX);
+        body.dataset.visibleShiftY = String(mode === "box" ? scannerY : shiftY);
+        body.dataset.oledShiftX = String(shiftX);
+        body.dataset.oledShiftY = String(shiftY);
+      }
+
+      function drawStatus(mode) {
         const g = sceneGeometry();
         const b = frameBounds();
         const swapSides = layoutVariant % 2 === 1;
@@ -805,34 +1168,6 @@
           text("SIM HUD", identityX, topY + 22, small ? 9 : 11, identityAlign, 0.66);
           text(time, clockX, topY, small ? 17 : 23, clockAlign, 0.95, true);
           text(date, clockX, topY + 22, small ? 9 : 11, clockAlign, 0.78);
-
-          const panelLift = alternateHeight && height >= 700 ? Math.min(120, height * 0.14) : 0;
-          const panelWidth = Math.min(168, (b.right - b.left) * 0.43);
-          const barX = swapSides ? b.right - 8 - panelWidth : b.left + 8;
-          const baseY = b.bottom - 105 - panelLift;
-          const entries = [
-            ["PWR", "59% SIM", 0.59],
-            ["LINK", "4G SIM", 1],
-            ["FRAME", "165 SIM", 0.82]
-          ];
-          entries.forEach((entry, index) => {
-            const y = baseY + index * 31;
-            text(entry[0], barX, y, small ? 9 : 11, "left", 0.9, true);
-            text(entry[1], barX + panelWidth, y, small ? 9 : 10, "right", 0.82);
-            rect(barX, y + 9, panelWidth, 6, 0.5);
-            ctx.fillStyle = color(0.72);
-            ctx.fillRect(barX + 2, y + 11, (panelWidth - 4) * entry[2], 2);
-          });
-          const statusX = swapSides ? b.left + 8 : b.right - 8;
-          const statusAlign = swapSides ? "left" : "right";
-          const statusY = b.bottom - 100 - panelLift;
-          const statuses = [
-            "HDG SIM",
-            "UP " + formatDuration(activeSeconds),
-            paused ? "ANIM PAUSED" : "ANIM ACTIVE",
-            "SHIFT " + shiftX + "," + shiftY
-          ];
-          statuses.forEach((value, index) => text(value, statusX, statusY + index * 21, small ? 9 : 10, statusAlign, 0.8, true));
         } else {
           const topY = b.top + (alternateHeight ? (g.short ? 114 : 142) : 92);
           const identityX = swapSides ? b.right - 12 : b.left + 12;
@@ -843,36 +1178,11 @@
           text("HELMET SYSTEMS · DEMO", identityX, topY + 25, g.short ? 9 : 12, identityAlign, 0.66);
           text(time, clockX, topY, g.short ? 20 : 27, clockAlign, 0.95, true);
           text(date, clockX, topY + 26, g.short ? 9 : 11, clockAlign, 0.78);
-
-          const panelWidth = clamp(width * 0.2, 145, 220);
-          const barX = swapSides ? b.right - 12 - panelWidth : b.left + 12;
-          const baseY = height * (alternateHeight ? (g.short ? 0.64 : 0.62) : 0.46);
-          const entries = [
-            ["PWR", "59% SIM", 0.59],
-            ["LINK", "4G SIM", 1],
-            ["FRAME", "165 SIM", 0.82]
-          ];
-          entries.forEach((entry, index) => {
-            const y = baseY + index * (g.short ? 34 : 44);
-            text(entry[0], barX, y, g.short ? 9 : 12, "left", 0.9, true);
-            text(entry[1], barX + panelWidth, y, g.short ? 9 : 11, "right", 0.86);
-            rect(barX, y + 11, panelWidth, 7, 0.52);
-            ctx.fillStyle = color(0.74);
-            ctx.fillRect(barX + 2, y + 13, (panelWidth - 4) * entry[2], 3);
-          });
-          const statusX = swapSides ? b.left + 12 : b.right - 12;
-          const statusAlign = swapSides ? "left" : "right";
-          const statusY = height * (alternateHeight ? (g.short ? 0.65 : 0.63) : 0.47);
-          const statuses = [
-            "HDG SIM",
-            "UP " + formatDuration(activeSeconds),
-            paused ? "ANIM PAUSED" : "WAKE DENIED",
-            "SHIFT " + shiftX + "," + shiftY
-          ];
-          statuses.forEach((value, index) => {
-            text(value, statusX, statusY + index * (g.short ? 21 : 25), g.short ? 9 : 12, statusAlign, 0.82, true);
-          });
         }
+
+        const barRegion = resolveStatusPanel(mode);
+        drawStatusBars(barRegion);
+        drawStatusReadout(mode, resolveReadout(mode, barRegion));
       }
 
       function drawScene(mode) {
@@ -883,7 +1193,7 @@
         } else {
           drawBoxScanner();
         }
-        drawStatus();
+        drawStatus(mode);
         const b = frameBounds();
         text(
           mode === "radar" ? "RADAR SCAN · SIMULATED" : "FULL-SCREEN BOX SEARCH · SIMULATED",
@@ -1053,7 +1363,8 @@
       }
 
       function updatePixelShift(deltaSeconds) {
-        const seconds = Number(el("shift").value);
+        const configuredSeconds = Number(el("shift").value);
+        const seconds = testMode && configuredSeconds ? 1.2 : configuredSeconds;
         if (!seconds) {
           shiftCountdown = 0;
           setShift(0, 0);
@@ -1075,6 +1386,8 @@
         shiftY = y;
         root.style.setProperty("--control-shift-x", x + "px");
         root.style.setProperty("--control-shift-y", y + "px");
+        body.dataset.oledShiftX = String(x);
+        body.dataset.oledShiftY = String(y);
       }
 
       function updateBreak(deltaSeconds) {
@@ -1095,10 +1408,13 @@
         }
         activeSeconds += deltaSeconds;
         radarAngle += deltaSeconds * 0.32;
+        body.dataset.radarAngle = radarAngle.toFixed(3);
+        updateCompass(deltaSeconds);
         updateBox(deltaSeconds);
         updatePixelShift(deltaSeconds);
         updateBreak(deltaSeconds);
         updateLayout(deltaSeconds);
+        updateStatusPanel(deltaSeconds);
 
         if (transition) {
           transition.elapsed += deltaSeconds * 1000;
@@ -1148,6 +1464,15 @@
         body.dataset.sensor = transition ? transition.to : sensorMode;
         body.dataset.transition = transition ? "right-to-left" : "none";
         body.dataset.layoutVariant = String(layoutVariant);
+        body.dataset.hudVersion = "0.5";
+        body.dataset.hudTest = String(testMode);
+        body.dataset.compassHeading = compassHeading.toFixed(2);
+        body.dataset.compassScaleHeading = compassHeading.toFixed(2);
+        body.dataset.compassTarget = compassTarget.toFixed(1);
+        body.dataset.compassPlacement = String(compassPlacement);
+        body.dataset.compassMoveCount = String(compassMoveCount);
+        body.dataset.statusPanelPlacement = String(statusPanelPlacement);
+        body.dataset.statusPanelMoveCount = String(statusPanelMoveCount);
         body.dataset.displayMode = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone ? "standalone" : "browser";
         updateBoxDiagnostics();
         el("pause").textContent = paused ? "Resume animation (P)" : "Pause animation (P)";
@@ -1295,6 +1620,7 @@
       document.addEventListener("webkitfullscreenchange", updateFullscreenStatus);
 
       resize();
+      chooseCompassTarget(true);
       chooseBoxTarget(true);
       updateStateAttributes();
       if (paused) {
