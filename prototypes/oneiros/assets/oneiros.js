@@ -33,7 +33,8 @@
       detail: "Digital preparation only. D001 is a verified 105% digital fabrication candidate with five shell sections and five detail parts. No print run exists.",
       purpose: "Carry the visual identity and provide a future removable test shell for stationary fit and optics studies.",
       dependencies: "Owner slicer review, separately authorized staged print, seam gate, empty-shell fit, pressure/visibility review.",
-      milestone: "EngineeringLab D001 digital package · 2026-11-01"
+      milestone: "EngineeringLab D001 digital package · 2026-11-01",
+      media: "Future print-progress and armor-assembly derivatives may attach here after exact-file approval; none are loaded."
     },
     glasses: {
       title: "AR glasses",
@@ -41,7 +42,8 @@
       detail: "VITURE Beast is the named display target. Manufacturer specifications do not establish ONEIROS fit, usable field, transparency, or helmet clearance.",
       purpose: "Display browser-hosted HUDs while preserving independent real-world visibility.",
       dependencies: "Actual model/inventory confirmation, nose-pad fit, prescription needs, cable clearance, stationary optical test.",
-      milestone: "D001 fit-test target · physical clearance pending"
+      milestone: "D001 fit-test target · physical clearance pending",
+      media: "Future stationary optics and helmet-clearance derivatives may attach here after exact-file approval; none are loaded."
     },
     armor: {
       title: "Chest and shoulder armor",
@@ -49,7 +51,8 @@
       detail: "A generalized heavy-trooper-inspired shell is illustrated. No complete ONEIROS body armor is claimed fabricated or fitted.",
       purpose: "Provide a removable costume shell and future mounting surfaces without restricting breathing or joint movement.",
       dependencies: "Rights/asset selection, measurements, scale, print plan, ventilation, mobility, quick-release review.",
-      milestone: "ONEIROS vision baseline · no print evidence"
+      milestone: "ONEIROS vision baseline · no print evidence",
+      media: "Future armor-assembly and before/after derivatives may attach here after exact-file approval; none are loaded."
     },
     backpack: {
       title: "Computing backpack",
@@ -57,7 +60,8 @@
       detail: "The laptop compartment, cooling, service access, and balance are architectural goals only.",
       purpose: "Carry primary compute, protected cables, and future modular interfaces.",
       dependencies: "Exact laptop, ports, mass, heat/load measurements, airflow design, strain relief, removal plan.",
-      milestone: "ONEIROS architecture baseline"
+      milestone: "ONEIROS architecture baseline",
+      media: "Future electronics, enclosure, cooling, and bench-test derivatives may attach here after exact-file approval; none are loaded."
     },
     cable: {
       title: "Proposed cable route",
@@ -65,7 +69,8 @@
       detail: "The green route is an illustrative signal/power path, not a wiring diagram or approved harness.",
       purpose: "Keep display, camera, control, and power runs organized and removable.",
       dependencies: "Actual connectors, bend radius, snag control, isolation, strain relief, emergency disconnect.",
-      milestone: "Local prototype schematic only"
+      milestone: "Local prototype schematic only",
+      media: "Future cable-routing test derivatives may attach here after exact-file approval; none are loaded."
     },
     forearm: {
       title: "Forearm keyboard",
@@ -73,7 +78,8 @@
       detail: "A Rii compact keyboard/trackpad is the intended control idea; exact device, ownership, mount, and ergonomics are not established here.",
       purpose: "Provide local pointer and text control without relying on voice.",
       dependencies: "Device inventory, connection reliability, glove use, circulation, weight, quick release.",
-      milestone: "ONEIROS input concept"
+      milestone: "ONEIROS input concept",
+      media: "Future forearm-mount and ergonomics derivatives may attach here after exact-file approval; none are loaded."
     },
     cameras: {
       title: "Camera positions",
@@ -81,7 +87,8 @@
       detail: "Rear and forward night-vision goals are separate. The diagram is not a live feed or proof of device selection.",
       purpose: "Provide supplemental rear awareness and a separately evaluated low-light forward sample.",
       dependencies: "Separate devices, mounts, latency/crop/failure tests, privacy indicators, independent visibility.",
-      milestone: "Stationary bench tests not started"
+      milestone: "Stationary bench tests not started",
+      media: "Future separately validated camera-test derivatives may attach here after exact-file approval; none are loaded."
     },
     battery: {
       title: "Auxiliary battery module",
@@ -89,7 +96,8 @@
       detail: "Future protected-power concept inside a strictly nonfunctional costume prop. No battery, capacity, runtime, wiring, or pack integration is claimed.",
       purpose: "Explore a removable auxiliary energy module without creating any weapon function.",
       dependencies: "Protected pack, isolation, overcurrent protection, rated wiring/connectors, thermal review, qualified electrical validation.",
-      milestone: "Concept only · no weapon mechanisms"
+      milestone: "Concept only · no weapon mechanisms",
+      media: "Future protected-power bench evidence may attach here only after qualified review and exact-file approval; none is loaded."
     }
   };
 
@@ -124,6 +132,48 @@
       text: "Governance activation and the Tactical, Cinematic, and Engineering local prototypes were completed for Director review. Nothing was published and no physical work was authorized."
     }
   ];
+
+  const mediaPlaceholders = [
+    {
+      code: "SUIT INSPECTOR",
+      title: "Component galleries",
+      text: "Approved derivatives can attach to helmet, optics, armor, controls, cameras, compute, cable, and power modules."
+    },
+    {
+      code: "3D PRINTING",
+      title: "Progress evidence",
+      text: "Future factual sequences can show preparation, print stages, parts, failures, and measured outcomes without inventing success."
+    },
+    {
+      code: "ELECTRONICS / HUD",
+      title: "Bench experiments",
+      text: "Approved copies can document displays, controls, cables, and stationary tests without implying integrated hardware."
+    },
+    {
+      code: "FIELD NOTES",
+      title: "Failures and lessons",
+      text: "Review-safe derivatives can support before/after comparisons and sanitized journal entries while private history stays private."
+    }
+  ];
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (character) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+    })[character]);
+  }
+
+  function isApprovedPrototypeMedia(item) {
+    if (!item || item.status !== "Approved for Web") return false;
+    if (!["id", "src", "alt", "caption", "approvalRef"].every((key) => typeof item[key] === "string" && item[key].trim())) return false;
+    if (!/^\.\.\/assets\/approved-media\/[A-Za-z0-9._/-]+\.(?:avif|webp|png|jpe?g)$/i.test(item.src)) return false;
+    return !item.src.slice("../assets/approved-media/".length).includes("..");
+  }
+
+  const approvedMediaItems = Array.isArray(window.ONEIROS_APPROVED_MEDIA)
+    ? window.ONEIROS_APPROVED_MEDIA.filter(isApprovedPrototypeMedia)
+    : [];
+
+  const approvedMediaLabel = approvedMediaItems.length + " approved media item" + (approvedMediaItems.length === 1 ? "" : "s") + " loaded";
 
   function statusClass(status) {
     return status.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "");
@@ -164,6 +214,18 @@
     }).join("");
   }
 
+  function mediaGalleryMarkup() {
+    if (approvedMediaItems.length === 0) {
+      return mediaPlaceholders.map((item) => {
+        return '<article class="media-card media-card--placeholder" data-media-placeholder><div class="media-frame" aria-hidden="true"><span>NO APPROVED IMAGE</span></div><p class="eyebrow">' + item.code + '</p><h4>' + item.title + '</h4><p>' + item.text + '</p></article>';
+      }).join("");
+    }
+
+    return approvedMediaItems.map((item) => {
+      return '<figure class="media-card" data-media-id="' + escapeHtml(item.id) + '"><img src="' + escapeHtml(item.src) + '" alt="' + escapeHtml(item.alt) + '" loading="lazy" decoding="async"><figcaption><span class="status status--individually-tested">Approved derivative</span><h4>' + escapeHtml(item.component || item.category || "Workshop evidence") + '</h4><p>' + escapeHtml(item.caption) + '</p><small>Approval: ' + escapeHtml(item.approvalRef) + '</small></figcaption></figure>';
+    }).join("");
+  }
+
   function pageMarkup(meta) {
     return [
       '<div class="local-banner" role="note"><span>LOCAL DIRECTOR REVIEW</span><span>Not production · Not published · No hardware completion claim</span></div>',
@@ -185,7 +247,7 @@
       '<div class="section-heading"><p class="section-number">01 / EXTERIOR SUIT EXPLORER</p><h2 id="explorer-title">Inspect the proposed system, not a finished claim.</h2><p>Select modules with mouse, touch, Tab, Enter, or Space. Exploded spacing and connection routes are illustrative.</p></div>',
       '<div class="mode-tabs" role="group" aria-label="Suit explorer mode"><button type="button" data-mode="assembled" aria-pressed="true">Assembled</button><button type="button" data-mode="exploded" aria-pressed="false">Exploded</button><button type="button" data-mode="connections" aria-pressed="false">Connections</button></div>',
       '<div class="explorer" data-mode="assembled"><div class="explorer-canvas">' + suitSvg(true) + '<p class="illustration-note">Original provisional code drawing · not fabrication geometry</p></div>',
-      '<aside class="component-panel" aria-live="polite"><p class="eyebrow">SELECTED MODULE</p><h3 data-detail-title>Helmet shell</h3><span class="status status--fabricating" data-detail-status>Fabricating</span><p data-detail-detail>Digital preparation only. D001 is a verified 105% digital fabrication candidate with five shell sections and five detail parts. No print run exists.</p><dl><div><dt>Purpose</dt><dd data-detail-purpose></dd></div><div><dt>Dependencies</dt><dd data-detail-dependencies></dd></div><div><dt>Evidence / milestone</dt><dd data-detail-milestone></dd></div></dl></aside></div>',
+      '<aside class="component-panel" aria-live="polite"><p class="eyebrow">SELECTED MODULE</p><h3 data-detail-title>Helmet shell</h3><span class="status status--fabricating" data-detail-status>Fabricating</span><p data-detail-detail>Digital preparation only. D001 is a verified 105% digital fabrication candidate with five shell sections and five detail parts. No print run exists.</p><dl><div><dt>Purpose</dt><dd data-detail-purpose></dd></div><div><dt>Dependencies</dt><dd data-detail-dependencies></dd></div><div><dt>Evidence / milestone</dt><dd data-detail-milestone></dd></div><div class="component-media-hook"><dt>Future approved media</dt><dd data-detail-media>Future print-progress and armor-assembly derivatives may attach here after exact-file approval; none are loaded.</dd></div></dl></aside></div>',
       '<div class="status-legend" aria-label="Progress category legend"><span><b>1</b> Dream / Concept</span><span><b>2</b> Fabricating</span><span><b>3</b> Individually Tested</span><span><b>4</b> Integrated — none claimed</span></div>',
       '</section>',
       '<section class="section-shell pov-section" id="pov" aria-labelledby="pov-title">',
@@ -198,8 +260,8 @@
       '</div>',
       '<p class="safety-note"><strong>Transparency boundary:</strong> this toggle reveals a CSS-drawn illustrative scene. An ordinary monitor remains opaque. Actual VITURE optical behavior and usable field require separate stationary physical testing.</p>',
       '</section>',
-      '<section class="section-shell bench-section" id="bench" aria-labelledby="bench-title"><div class="section-heading"><p class="section-number">03 / WORKSHOP & HARDWARE BENCH</p><h2 id="bench-title">Evidence cards before assembly fantasies.</h2><p>Ownership, digital verification, individual tests, and integration are different facts.</p></div><div class="bench-grid">' + benchMarkup() + '</div></section>',
-      '<section class="section-shell journal-section" id="journal" aria-labelledby="journal-title"><div class="journal-title-block"><p class="section-number">04 / ONEIROS FIELD NOTES</p><h2 id="journal-title">The experiment keeps its own journal.</h2><p>Proposed eventual route: <code>/ar-lab/dev-log/</code>. This local sample is sanitized and not published.</p></div>',
+      '<section class="section-shell bench-section" id="bench" aria-labelledby="bench-title"><div class="section-heading"><p class="section-number">03 / WORKSHOP & HARDWARE BENCH</p><h2 id="bench-title">Evidence cards before assembly fantasies.</h2><p>Ownership, digital verification, individual tests, and integration are different facts.</p></div><div class="bench-grid">' + benchMarkup() + '</div><div class="media-preview" id="media-preview" aria-labelledby="media-preview-title"><div class="media-preview__heading"><div><p class="section-number">03A / WORKSHOP MEDIA LIBRARY PREVIEW</p><h3 id="media-preview-title">A place for evidence, empty by design.</h3><p>These slots show how future Director-approved derivatives can support the suit inspector, hardware bench, and FIELD NOTES without loading private originals.</p></div><span class="media-count" data-media-count>' + approvedMediaLabel + '</span></div><div class="media-grid" data-media-gallery>' + mediaGalleryMarkup() + '</div><p class="media-policy"><strong>Local boundary:</strong> the prototype reads only its explicit approved-media data file. It never scans the private workshop library, and no file becomes public or approved automatically.</p></div></section>',
+      '<section class="section-shell journal-section" id="journal" aria-labelledby="journal-title"><div class="journal-title-block"><p class="section-number">04 / ONEIROS FIELD NOTES</p><h2 id="journal-title">The experiment keeps its own journal.</h2><p>Proposed eventual route: <code>/ar-lab/dev-log/</code>. This local sample is sanitized and not published.</p><p class="journal-media-note" data-journal-media-status><strong>Approved derivative support:</strong> ' + approvedMediaLabel + '. Future images require a separately written, public-safe entry.</p></div>',
       '<div class="journal-filters" role="group" aria-label="Filter ONEIROS journal"><button type="button" data-filter="All" aria-pressed="true">All</button><button type="button" data-filter="HUD Code" aria-pressed="false">HUD Code</button><button type="button" data-filter="3D Printing" aria-pressed="false">3D Printing</button><button type="button" data-filter="Optics & Cameras" aria-pressed="false">Optics & Cameras</button><button type="button" data-filter="AI & Voice" aria-pressed="false">AI & Voice</button><button type="button" data-filter="Power" aria-pressed="false">Power</button><button type="button" data-filter="Armor & Fabrication" aria-pressed="false">Armor & Fabrication</button><button type="button" data-filter="Testing & Lessons Learned" aria-pressed="false">Testing & Lessons Learned</button></div>',
       '<p class="filter-status" data-filter-status aria-live="polite">Showing all 3 supported entries.</p><div class="journal-grid">' + journalMarkup() + '</div></section>',
       '<section class="section-shell home-integration" id="home-preview" aria-labelledby="home-preview-title"><div class="section-heading"><p class="section-number">05 / LOCAL HOMEPAGE INTEGRATION PREVIEW</p><h2 id="home-preview-title">A pinned drawing on the grayscale kitchen wall.</h2><p>This is a local composition only. The production homepage and navigation are unchanged.</p></div>',
@@ -236,6 +298,7 @@
     document.querySelector("[data-detail-purpose]").textContent = data.purpose;
     document.querySelector("[data-detail-dependencies]").textContent = data.dependencies;
     document.querySelector("[data-detail-milestone]").textContent = data.milestone;
+    document.querySelector("[data-detail-media]").textContent = data.media;
     document.querySelectorAll(".explorer [data-component]").forEach((node) => {
       const selected = node.dataset.component === key;
       node.classList.toggle("is-selected", selected);

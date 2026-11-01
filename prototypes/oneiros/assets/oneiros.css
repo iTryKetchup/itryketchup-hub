@@ -623,6 +623,12 @@ body[data-theme="c"] .hero-visual__frame {
   color: var(--muted);
 }
 
+.component-panel .component-media-hook {
+  padding: 13px 14px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-strong);
+}
+
 .status {
   display: inline-flex;
   width: fit-content;
@@ -1084,6 +1090,173 @@ body[data-theme="c"] .bench-card {
 
 body[data-theme="c"] .bench-card:nth-child(2n) {
   transform: rotate(0.35deg);
+}
+
+.media-preview {
+  display: grid;
+  gap: 24px;
+  margin-top: clamp(48px, 7vw, 96px);
+  padding-top: clamp(32px, 5vw, 64px);
+  border-top: 1px solid var(--line);
+}
+
+.media-preview__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+}
+
+.media-preview__heading > div {
+  display: grid;
+  gap: 10px;
+  max-width: 820px;
+}
+
+.media-preview__heading h3,
+.media-preview__heading p {
+  margin: 0;
+}
+
+.media-preview__heading h3 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  line-height: 0.96;
+}
+
+.media-preview__heading > div > p:last-child {
+  color: var(--muted);
+}
+
+.media-count {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px dashed var(--line-strong);
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.media-card {
+  min-width: 0;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.media-card--placeholder {
+  border-style: dashed;
+}
+
+.media-card img,
+.media-frame {
+  display: grid;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  place-items: center;
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(rgba(90, 255, 130, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 255, 130, 0.05) 1px, transparent 1px),
+    var(--page);
+  background-size: 22px 22px;
+  object-fit: cover;
+}
+
+.media-frame {
+  position: relative;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.media-frame::before,
+.media-frame::after {
+  position: absolute;
+  content: "";
+}
+
+.media-frame::before {
+  width: 58%;
+  height: 50%;
+  border: 1px solid var(--line-strong);
+  transform: rotate(-4deg);
+}
+
+.media-frame::after {
+  width: 72%;
+  border-top: 1px dashed var(--accent);
+  transform: rotate(18deg);
+}
+
+.media-frame span {
+  position: relative;
+  z-index: 1;
+  padding: 6px 8px;
+  background: var(--page);
+}
+
+.media-card .eyebrow,
+.media-card h4,
+.media-card p,
+.media-card figcaption,
+.media-card small {
+  margin: 0;
+}
+
+.media-card h4 {
+  margin-top: 8px;
+  font-family: var(--display);
+  font-size: 1.25rem;
+}
+
+.media-card p,
+.media-card small {
+  display: block;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.media-policy,
+.journal-media-note {
+  margin: 0;
+  padding: 14px 16px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.media-policy strong,
+.journal-media-note strong {
+  color: var(--ink);
+}
+
+body[data-theme="b"] .media-card {
+  background: linear-gradient(145deg, rgba(91, 255, 132, 0.035), transparent 52%), var(--surface);
+}
+
+body[data-theme="c"] .media-card {
+  box-shadow: 0 10px 24px rgba(50, 55, 51, 0.12);
 }
 
 .journal-section {
@@ -1564,6 +1737,10 @@ body[data-theme="c"] .bench-card:nth-child(2n) {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .media-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .explorer {
     grid-template-columns: 1fr;
   }
@@ -1629,6 +1806,11 @@ body[data-theme="c"] .bench-card:nth-child(2n) {
   .safety-section,
   .comparison-notes {
     grid-template-columns: 1fr;
+  }
+
+  .media-preview__heading {
+    grid-template-columns: 1fr;
+    align-items: start;
   }
 
   .journal-title-block {
@@ -1732,6 +1914,7 @@ body[data-theme="c"] .bench-card:nth-child(2n) {
   }
 
   .bench-grid,
+  .media-grid,
   .safety-grid,
   .boundary-grid {
     grid-template-columns: 1fr;

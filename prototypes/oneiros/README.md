@@ -25,6 +25,7 @@ The server binds only to `127.0.0.1` and serves only this prototype directory.
 - This tree lives at repository-root `prototypes\oneiros\` and is not part of the deployment artifact.
 - Production Home, Projects, Dev Logs, About, analytics, and `src\hud\` are unchanged.
 - These concepts are not approved final designs and are not public journal content.
+- The prototypes never scan or read the private ONEIROS media library. Their approved-media sample data is empty by default.
 
 ## Evidence And Claim Boundaries
 
@@ -50,7 +51,18 @@ No audio is bundled. Browser speech synthesis is not presented as an Ancient Gre
 node prototypes\oneiros\tests\oneiros-checks.cjs
 ```
 
-The test uses the already-installed local Playwright/Chromium tooling. It installs nothing, starts a temporary loopback-only server, checks all concepts and viewports, and writes screenshot evidence under `evidence\screenshots\`.
+The test uses installed Node and installed Chrome through the browser DevTools protocol. It installs nothing, starts a temporary loopback-only server, checks all concepts and viewports, and writes screenshot evidence under `evidence\screenshots\`.
+
+## Workshop Media Placeholder
+
+All three concepts load `assets/approved-media.sample.js` before the shared renderer. Its array is intentionally empty. The shared UI therefore shows four non-public placeholders demonstrating future support for:
+
+- suit-component galleries;
+- 3D-printing progress evidence;
+- electronics and HUD bench experiments;
+- failures, before/after comparisons, and sanitized FIELD NOTES entries.
+
+Future sample data must use only an exact Director-approved optimized derivative copied into `assets/approved-media/` under a separately governed scope. Entries require public-safe alt text, caption, component/category, approval reference, and the exact `Approved for Web` status. Absolute paths, remote URLs, private-library access, and automatic media discovery are rejected by the renderer.
 
 ## Files
 
@@ -58,6 +70,7 @@ The test uses the already-installed local Playwright/Chromium tooling. It instal
 - `concept-a/`, `concept-b/`, `concept-c/` — three concept entry points.
 - `assets/oneiros.css` — shared responsive theme system.
 - `assets/oneiros.js` — shared accessible interactions and content.
+- `assets/approved-media.sample.js` — empty approved-media schema and sample-data contract.
 - `serve-oneiros.cjs` — loopback-only review server.
 - `tests/oneiros-checks.cjs` — focused static/browser verification.
 - `ONEIROS_Prototype_Comparison.md` — concise review comparison.

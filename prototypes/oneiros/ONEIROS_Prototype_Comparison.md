@@ -26,6 +26,7 @@ All three concepts include the same:
 - three-area Helmet POV simulator with opaque/illustrative-transparency toggle;
 - Recon Scanner v0.7 launch link and user-gesture fullscreen Suit Mode;
 - workshop/hardware bench with evidence qualifiers;
+- empty approved-media gallery placeholders with suit-component and FIELD NOTES hooks;
 - filterable ONEIROS FIELD NOTES journal;
 - local grayscale-kitchen homepage entry preview;
 - dream statement, camera safety boundary, costume-prop boundary, and no-sponsorship acknowledgement.
@@ -43,6 +44,7 @@ All three concepts include the same:
 - Illustrations are original code-drawn provisional SVG/CSS, not final art or fabrication geometry.
 - The transparency view is illustrative; ordinary monitors remain opaque.
 - No live cameras, sensors, AI, voice processing, internet data, or diagnostics are connected.
+- No real photograph is loaded, scanned, approved, or promoted. The approved-media sample array is intentionally empty and accepts only governed relative derivative paths.
 - Browser fullscreen support varies, especially on mobile/iPad browsers; fallback status is shown.
 - Physical VITURE usable field, helmet fit, camera behavior, thermal behavior, cable routing, and power are unverified.
 - The prototypes intentionally do not import the existing production site CSS or remote fonts so review stays self-contained and dependency-free.

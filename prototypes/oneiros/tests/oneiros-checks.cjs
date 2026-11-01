@@ -51,8 +51,11 @@ function runStaticChecks() {
   });
 
   const js = fs.readFileSync(path.join(prototypeRoot, "assets", "oneiros.js"), "utf8");
+  const mediaData = fs.readFileSync(path.join(prototypeRoot, "assets", "approved-media.sample.js"), "utf8");
   const css = fs.readFileSync(path.join(prototypeRoot, "assets", "oneiros.css"), "utf8");
   new Function(js);
+  new Function(mediaData);
+  checks += 1;
   checks += 1;
   [
     "BUILD THE SUIT.", "A dream worth building, one experiment at a time.", "OH-neh-ross",
@@ -60,14 +63,24 @@ function runStaticChecks() {
     "FORWARD NIGHT VISION", "NOT FORWARD CAMERA VIDEO", "SAMPLE PLACEHOLDER",
     "Illustrative values only", "never validated primary walking vision", "No weapon mechanism",
     "no sponsorship or endorsement is implied", "https://www.itryketchup.com/hud/",
-    "/ar-lab/dev-log/", "Home", "Projects", "Dev Logs", "About"
+    "/ar-lab/dev-log/", "Home", "Projects", "Dev Logs", "About",
+    "A place for evidence, empty by design.", "Future approved media",
+    "Approved for Web", "approved-media data file", "none are loaded"
   ].forEach((text) => check(js.includes(text), "shared prototype source contains " + text));
   [
     "@media (prefers-reduced-motion: reduce)", ":focus-visible", "min-height: 44px",
     'body[data-theme="a"]', 'body[data-theme="b"]', 'body[data-theme="c"]',
     '.pov-simulator[data-transparent="true"]', '.explorer[data-mode="exploded"]',
-    '.explorer[data-mode="connections"]'
+    '.explorer[data-mode="connections"]', ".media-preview", ".media-grid",
+    ".media-card--placeholder", ".journal-media-note", ".component-media-hook"
   ].forEach((text) => check(css.includes(text), "stylesheet contains " + text));
+  [
+    "ONEIROS_APPROVED_MEDIA_SCHEMA", "allowedStatus", "Approved for Web",
+    "assetPrefix", "../assets/approved-media/", "approvalRef",
+    "window.ONEIROS_APPROVED_MEDIA = Object.freeze([])"
+  ].forEach((text) => check(mediaData.includes(text), "approved-media contract contains " + text));
+  check(!/[A-Za-z]:\\/.test(mediaData), "approved-media contract contains no private absolute Windows path");
+  check(!/[A-Za-z]:\\/.test(js), "shared prototype source contains no private absolute Windows path");
   [
     "getUserMedia(", "geolocation.", "DeviceMotionEvent", "DeviceOrientationEvent",
     "speechSynthesis", "EventSource(", "fetch(", "XMLHttpRequest", "supabase", "analytics"
@@ -75,7 +88,12 @@ function runStaticChecks() {
 
   const remoteResource = /<(?:script|link|img|source)\b[^>]+(?:src|href)=["']https?:/i;
   ["index.html", "concept-a/index.html", "concept-b/index.html", "concept-c/index.html"].forEach((relative) => {
-    check(!remoteResource.test(fs.readFileSync(path.join(prototypeRoot, ...relative.split("/")), "utf8")), relative + " has no remote runtime subresource");
+    const html = fs.readFileSync(path.join(prototypeRoot, ...relative.split("/")), "utf8");
+    check(!remoteResource.test(html), relative + " has no remote runtime subresource");
+    if (relative.startsWith("concept-")) {
+      check(html.includes("../assets/approved-media.sample.js"), relative + " loads the empty approved-media contract");
+      check(html.indexOf("approved-media.sample.js") < html.indexOf("oneiros.js"), relative + " loads media data before the renderer");
+    }
   });
   const status = execFileSync("git", ["-C", repoRoot, "status", "--porcelain=v1", "--untracked-files=all"], { encoding: "utf8" });
   status.split(/\r?\n/).filter(Boolean).forEach((line) => {
@@ -268,6 +286,14 @@ async function testConcept(cdp, origin, concept, errors, requests) {
   await evaluate(cdp, 'document.querySelector(\'.explorer [data-component="battery"]\').dispatchEvent(new MouseEvent("click", { bubbles: true }))');
   check(await evaluate(cdp, 'document.querySelector("[data-detail-title]").textContent === "Auxiliary battery module"'), label + " pointer-selects battery concept");
   check(await evaluate(cdp, 'document.querySelector("[data-detail-detail]").textContent.includes("No battery, capacity, runtime")'), label + " avoids power claims");
+  check(await evaluate(cdp, 'document.querySelector("[data-detail-media]").textContent.includes("exact-file approval")'), label + " connects selected components to future approved derivatives");
+
+  check(await evaluate(cdp, 'Array.isArray(window.ONEIROS_APPROVED_MEDIA) && window.ONEIROS_APPROVED_MEDIA.length === 0'), label + " starts with an empty approved-media dataset");
+  check(await evaluate(cdp, 'document.querySelectorAll("[data-media-placeholder]").length === 4'), label + " renders four non-public media placeholders");
+  check(await evaluate(cdp, 'document.querySelector("[data-media-count]").textContent.includes("0 approved media items loaded")'), label + " reports the zero-approved-media state");
+  check(await evaluate(cdp, 'document.querySelectorAll("[data-media-gallery] img").length === 0'), label + " loads no real photographs");
+  check(await evaluate(cdp, 'document.querySelector(".media-policy").textContent.includes("never scans the private workshop library")'), label + " states the private-library boundary");
+  check(await evaluate(cdp, 'document.querySelector("[data-journal-media-status]").textContent.includes("0 approved media items loaded")'), label + " connects FIELD NOTES to the empty approved-media state");
 
   await evaluate(cdp, 'document.querySelector("[data-transparency]").click()');
   check(await evaluate(cdp, 'document.querySelector(".pov-simulator").dataset.transparent === "true"'), label + " enables illustrative transparency");
@@ -294,6 +320,7 @@ async function testConcept(cdp, origin, concept, errors, requests) {
   await screenshot(cdp, label + "-armor-explorer.png", "#explorer");
   await screenshot(cdp, label + "-helmet-pov.png", "#pov");
   await screenshot(cdp, label + "-journal.png", "#journal");
+  await screenshot(cdp, label + "-media-library.png", "#media-preview");
   check(errors.console.length === 0, label + " has no console errors: " + errors.console.join(" | "));
   check(errors.runtime.length === 0, label + " has no runtime errors: " + errors.runtime.join(" | "));
   check(requests.size === 1 && requests.has(origin), label + " makes no cross-origin runtime requests");
@@ -350,6 +377,7 @@ async function main() {
   console.log(JSON.stringify({
     result: "pass", checks, concepts: 3, viewportsPerConcept: 5,
     screenshots: fs.readdirSync(screenshotRoot).filter((name) => name.endsWith(".png")).length,
+    phaseZeroCoverage: "all original Phase 0 assertions retained and extended",
     browser: "installed Chrome via headless DevTools", server: "127.0.0.1 only"
   }, null, 2));
 }
