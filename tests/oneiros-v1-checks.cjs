@@ -27,7 +27,8 @@ function sha256(filePath) {
 function runStaticChecks() {
   const required = [
     "index.html", "dev-log/index.html", "assets/oneiros.css", "assets/oneiros.js",
-    "assets/journal-data.js", "assets/journal.js", "assets/approved-media.js"
+    "assets/journal-data.js", "assets/journal.js", "assets/approved-media.js",
+    "assets/oneiros-hero-concept-codex-v1.jpg", "assets/oneiros-helmet-hud-concept-codex-v1.jpg"
   ];
   required.forEach((relative) => check(fs.existsSync(path.join(arLabRoot, ...relative.split("/"))), `exists: src/ar-lab/${relative}`));
 
@@ -89,6 +90,12 @@ function runStaticChecks() {
 
   check(mainHtml.includes('href="../hud/"'), "main route launches same-origin Recon Scanner");
   check(mainHtml.includes('href="dev-log/"'), "main route links dedicated Field Notes");
+  check(mainHtml.includes('src="assets/oneiros-hero-concept-codex-v1.jpg"'), "main route includes generated hero concept derivative");
+  check(mainHtml.includes('src="assets/oneiros-helmet-hud-concept-codex-v1.jpg"'), "main route includes generated helmet HUD concept derivative");
+  check((mainHtml.match(/data-oneiros-concept=/g) || []).length === 2, "main route includes exactly two concept illustrations");
+  check((mainHtml.match(/<figcaption>/g) || []).length >= 2, "concept illustrations include visible captions");
+  check(mainHtml.includes("it is not a photograph, fabrication drawing, or claim that the integrated suit exists"), "hero caption preserves concept boundary");
+  check(mainHtml.includes("remain future goals and are not live here"), "HUD caption preserves future-integration boundary");
   check(homeHtml.includes('class="home-oneiros-entrance"'), "homepage contains one bounded ONEIROS entrance");
   check((homeHtml.match(/href="ar-lab\/"/g) || []).length === 1, "homepage contains exactly one ONEIROS route link");
   check(journalHtml.includes("No invented prints, photographs, integrations, dates, or test results."), "journal states factual boundary");
@@ -118,7 +125,8 @@ function createServer() {
   const mime = new Map([
     [".html", "text/html; charset=utf-8"], [".css", "text/css; charset=utf-8"],
     [".js", "text/javascript; charset=utf-8"], [".png", "image/png"], [".webp", "image/webp"],
-    [".svg", "image/svg+xml"], [".ico", "image/x-icon"], [".json", "application/json"]
+    [".jpg", "image/jpeg"], [".jpeg", "image/jpeg"], [".svg", "image/svg+xml"],
+    [".ico", "image/x-icon"], [".json", "application/json"]
   ]);
   const server = http.createServer((request, response) => {
     const url = new URL(request.url || "/", "http://127.0.0.1");
@@ -303,6 +311,16 @@ async function testMainPage(cdp, origin, errors, requests) {
 
   check(await evaluate(cdp, 'document.querySelector(".lab-nav").textContent.replace(/\\s+/g, " ").trim().includes("Home Projects Dev Logs About")'), "ONEIROS preserves global nav order");
   check(await evaluate(cdp, "new URL(document.querySelector('.hero-actions a[href=\"../hud/\"]').href).pathname === '/hud/'"), "Recon Scanner action resolves to /hud/");
+  const conceptImages = await evaluate(cdp, `Array.from(document.querySelectorAll("[data-oneiros-concept]")).map((image) => ({
+    key: image.dataset.oneirosConcept,
+    loaded: image.complete && image.naturalWidth === 1672 && image.naturalHeight === 941,
+    alt: image.getAttribute("alt") || ""
+  }))`);
+  check(conceptImages.length === 2, "browser renders exactly two ONEIROS concept images");
+  check(conceptImages.every((image) => image.loaded), "hero and helmet HUD concept images load at 1672 by 941");
+  check(conceptImages.every((image) => image.alt.length >= 80), "concept images provide descriptive alt text");
+  check(conceptImages.some((image) => image.key === "hero" && image.alt.includes("nonfunctional heavy prop")), "hero alt text identifies the nonfunctional prop");
+  check(conceptImages.some((image) => image.key === "hud" && image.alt.includes("website-powered HUD")), "HUD alt text explains the center display");
   check(await evaluate(cdp, 'document.querySelector("[data-mode=assembled]").getAttribute("aria-pressed") === "true"'), "explorer starts assembled");
   await evaluate(cdp, 'document.querySelector("[data-mode=exploded]").click()');
   check(await evaluate(cdp, 'document.querySelector(".explorer").dataset.mode === "exploded"'), "explorer enters exploded mode");
@@ -327,7 +345,7 @@ async function testMainPage(cdp, origin, errors, requests) {
   check(await evaluate(cdp, 'document.querySelectorAll("[data-journal-preview] .journal-card").length === 3'), "main page shows compact three-entry journal preview");
   check(await evaluate(cdp, 'document.querySelector(".status-legend").textContent.includes("Integrated — none claimed")'), "status legend denies integration claim");
 
-  await screenshot(cdp, "ar-lab-desktop.png");
+  await screenshot(cdp, "ar-lab-desktop.png", ".hero");
   await screenshot(cdp, "ar-lab-system-map.png", "#system-map");
   await screenshot(cdp, "ar-lab-helmet-pov.png", "#helmet-pov");
 

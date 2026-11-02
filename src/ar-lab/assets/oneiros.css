@@ -367,12 +367,41 @@ button {
   min-width: 0;
 }
 
-.hero-visual > p {
+.concept-figure {
+  margin: 0;
+}
+
+.concept-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  background: #000;
+  box-shadow: 0 0 80px rgba(71, 255, 122, 0.07);
+}
+
+.concept-figure figcaption {
   margin: 0;
   color: var(--muted);
   font-family: var(--mono);
   font-size: 0.68rem;
+  line-height: 1.55;
   text-align: center;
+}
+
+.concept-figure figcaption strong {
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.concept-figure--hud {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.concept-figure--hud .concept-art {
+  box-shadow: 0 0 96px rgba(71, 255, 122, 0.09);
 }
 
 .schematic-frame {
